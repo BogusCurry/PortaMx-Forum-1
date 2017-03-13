@@ -1,0 +1,443 @@
+/**
+ * PortaMx Forum
+ * @package PortaMx
+ * @author PortaMx
+ * @copyright 2017 PortaMx
+ *
+ * file portal.css
+ * CSS file for portal Admin part
+ *
+ * @version 1.0 RC1
+ */
+
+/* small modifications for the smf jquery editor */
+.sceditor-container iframe, .sceditor-container textarea
+{
+	padding: 0px !important;
+	margin: 3px 0px 10px 7px !important;
+}
+.sceditor-insertemoticon {
+	margin-bottom: 3px !important;
+	margin-top: -3px !important;
+}
+.sceditor-container {
+	border-top-left-radius:0 !important;
+	border-top-right-radius:0 !important;
+	border-bottom-left-radius:6px !important;
+	border-bottom-right-radius:6px !important;
+}
+.sceditor-container iframe{
+	width:99.1% !important;
+}
+
+textarea#content, textarea#content_init {
+	border-top-left-radius:0 !important;
+	border-top-right-radius:0 !important;
+	border-bottom-left-radius:6px !important;
+	border-bottom-right-radius:6px !important;
+}
+#check_content, #check_content_init {
+	border-radius: 0;
+}
+
+/* style for special dropdown */
+.dropdown {
+	background-color: #ffffff;
+	color: #000000;
+	position: absolute;
+}
+.dropdown option {
+	height: 19px;
+}
+.dropdown option:hover {
+	background-color: #1e90ff;
+	color: #ffffff;
+}
+
+/* style for Image select drodown */
+#iconDD {
+	width: 165px;
+	padding-left: 27px;
+	height: 24px;
+	font-size: 1em;
+	padding-top: 1px;
+	cursor: default;
+}
+
+.Blkedit {
+	position: relative !important;
+	top: -12px !important;
+	left: 90px !important;
+}
+.Artedit {
+	position: relative !important;
+	top: -12px !important;
+	left: 90px !important;
+}
+.ttlicondd {
+	position: absolute;
+	top: 131px;
+	left: 92px;
+	width: 165px;
+	height: 202px;
+	display: none;
+	z-index: 100;
+	border:1px solid #40a0e0;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding: 0px;
+	background-color: #ffffff;
+	display: none;
+	margin-bottom: 10px;
+}
+.ttlicondd li {
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+}
+.ttlicondd li img {
+	padding-left: 5px;
+	vertical-align: text-top;
+}
+.ttlicondd li span {
+	vertical-align: 1px;
+	padding-left: 6px;
+}
+.ttlicondd li:hover {
+	background-color: #1e90ff;
+	color: #ffffff;
+}
+.ttlicondd li.active {
+	background-color: #1e90ff;
+	color: #ffffff;
+}
+.ttlicondd li.selected {
+	background-color: #1e90ff;
+	color: #ffffff;
+}
+.ttlicon {
+	margin: 0px;
+	padding: 0px;
+	background-color: #ffffff;
+}
+.ttliconDiv {
+	height: 23px;
+	z-index: 10;
+	display: inline-block;
+	position: relative;
+	top: 8px;
+	left: 0px;
+	width:150px;
+}
+.ddImage {
+	position: relative;
+	top: -17px;
+	left: 131px;
+	z-index: 11;
+}
+.ddImageBlk {
+	position: relative;
+	top: -24px;
+	left: 132px;
+	z-index: 11;
+}
+.pwindicon {
+	position: relative;
+	top: -21px;
+	left: 6px;
+	z-index: 11;
+}
+.pwindiconBlk {
+	position: relative;
+	top: -20px;
+	left: 6px;
+	z-index: 11;
+}
+
+/* information boxes */
+.info_text, .info_text_left, .info_text_right {
+	border: 1px solid #909090;
+	border-color: rgba(144,144,144,.5);
+	background: #f5f5f0;
+	border-radius: 0.4em;
+	line-height: 1.2em;
+	padding: 5px;
+	margin: 5px 2px 3px 0px;
+	display: none;
+	clear: both;
+	font-size: 9pt;
+}
+.info_center {
+	text-align: center;
+	padding-top: 5px;
+	font-size: 8pt !important;
+}
+.info_text_left {
+	text-align: left;
+}
+.info_text_right {
+	text-align: right;
+}
+.info_frame {
+	display: none;
+	clear: both;
+}
+.info_toggle {
+	cursor: pointer !important;
+	vertical-align: bottom;
+}
+.info_border {
+	padding: 2px;
+}
+.info_border span {
+	cursor: pointer;
+	width: 20px;
+	float: left;
+	padding-top: 1px;
+}
+.info_border div {
+	line-height: 1.3em;
+	margin: 0px 3px;
+	padding-bottom: 2px;
+}
+
+/* click images on overview */
+.pmx_clickaddnew {
+	float: right;
+	width: 16px;
+	height: 16px;
+	padding-left: 5px;
+	margin-top: 5px;
+	background: url(Images/page_new.gif) no-repeat;
+	cursor: pointer;
+}
+.pmx_filter,.pmx_nofilter {
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin-top: 5px;
+	cursor: pointer;
+}
+.pmx_filter {
+	background: url(Images/opt_filter.png) no-repeat;
+}
+.pmx_nofilter {
+	background: url(Images/opt_nofilter.png) no-repeat;
+}
+.pmx_filtertxt {
+	width: 160px;
+	float: left;
+}
+.pmx_clickrow {
+	float: left;
+	width: 16px;
+	height: 18px;
+	margin: 0px 3px 1px 2px;
+}
+.pmx_moveimg {
+	background: url(Images/row_switch.png) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_pgedit {
+	background: url(Images/page_edit.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_grpacs {
+	background: url(Images/group.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_pgclone {
+	background: url(Images/page_clone.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_pgmove {
+	background: url(Images/page_move.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_pgdelete {
+	background: url(Images/page_del.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_access {
+	margin-top: 1px;
+	background: url(Images/group.gif) no-repeat;
+}
+.pmx_moderate {
+	margin-top: 1px;
+	background: url(Images/user.gif) no-repeat;
+}
+.pmx_dynopts {
+	margin-top: 4px;
+	background: url(Images/app_dyn.gif) no-repeat;
+}
+.pmx_custcss {
+	margin-top: 1px;
+	background: url(Images/css.gif) no-repeat;
+}
+.pmx_cache {
+	margin-top: 1px;
+	background: url(Images/adm_cacheclr16.png) no-repeat;
+}
+.pmx_active {
+	background: url(Images/page_unlock.gif) no-repeat;
+	margin-top: 1px !important;
+	cursor: pointer;
+}
+.pmx_notactive {
+	background: url(Images/page_lock.gif) no-repeat;
+	margin-top: 1px !important;
+	cursor: pointer;
+}
+.pmx_approved {
+	background: url(Images/art_approved.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_notapproved {
+	background: url(Images/art_notapproved.gif) no-repeat;
+	margin-top: 1px;
+	cursor: pointer;
+}
+.pmx_table_grid td {
+	padding: 2px 5px 3px !important;
+}
+.pmx_table_grid td img {
+	vertical-align: -3px;
+}
+.pmx_table_grid td div img {
+	margin-top: 2px;
+}
+#pmxRowMove img, #pmxSetCloneMove img, #pmxSetDelete img {
+	vertical-align: -4px;
+}
+
+/* input ckeckbox etc */
+.adm_titlebar, .adm_center_titlebar {
+	padding: 4px;
+	margin-bottom: 4px;
+}
+.adm_center_titlebar {
+	text-align: center;
+}
+.adm_txt {
+	width: 99.5%;
+}
+.adm_clear {
+	clear: both;
+}
+.adm_input, .adm_check {
+	clear: both;
+	min-height: 27px;
+}
+.adm_sel {
+	padding-bottom:4px;
+}
+.adm_input span, .adm_check span {
+	float: left;
+}
+.adm_input div input {
+	margin-top: -1px;
+}
+.adm_check div input {
+	margin: 5px 0 0 1px;
+	display: inline;
+}
+.adm_input select {
+	margin-top: 5px;
+}
+.adm_hover:hover {
+	cursor: pointer;
+}
+.adm_textarea {
+	resize:vertical;
+}
+input.input_radio {
+	vertical-align: -2px !important;
+}
+input.input_check {
+	margin-top: 5px !important;
+}
+textarea {
+	padding: 3px 3py 1px;
+	min-height: 140px;
+	max-height: 400px;
+	font-size: small !important;
+	line-height: 12pt !important;
+}
+.admin_hover span {
+	cursor: pointer;
+}
+.admin_hover span:hover {
+	text-decoration: underline;
+}
+.cat_none {
+	background: url(Images/empty.gif) no-repeat scroll 0 1px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.cat_root {
+	background: url(Images/cat_root.png) no-repeat scroll 0 1px;
+	font-weight: bold;
+	cursor: pointer;
+ }
+.cat_rootchild {
+	background: url(Images/cat_rootchild.png) no-repeat scroll 0 1px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.cat_child {
+	background: url(Images/cat_child.png) no-repeat scroll 0 1px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.cat_level {
+	background: url(Images/cat_level.png) no-repeat scroll 0 1px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.cat_none b,
+.cat_root b,
+.cat_rootchild b {
+	font-size: 9px;
+	display: block;
+	color: transparent;
+	margin: 0 -3px -3px 2px;
+	float: left;
+}
+.cat_child b,
+.cat_level b {
+	font-size: 9px;
+	display: block;
+	margin: 0 -3px -3px 2px;
+	float: left;
+}
+.cat_none span,
+.cat_root span,
+.cat_rootchild span,
+.cat_child span,
+.cat_level span {
+	padding-left: 9px;
+	font-weight: normal;
+}
+.cat_names {
+	font-weight: normal;
+	padding-left: 22px;
+	top: 0px !important;
+}
+.adm_w90 {
+	width: 90%;
+}
+.adm_w80 {
+	width: 80%;
+}
+.adm_w60 {
+	width: 60%;
+}
+/* EOF */

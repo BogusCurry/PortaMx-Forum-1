@@ -1,0 +1,29 @@
+# sample .htaccess for PortaMx Forum
+# if you have problem, try to uncomment RewriteBase
+# and replace /forumpath/ with the path to your forum
+#
+# dont show indexes
+IndexIgnore *
+Options +FollowSymLinks
+Options -Indexes
+#
+# settings lock
+DirectoryIndex index.php
+<FilesMatch "(Settings|Settings_bak)\.php$">
+  Order deny,allow
+  Deny from all
+  Allow from localhost
+</FilesMatch>
+#
+# php security
+RewriteEngine On
+RewriteCond %{QUERY_STRING} ^[^=]*$
+RewriteCond %{QUERY_STRING} %2d|\- [NC]
+RewriteRule .? - [F,L]
+#
+# sef engine
+# RewriteBase /forumpath/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+#
