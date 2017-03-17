@@ -240,10 +240,8 @@ function ManageAttachmentSettings($return_config = false)
 						'currentAttachmentUploadDir' => $currentAttachmentUploadDir,
 					));
 
-
 					$_POST['use_subdirectories_for_attachments'] = 1;
 					$_POST['attachmentUploadDir'] = json_encode($modSettings['attachmentUploadDir'], true);
-
 				}
 			}
 		}
@@ -1789,8 +1787,6 @@ function RepairAttachments()
 	// What stage are we at?
 	$context['completed'] = $fix_errors ? true : false;
 	$context['errors_found'] = !empty($to_fix) ? true : false;
-
-
 }
 
 /**
@@ -1936,7 +1932,6 @@ function ApproveAttachments($attachments)
 {
 	global $pmxcFunc;
 
-
 	if (empty($attachments))
 		return 0;
 
@@ -2059,8 +2054,8 @@ function ManageAttachmentPaths()
 				// or is it?
 				if (in_array($path, $modSettings['attachmentUploadDir']) || in_array($boarddir . DIRECTORY_SEPARATOR . $path, $modSettings['attachmentUploadDir']))
 				{
-						$errors[] = $path . ': ' . $txt['attach_dir_duplicate_msg'];
-						continue;
+					$errors[] = $path . ': ' . $txt['attach_dir_duplicate_msg'];
+					continue;
 				}
 				elseif (empty($path))
 				{
@@ -2622,7 +2617,6 @@ function list_getAttachDirs()
 			'status' => '',
 		);
 
-
 	return $attachdirs;
 }
 
@@ -2787,7 +2781,6 @@ function TransferAttachments()
 
 		$modSettings['currentAttachmentUploadDir'] = $new_dir;
 
-
 		$break = false;
 		while ($break == false)
 		{
@@ -2935,5 +2928,4 @@ function TransferAttachments()
 
 	redirectexit('action=admin;area=manageattachments;sa=maintenance#transfer');
 }
-
 ?>
