@@ -484,8 +484,7 @@ function template_single_post($message)
 	// Show online and offline buttons?
 	if (!empty($modSettings['onlineEnable']) && !$message['member']['is_guest'])
 		echo '
-								', $context['can_send_pm'] ? '<a href="' . $message['member']['online']['href'] . '" title="' . $message['member']['online']['label'] . '">' : '', '<span class="' . ($message['member']['online']['is_online'] == 1 ? 'on' : 'off') . '" title="' . $message['member']['online']['text'] . '"></span>', $context['can_send_pm'] ? '</a>' : '';
-
+										<span class="' . ($message['member']['online']['is_online'] == 1 ? 'on' : 'off') . '" title="' . $message['member']['online']['text'] . '"></span>';
 
 	// Show a link to the member's profile.
 	echo '

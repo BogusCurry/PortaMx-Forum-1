@@ -90,6 +90,7 @@ $txt['attachmentdir_size_current'] = 'Total size of current attachment directory
 $txt['attachmentdir_files_current'] = 'Total files in current attachment directory';
 $txt['attachment_space'] = 'Total space available';
 $txt['attachment_files'] = 'Total files remaining';
+$txt['attachment_not_asigned'] = '<b>No assigned message</b> - ';
 
 $txt['attachment_options'] = 'File Attachment Options';
 $txt['attachment_log'] = 'Attachment Log';

@@ -240,6 +240,7 @@ function ManageAttachmentSettings($return_config = false)
 						'currentAttachmentUploadDir' => $currentAttachmentUploadDir,
 					));
 
+
 					$_POST['use_subdirectories_for_attachments'] = 1;
 					$_POST['attachmentUploadDir'] = json_encode($modSettings['attachmentUploadDir'], true);
 
@@ -452,6 +453,7 @@ function BrowseFiles()
 				'data' => array(
 					'function' => function ($rowData) use ($modSettings, $context, $scripturl, $txt, $pmxcFunc)
 					{
+						$expand = true;
 						$link = '<a href="';
 
 						// In case of a custom avatar URL attachments have a fixed directory.
@@ -462,28 +464,38 @@ function BrowseFiles()
 						elseif ($context['browse_type'] == 'avatars')
 							$link .= sprintf('%1$s?action=dlattach;type=avatar;attach=%2$d', $scripturl, $rowData['id_attach']);
 
-						// Normal attachments are always linked to a topic ID.
+						// Normal attachments are normaly linked to a topic ID.
+						elseif($rowData['id_msg'] == 0)
+						{
+							// not linked attach
+							$expand = false;
+							$link = $txt['attachment_not_asigned'];
+							$link .= preg_replace('~&amp;#(\\\\d{1,7}|x[0-9a-fA-F]{1,6});~', '&#\\\\1;', $pmxcFunc['htmlspecialchars']($rowData['filename']));
+						}
 						else
 							$link .= sprintf('%1$s?action=dlattach;topic=%2$d.0;attach=%3$d', $scripturl, $rowData['id_topic'], $rowData['id_attach']);
 
-						// Show a popup on click if it's a picture and we know its dimensions.
-						if ($rowData['attachment_type'] == 1)
-							$link .= '" class="lb-link" title="'. $txt['lightbox_expand_short'] .'" data-title=" " data-lightbox="manage-avatar';
-
-						else if (!empty($rowData['width']) && !empty($rowData['height']))
+						if($expand)
 						{
-							if ($rowData['attachment_type'] == 3)
-								$link .= ';image" class="lb-link" title="'. $txt['lightbox_expand_short'] .'"  data-title=" " data-lightbox="manage-avatar';
-							else
-								$link .= ';image" class="lb-link" title="'. $txt['lightbox_expand_short'] .'"  data-title="'. $pmxcFunc['htmlspecialchars']($rowData['filename']) .'" data-lightbox="manage-attach';
-						}
+							// Show a popup on click if it's a picture and we know its dimensions.
+							if ($rowData['attachment_type'] == 1)
+								$link .= '" class="lb-link" title="'. $txt['lightbox_expand_short'] .'" data-title=" " data-lightbox="manage-avatar';
 
-						$link .= '"';
-						$link .= sprintf('>%1$s</a>', preg_replace('~&amp;#(\\\\d{1,7}|x[0-9a-fA-F]{1,6});~', '&#\\\\1;', $pmxcFunc['htmlspecialchars']($rowData['filename'])));
+							else if (!empty($rowData['width']) && !empty($rowData['height']))
+							{
+								if ($rowData['attachment_type'] == 3)
+									$link .= ';image" class="lb-link" title="'. $txt['lightbox_expand_short'] .'"  data-title=" " data-lightbox="manage-avatar';
+								else
+									$link .= ';image" class="lb-link" title="'. $txt['lightbox_expand_short'] .'"  data-title="'. $pmxcFunc['htmlspecialchars']($rowData['filename']) .'" data-lightbox="manage-attach';
+							}
+
+							$link .= '"';
+							$link .= sprintf('>%1$s</a>', preg_replace('~&amp;#(\\\\d{1,7}|x[0-9a-fA-F]{1,6});~', '&#\\\\1;', $pmxcFunc['htmlspecialchars']($rowData['filename'])));
+						}
 
 						// Show the dimensions.
 						if (!empty($rowData['width']) && !empty($rowData['height']))
-							$link .= sprintf(' <span class="smalltext">%1$dx%2$d</span>', $rowData['width'], $rowData['height']);
+							$link .= sprintf('&nbsp;&nbsp;<span class="smalltext">(%1$dx%2$d)</span>', $rowData['width'], $rowData['height']);
 
 						return $link;
 					},
@@ -536,13 +548,18 @@ function BrowseFiles()
 				'data' => array(
 					'function' => function ($rowData) use ($txt, $context, $scripturl)
 					{
-						// The date the message containing the attachment was posted or the owner of the avatar was active.
-						$date = empty($rowData['poster_time']) ? $txt['never'] : timeformat($rowData['poster_time']);
+						if($rowData['id_msg'] == 0 && $rowData['attachment_type'] !== '1')
+							$date = '';
 
-						// Add a link to the topic in case of an attachment.
-						if ($context['browse_type'] !== 'avatars')
-							$date .= sprintf('<br>%1$s <a href="%2$s?topic=%3$d.msg%4$d#msg%4$d">%5$s</a>', $txt['in'], $scripturl, $rowData['id_topic'], $rowData['id_msg'], $rowData['subject']);
+						else
+						{
+							// The date the message containing the attachment was posted or the owner of the avatar was active.
+							$date = empty($rowData['poster_time']) ? $txt['never'] : timeformat($rowData['poster_time']);
 
+							// Add a link to the topic in case of an attachment.
+							if ($context['browse_type'] !== 'avatars')
+								$date .= sprintf('<br>%1$s <a href="%2$s?topic=%3$d.msg%4$d#msg%4$d">%5$s</a>', $txt['in'], $scripturl, $rowData['id_topic'], $rowData['id_msg'], $rowData['subject']);
+						}
 						return $date;
 					},
 				),
@@ -625,6 +642,8 @@ function list_getFiles($start, $items_per_page, $sort, $browse_type)
 {
 	global $pmxcFunc, $txt;
 
+	$files = array();
+
 	// Choose a query depending on what we are viewing.
 	if ($browse_type === 'avatars')
 		$request = $pmxcFunc['db_query']('', '
@@ -634,7 +653,7 @@ function list_getFiles($start, $items_per_page, $sort, $browse_type)
 				a.size, a.width, a.height, a.downloads, {string:blank_text} AS subject, 0 AS id_board
 			FROM {db_prefix}attachments AS a
 				LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = a.id_member)
-			WHERE a.id_member != {int:guest_id}
+			WHERE a.id_member != {int:guest_id} AND a.attachment_type = {int:avatype}
 			ORDER BY {raw:sort}
 			LIMIT {int:start}, {int:per_page}',
 			array(
@@ -644,9 +663,31 @@ function list_getFiles($start, $items_per_page, $sort, $browse_type)
 				'sort' => $sort,
 				'start' => $start,
 				'per_page' => $items_per_page,
+				'avatype' => 1,
 			)
 		);
 	else
+	{
+		// first get not assigned attaches ..
+		{
+			$request = $pmxcFunc['db_query']('', '
+				SELECT m.id_msg, m.id_topic, a.id_attach, a.id_folder, a.filename, a.file_hash, a.attachment_type, a.size, a.width, a.height, a.downloads, m.poster_time, m.poster_name
+					FROM {db_prefix}attachments AS a
+					LEFT JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg)
+				WHERE a.attachment_type = {int:attachment_type} AND (m.id_msg IS NULL OR a.id_msg = {int:none})
+				ORDER BY {raw:sort}',
+				array(
+					'attachment_type' => $browse_type == 'thumbs' ? '3' : '0',
+					'none' => 0,
+					'sort' => $sort,
+				)
+			);
+
+			while ($row = $pmxcFunc['db_fetch_assoc']($request))
+				$files[] = $row;
+			$pmxcFunc['db_free_result']($request);
+		}
+
 		$request = $pmxcFunc['db_query']('', '
 			SELECT
 				m.id_msg, COALESCE(mem.real_name, m.poster_name) AS poster_name, m.poster_time, m.id_topic, m.id_member,
@@ -666,7 +707,8 @@ function list_getFiles($start, $items_per_page, $sort, $browse_type)
 				'per_page' => $items_per_page,
 			)
 		);
-	$files = array();
+	}
+
 	while ($row = $pmxcFunc['db_fetch_assoc']($request))
 		$files[] = $row;
 	$pmxcFunc['db_free_result']($request);
@@ -897,6 +939,7 @@ function RemoveAttachment()
 	if (!empty($_POST['remove']))
 	{
 		$attachments = array();
+
 		// There must be a quicker way to pass this safety test??
 		foreach ($_POST['remove'] as $removeID => $dummy)
 			$attachments[] = (int) $removeID;
@@ -907,7 +950,38 @@ function RemoveAttachment()
 
 		if ($_REQUEST['type'] == 'avatars' && !empty($attachments))
 			removeAttachments(array('id_attach' => $attachments));
+
 		else if (!empty($attachments))
+		{
+			// check if this not assigned attaches
+			$type = $_REQUEST['type'] == 'thumbs' ? 3 : 0;
+			$notAssigned = array();
+
+			$request = $pmxcFunc['db_query']('', '
+				SELECT a.id_attach, id_thumb, a.id_folder, a.filename, a.file_hash, poster_time, m.poster_name
+					FROM {db_prefix}attachments AS a
+					LEFT JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg)
+				WHERE a.id_attach IN ({array_int:attids}) AND a.attachment_type = {int:type} AND (m.id_msg IS NULL OR a.id_msg = {int:none})
+				ORDER BY a.id_attach',
+				array(
+					'attids' => array_values($attachments),
+					'type' => $type,
+					'none' => 0)
+			);
+			while ($row = $pmxcFunc['db_fetch_assoc']($request))
+			{
+				if (empty($row['msgID']))
+					$notAssigned[$row['id_attach']] = $row['id_attach'];
+			}
+			$pmxcFunc['db_free_result']($request);
+
+			foreach($notAssigned as $noID)
+				removeAttachments(array('id_attach' => $noID), 'no_messages', true);            
+
+			$attachments = array_diff($attachments, $notAssigned);
+		}
+
+		if (!empty($attachments))
 		{
 			$messages = removeAttachments(array('id_attach' => $attachments), 'messages', true);
 
@@ -1056,8 +1130,28 @@ function removeAttachments($condition, $query_type = '', $return_affected_messag
 			// If this was a thumb, the parent attachment should know about it.
 			if (!empty($row['id_parent']))
 				$parents[] = $row['id_parent'];
+			else
+			{
+				// if this a manually thumb remove?
+				if(isset($_POST['remove']) && isset($_POST['type']) && $_POST['type'] == 'thumbs')
+				{
+					$attreq = $pmxcFunc['db_query']('', '
+						SELECT a.id_attach
+						FROM pmx_attachments as a
+						LEFT JOIN pmx_attachments as t ON (t.id_attach = a.id_thumb AND t.id_msg = a.id_msg)
+						WHERE t.id_attach = {int:thumbID}',
+					array(
+						'thumbID' => $row['id_attach'],
+					));
 
-			// If this attachments has a thumb, remove it as well.
+					$tmp = $pmxcFunc['db_fetch_assoc']($attreq);
+					if(isset($tmp['id_attach']))
+						$parents[count($parents)] = $tmp['id_attach'];
+					$pmxcFunc['db_free_result']($attreq);
+				}
+			}
+
+			// If this attachments has a thumb (or thumb have attach), remove it as well.
 			if (!empty($row['id_thumb']) && $autoThumbRemoval)
 			{
 				$thumb_filename = getAttachmentFilename($row['thumb_filename'], $row['id_thumb'], $row['thumb_folder'], false, $row['thumb_file_hash']);
@@ -1542,8 +1636,8 @@ function RepairAttachments()
 		for (; $_GET['substep'] < $thumbnails; $_GET['substep'] += 500)
 		{
 			$to_remove = array();
-			$ignore_ids = array(0);
-			call_integration_hook('integrate_repair_attachments_nomsg', array(&$ignore_ids, $_GET['substep'], $_GET['substep'] += 500));
+			$ignore_ids = array();
+			call_integration_hook('integrate_repair_attachments_nomsg', array(&$ignore_ids, $_GET['substep'], $_GET['substep'] + 500));
 
 			$result = $pmxcFunc['db_query']('', '
 				SELECT a.id_attach, a.id_folder, a.filename, a.file_hash
@@ -1551,16 +1645,18 @@ function RepairAttachments()
 					LEFT JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg)
 				WHERE a.id_attach BETWEEN {int:substep} AND {int:substep} + 499
 					AND a.id_member = {int:no_member}
-					AND a.id_msg != {int:no_msg}
-					AND NOT FIND_IN_SET(a.id_msg, {array_int:ignore_ids})
-					AND m.id_msg IS NULL',
+					AND (a.id_msg = {int:no_msg} OR m.id_msg IS NULL)'. (!empty($ignore_ids) ? '
+					AND a.id_attach NOT IN ({array_int:ignore_ids})' : '') .'
+					AND a.attachment_type IN ({array_int:attach_thumb})',
 				array(
 					'no_member' => 0,
 					'no_msg' => 0,
 					'substep' => $_GET['substep'],
 					'ignore_ids' => $ignore_ids,
+					'attach_thumb' => array(0,3),
 				)
 			);
+
 			while ($row = $pmxcFunc['db_fetch_assoc']($result))
 			{
 				$to_remove[] = $row['id_attach'];
@@ -1693,6 +1789,7 @@ function RepairAttachments()
 	// What stage are we at?
 	$context['completed'] = $fix_errors ? true : false;
 	$context['errors_found'] = !empty($to_fix) ? true : false;
+
 
 }
 
@@ -1838,6 +1935,7 @@ function ApproveAttach()
 function ApproveAttachments($attachments)
 {
 	global $pmxcFunc;
+
 
 	if (empty($attachments))
 		return 0;
@@ -2250,6 +2348,7 @@ function ManageAttachmentPaths()
 		if (!empty($errors))
 			$_SESSION['errors']['base'] = $errors;
 
+
 		if (!empty($update))
 			updateSettings($update);
 
@@ -2523,6 +2622,7 @@ function list_getAttachDirs()
 			'status' => '',
 		);
 
+
 	return $attachdirs;
 }
 
@@ -2686,6 +2786,7 @@ function TransferAttachments()
 			$new_dir = $_POST['to'];
 
 		$modSettings['currentAttachmentUploadDir'] = $new_dir;
+
 
 		$break = false;
 		while ($break == false)

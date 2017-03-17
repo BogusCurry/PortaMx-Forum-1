@@ -3274,7 +3274,7 @@ div#pollmoderation {
 	font-size: 1.2em;
 }
 .poster h4, .poster h4 a, .poster li:hover h4 a, .poster h4 a:hover .poster li h4 a, .poster h4 a:focus {
-	margin: 0;
+	margin: 0 0 8px 0;
 	padding: 0;
 	color: #c06002;
 }

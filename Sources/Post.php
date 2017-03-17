@@ -187,16 +187,14 @@ function Post($post_errors = array())
 	// An array to hold all the attachments for this topic.
 	$context['current_attachments'] = array();
 
-	// If there are attachments already uploaded, pass them to the current attachments array.
-	if (!empty($_SESSION['already_attached']))
-	{
-		require_once($sourcedir . '/Subs-Attachments.php');
-		$context['current_attachments'] = getRawAttachInfo($_SESSION['already_attached']);
-	}
+	// Clear out prior attachment activity when starting afresh
+	if (empty ($_REQUEST['message']) && empty ($_REQUEST['preview']))
+		unset($_SESSION['already_attached']);
 
 	// Don't allow a post if it's locked and you aren't all powerful.
 	if ($locked && !allowedTo('moderate_board'))
 		fatal_lang_error('topic_locked', false);
+
 	// Check the users permissions - is the user allowed to add or post a poll?
 	if (isset($_REQUEST['poll']) && $modSettings['pollMode'] == '1')
 	{
@@ -1742,7 +1740,6 @@ function Post2()
 			$post_errors[] = 'session_timeout';
 			unset ($_POST['preview'], $_REQUEST['xml']); // just in case
 		}
-		unset ($_REQUEST['xml']);
 		return Post($post_errors);
 	}
 

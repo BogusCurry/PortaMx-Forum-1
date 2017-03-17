@@ -214,8 +214,26 @@ function reloadSettings()
 	);
 
 	// Setting the timezone is a requirement for some functions.
-	if (isset($modSettings['default_timezone']))
+	// if (isset($modSettings['default_timezone']))
+	if (isset($modSettings['default_timezone']) && in_array($modSettings['default_timezone'], timezone_identifiers_list()))
 		date_default_timezone_set($modSettings['default_timezone']);
+	else
+	{
+		// Get PHP's default timezone, if set
+		$ini_tz = ini_get('date.timezone');
+		if (!empty($ini_tz))
+			$modSettings['default_timezone'] = $ini_tz;
+		else
+			$modSettings['default_timezone'] = '';
+
+		// If date.timezone is unset, invalid, or just plain weird, make a best guess
+		if (!in_array($modSettings['default_timezone'], timezone_identifiers_list()))
+		{	
+			$server_offset = @mktime(0, 0, 0, 1, 1, 1970);
+			$modSettings['default_timezone'] = timezone_name_from_abbr('', $server_offset, 0);
+		}
+		date_default_timezone_set($modSettings['default_timezone']);
+	}
 
 	// Check the load averages?
 	if (!empty($modSettings['loadavg_enable']))
@@ -1258,18 +1276,18 @@ function loadMemberData($users, $is_name = false, $set = 'normal')
 	{
 		case 'normal':
 			$select_columns .= ', mem.buddy_list,  mem.additional_groups';
-			break;
+		break;
 		case 'profile':
 			$select_columns .= ', mem.additional_groups, mem.id_theme, mem.pm_ignore_list, mem.pm_receive_from,
 			mem.time_format, mem.timezone, mem.secret_question, mem.smiley_set, mem.tfa_secret,
 			mem.total_time_logged_in, lo.url, mem.ignore_boards, mem.password_salt, mem.pm_prefs, mem.buddy_list, mem.alerts';
-			break;
+		break;
 		case 'minimal':
 			$select_columns = '
 			mem.id_member, mem.member_name, mem.real_name, mem.email_address, mem.date_registered,
 			mem.posts, mem.last_login, mem.member_ip, mem.member_ip2, mem.lngfile, mem.id_group';
 			$select_tables = '';
-			break;
+		break;
 		default:
 			trigger_error('loadMemberData(): Invalid member data set \'' . $set . '\'', E_USER_WARNING);
 	}
@@ -1280,6 +1298,8 @@ function loadMemberData($users, $is_name = false, $set = 'normal')
 	if (!empty($users))
 	{
 		// Load the member's data.
+		$new_loaded_ids = array();
+
 		$request = $pmxcFunc['db_query']('', '
 			SELECT' . $select_columns . '
 			FROM {db_prefix}members AS mem' . $select_tables . '
@@ -1289,7 +1309,6 @@ function loadMemberData($users, $is_name = false, $set = 'normal')
 				'users' => $users,
 			)
 		);
-		$new_loaded_ids = array();
 		while ($row = $pmxcFunc['db_fetch_assoc']($request))
 		{
 			// Take care of proxying avatar if required, do this here for maximum reach

@@ -483,7 +483,7 @@ function attachmentChecks($attachID)
 	global $modSettings, $context, $sourcedir, $pmxcFunc;
 
 	// No data or missing data .... Not necessarily needed, but in case a mod author missed something.
-	if ( empty($_SESSION['temp_attachments'][$attachID]))
+	if (empty($_SESSION['temp_attachments'][$attachID]))
 		$error = '$_SESSION[\'temp_attachments\'][$attachID]';
 
 	elseif (empty($attachID))
@@ -705,12 +705,13 @@ function createAttachment(&$attachmentOptions)
 		array(
 			'id_folder' => 'int', 'id_msg' => 'int', 'filename' => 'string-255', 'file_hash' => 'string-40', 'fileext' => 'string-8',
 			'size' => 'int', 'width' => 'int', 'height' => 'int',
-			'mime_type' => 'string-20', 'approved' => 'int',
+			'mime_type' => 'string-20', 'approved' => 'int', 'id_member' => 'int',
 		),
 		array(
 			(int) $attachmentOptions['id_folder'], (int) $attachmentOptions['post'], $attachmentOptions['name'], $attachmentOptions['file_hash'], $attachmentOptions['fileext'],
 			(int) $attachmentOptions['size'], (empty($attachmentOptions['width']) ? 0 : (int) $attachmentOptions['width']), (empty($attachmentOptions['height']) ? '0' : (int) $attachmentOptions['height']),
 			(!empty($attachmentOptions['mime_type']) ? $attachmentOptions['mime_type'] : ''), (int) $attachmentOptions['approved'],
+			(int) '0',
 		),
 		array('id_attach')
 	);
@@ -983,7 +984,7 @@ function parseAttachBBC($attachID = 0)
  */
 function getRawAttachInfo($attachIDs)
 {
-	global $pmxcFunc, $modSettings;
+	global $pmxcFunc, $modSettings, $context;
 
 	if (empty($attachIDs))
 		return array();
@@ -992,18 +993,17 @@ function getRawAttachInfo($attachIDs)
 
 	$request = $pmxcFunc['db_query']('', '
 		SELECT a.id_attach, a.id_msg, a.id_member, a.size, a.mime_type, a.id_folder, a.filename' . (empty($modSettings['attachmentShowImages']) || empty($modSettings['attachmentThumbnails']) ? '' : ',
-				COALESCE(thumb.id_attach, 0) AS id_thumb, thumb.width AS thumb_width, thumb.height AS thumb_height') . '
+			COALESCE(thumb.id_attach, 0) AS id_thumb, thumb.width AS thumb_width, thumb.height AS thumb_height') . '
 		FROM {db_prefix}attachments AS a' . (empty($modSettings['attachmentShowImages']) || empty($modSettings['attachmentThumbnails']) ? '' : '
-				LEFT JOIN {db_prefix}attachments AS thumb ON (thumb.id_attach = a.id_thumb)') . '
-		WHERE a.id_attach IN ({array_int:attach_ids})
-		LIMIT 1',
+			LEFT JOIN {db_prefix}attachments AS thumb ON (thumb.id_attach = a.id_thumb)') . '
+		WHERE a.id_attach IN ({array_int:attach_ids}) AND a.id_msg = {int:id_message} AND a.id_member = {int:member} AND a.attachment_type != 1
+		',
 		array(
 			'attach_ids' => (array) $attachIDs,
+			'id_message' => 0,
+			'member' => $context['user']['id'],
 		)
 	);
-
-	if ($pmxcFunc['db_num_rows']($request) != 1)
-		return array();
 
 	while ($row = $pmxcFunc['db_fetch_assoc']($request))
 		$return[$row['id_attach']] = array(
@@ -1014,6 +1014,7 @@ function getRawAttachInfo($attachIDs)
 			'approved' => 1,
 			'mime_type' => $row['mime_type'],
 			'thumb' => $row['id_thumb'],
+			'id_member' => $row['id_member'],
 		);
 	$pmxcFunc['db_free_result']($request);
 
