@@ -113,7 +113,7 @@ function template_email_members()
 					</dd>
 				</dl>
 			</div>
-			<div class="righttext">
+			<div class="righttext" style="margin-top: 10px;">
 				<input type="submit" value="', $txt['admin_next'], '" class="button_submit">
 				<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '">
 			</div>

@@ -600,7 +600,7 @@ a.moderation_link, a.moderation_link:visited {
 dl.settings {
 	clear: right;
 	overflow: auto;
-	margin: 0 0 10px 0;
+	margin: 0;
 	padding: 5px;
 }
 dl.settings dt {
@@ -3496,9 +3496,19 @@ ul.post_options li {
 	padding: 12px 0;
 }
 #post_confirm_buttons .smalltext {
-	padding: 0;
+	padding: 3px 0 0 0;
 	max-width: 50%;
 	float: left;
+}
+#draft_lastautosave {
+	float: right !important;
+	margin-top: -8px;
+}
+#throbber img {
+	height: 12px;
+	padding: 0;
+	position: relative;
+	top: -4px;
 }
 .post_verification {
 	margin-top: 6px;

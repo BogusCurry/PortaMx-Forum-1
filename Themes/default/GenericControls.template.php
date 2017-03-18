@@ -186,9 +186,9 @@ function template_control_richedit_buttons($editor_id)
 	// Load in the PM autosaver if it's enabled
 	if (!empty($context['drafts_pm_save']) && !empty($context['drafts_autosave']))
 		echo '
-		<span class="righttext padding" style="display: block">
+		<span class="righttext padding" style="height:15px;display: block">
 			<span id="throbber" style="display:none"><img src="' . $settings['images_url'] . '/loading_sm.gif" alt="" class="centericon">&nbsp;</span>
-			<span id="draft_lastautosave" ></span>
+			<span id="draft_lastautosave" class="smalltext"></span>
 		</span>
 		<script src="', $settings['default_theme_url'], '/scripts/drafts.js', $modSettings['browser_cache'] ,'"></script>
 		<script>
@@ -207,9 +207,9 @@ function template_control_richedit_buttons($editor_id)
 	// Start an instance of the auto saver if its enabled
 	if (!empty($context['drafts_save']) && !empty($context['drafts_autosave']))
 		echo '
-		<span class="righttext padding" style="display: block">
-			<span id="throbber" style="display:none"><img src="' . $settings['images_url'] . '/loading_sm.gif" alt="" class="centericon">&nbsp;</span>
-			<span id="draft_lastautosave" ></span>
+		<span class="righttext padding" style="height:15px;display: block">
+			<span id="throbber" style="display:none"><img src="' . $settings['images_url'] . '/loading_sm.gif" alt="">&nbsp;</span>
+			<span id="draft_lastautosave" class="smalltext"></span>
 		</span>
 		<script src="', $settings['default_theme_url'], '/scripts/drafts.js', $modSettings['browser_cache'] ,'"></script>
 		<script>

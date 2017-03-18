@@ -465,7 +465,7 @@ function template_reported_members()
 
 	echo '
 		<div class="pagesection">
-			<div class="pagelinks floatleft">', $context['page_index'], '</div>
+			<div class="pagelinks floatleft" style="margin-top: -6px;">', $context['page_index'], '</div>
 			<div class="floatright">
 				', !$context['view_closed'] ? '<input type="submit" name="close_selected" value="' . $txt['mc_reportedp_close_selected'] . '" class="button_submit">' : '', '
 			</div>
