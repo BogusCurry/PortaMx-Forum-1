@@ -479,6 +479,7 @@ function BrowseFiles()
 							if ($rowData['attachment_type'] == 1)
 								$link .= '" class="lb-link" title="'. $txt['lightbox_expand_short'] .'" data-title=" " data-lightbox="manage-avatar';
 
+
 							else if (!empty($rowData['width']) && !empty($rowData['height']))
 							{
 								if ($rowData['attachment_type'] == 3)
@@ -1106,7 +1107,7 @@ function removeAttachments($condition, $query_type = '', $return_affected_messag
 			INNER JOIN {db_prefix}members AS mem ON (mem.id_member = a.id_member)' : ($query_type == 'messages' ? '
 			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg)' : '')) . '
 			LEFT JOIN {db_prefix}attachments AS thumb ON (thumb.id_attach = a.id_thumb)
-			LEFT JOIN {db_prefix}attachments AS thumb_parent ON (thumb.attachment_type = {int:thumb_attachment_type} AND thumb_parent.id_thumb = a.id_attach)
+			LEFT JOIN {db_prefix}attachments AS thumb_parent ON (thumb_parent.id_thumb = a.id_attach)
 		WHERE ' . $condition,
 		$query_parameter
 	);
@@ -1128,28 +1129,8 @@ function removeAttachments($condition, $query_type = '', $return_affected_messag
 			// If this was a thumb, the parent attachment should know about it.
 			if (!empty($row['id_parent']))
 				$parents[] = $row['id_parent'];
-			else
-			{
-				// if this a manually thumb remove?
-				if(isset($_POST['remove']) && isset($_POST['type']) && $_POST['type'] == 'thumbs')
-				{
-					$attreq = $pmxcFunc['db_query']('', '
-						SELECT a.id_attach
-						FROM pmx_attachments as a
-						LEFT JOIN pmx_attachments as t ON (t.id_attach = a.id_thumb AND t.id_msg = a.id_msg)
-						WHERE t.id_attach = {int:thumbID}',
-					array(
-						'thumbID' => $row['id_attach'],
-					));
 
-					$tmp = $pmxcFunc['db_fetch_assoc']($attreq);
-					if(isset($tmp['id_attach']))
-						$parents[count($parents)] = $tmp['id_attach'];
-					$pmxcFunc['db_free_result']($attreq);
-				}
-			}
-
-			// If this attachments has a thumb (or thumb have attach), remove it as well.
+			// If this attachments has a thumb, remove it as well.
 			if (!empty($row['id_thumb']) && $autoThumbRemoval)
 			{
 				$thumb_filename = getAttachmentFilename($row['thumb_filename'], $row['id_thumb'], $row['thumb_folder'], false, $row['thumb_file_hash']);
