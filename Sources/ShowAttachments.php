@@ -20,7 +20,7 @@ if (!defined('PMX'))
  */
 function showAttachment()
 {
-	global $pmxcFunc, $pmxCacheFunc, $modSettings, $maintenance, $context;
+	global $pmxcFunc, $pmxCacheFunc, $modSettings, $maintenance, $context, $user_info;
 
 	// Some defaults that we need.
 	$context['character_set'] = empty($modSettings['global_character_set']) ? (empty($txt['lang_character_set']) ? 'ISO-8859-1' : $txt['lang_character_set']) : $modSettings['global_character_set'];
@@ -63,14 +63,14 @@ function showAttachment()
 	$attachTopic = isset($_REQUEST['topic']) ? (int) $_REQUEST['topic'] : 0;
 
 	// No access in strict maintenance mode or you don't have permission to see attachments.
-	if ((!empty($maintenance) && $maintenance == 2) || !allowedTo('view_attachments'))
+	if ((!empty($maintenance) && $maintenance == 2) || (!isset($_REQUEST['fld']) && !allowedTo('view_attachments')))
 	{
 		header('HTTP/1.0 404 File Not Found');
 		die('404 File Not Found');
 	}
 
 	// Use cache when possible.
-	if ((empty($preview) || $attachTopic != 0) && ($cache = $pmxCacheFunc['get']('attachment_lookup_id-'. $attachId)) != null)
+	if ((!isset($_REQUEST['fld']) && (empty($preview) || $attachTopic != 0)) && ($cache = $pmxCacheFunc['get']('attachment_lookup_id-'. $attachId)) != null)
 		list($file, $thumbFile) = $cache;
 
 	// Get the info from the DB.
@@ -106,37 +106,67 @@ function showAttachment()
 		$file = $pmxcFunc['db_fetch_assoc']($request);
 		$pmxcFunc['db_free_result']($request);
 
-		// If theres a message ID stored, we NEED a topic ID.
-		if (!empty($file['id_msg']) && empty($attachTopic) && empty($preview))
+		if (!empty($_REQUEST['fld']))
 		{
-			header('HTTP/1.0 404 File Not Found');
-			die('404 File Not Found');
-		}
-
-		// Previews doesn't have this info.
-		if (empty($preview) && !empty($attachTopic))
-		{
-			$request2 = $pmxcFunc['db_query']('', '
-				SELECT a.id_msg
-				FROM {db_prefix}attachments AS a
-					INNER JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg AND m.id_topic = {int:current_topic})
-					INNER JOIN {db_prefix}boards AS b ON (b.id_board = m.id_board AND {query_see_board})
-				WHERE a.id_attach = {int:attach}
+			$request = $pmxcFunc['db_query']('', '
+				SELECT config
+				FROM {db_prefix}portal_blocks
+				WHERE id = {int:blockid}
 				LIMIT 1',
 				array(
-					'attach' => $attachId,
-					'current_topic' => $attachTopic,
+						'blockid' => $_REQUEST['fld'],
 				)
 			);
 
-			// The provided topic must match the one stored in the DB for this particular attachment, also.
-			if ($pmxcFunc['db_num_rows']($request2) == 0)
+			$JScfg = $pmxcFunc['db_fetch_assoc']($request);
+			$pmxcFunc['db_free_result']($request);
+			$cfg = pmx_json_decode($JScfg['config'], true);
+
+			// check if enabled for the usergroup
+			$acsgrp = (isset($cfg['settings']['download_acs']) && is_array($cfg['settings']['download_acs']) ? $cfg['settings']['download_acs'] : array());
+			$show = AllowedTo('admin_forum');
+			foreach($acsgrp as $g)
+				$show = (is_numeric($g) && in_array((int) $g, $user_info['groups']) ? true: $show);
+
+			if(!$show)
+				redirectexit($scripturl .'?pmxerror=acs');
+			else
+				$_REQUEST['attach'] = $_REQUEST['id'];
+		}
+		else
+		{
+			// If theres a message ID stored, we NEED a topic ID.
+			if (!empty($file['id_msg']) && empty($attachTopic) && empty($preview))
 			{
 				header('HTTP/1.0 404 File Not Found');
 				die('404 File Not Found');
 			}
 
-			$pmxcFunc['db_free_result']($request2);
+			// Previews doesn't have this info.
+			if (empty($preview) && !empty($attachTopic))
+			{
+				$request2 = $pmxcFunc['db_query']('', '
+					SELECT a.id_msg
+					FROM {db_prefix}attachments AS a
+						INNER JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_msg AND m.id_topic = {int:current_topic})
+						INNER JOIN {db_prefix}boards AS b ON (b.id_board = m.id_board AND {query_see_board})
+					WHERE a.id_attach = {int:attach}
+					LIMIT 1',
+					array(
+						'attach' => $attachId,
+						'current_topic' => $attachTopic,
+					)
+				);
+
+				// The provided topic must match the one stored in the DB for this particular attachment, also.
+				if ($pmxcFunc['db_num_rows']($request2) == 0)
+				{
+					header('HTTP/1.0 404 File Not Found');
+					die('404 File Not Found');
+				}
+
+				$pmxcFunc['db_free_result']($request2);
+			}
 		}
 
 		// set filePath and ETag time
@@ -175,7 +205,7 @@ function showAttachment()
 		}
 
 		// Cache it.
-		if(!empty($file) || !empty($thumbFile))
+		if(!empty($file) || !empty($thumbFile) && !isset($_REQUEST['fld']))
 			$pmxCacheFunc['put']('attachment_lookup_id-'. $file['id_attach'], array($file, $thumbFile), mt_rand(850, 900));
 	}
 

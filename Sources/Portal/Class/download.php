@@ -31,13 +31,21 @@ class pmxc_download extends PortaMxC_SystemBlock
 	{
 		global $pmxcFunc, $context, $user_info, $scripturl, $txt;
 
+		// custom sort function
+		function CustomSort($a, $b) 
+		{
+			if ($a['order'] == $b['order'])
+				return 0;
+			return ($a < $b) ? -1 : 1;
+		}
+
 		if($this->visible)
 		{
-			$this->download_content = parse_bbc($this->cfg['content']);
+			$this->download_content = $this->cfg['content'];
 
 			if(isset($this->cfg['config']['settings']['download_board']) && !empty($this->cfg['config']['settings']['download_board']))
 			{
-				// get downloads for board
+				// get downloads from the board
 				$request = $pmxcFunc['db_query']('', '
 						SELECT a.id_attach, a.size, a.downloads, t.id_topic, t.locked, m.subject, m.body
 						FROM {db_prefix}attachments a
@@ -50,11 +58,34 @@ class pmxc_download extends PortaMxC_SystemBlock
 					)
 				);
 
-				$dlacs = implode('=1,', $this->cfg['config']['settings']['download_acs']);
+				$data = array();
 				$entrys = $pmxcFunc['db_num_rows']($request);
 				if($entrys > 0)
 				{
 					while($row = $pmxcFunc['db_fetch_assoc']($request))
+					{
+						preg_match('/^[0-9]+/', substr($row['subject'], 0, 4), $order);
+						$data[] = array(
+							'order' => (isset($order[0]) ? intval($order[0]) : 0),
+							'subject' => (isset($order[0]) ? trim(substr($row['subject'], strlen($order[0]))) : trim($row['subject'])),
+							 'body' => $row['body'],
+							 'downloads' => $row['downloads'],
+							 'id_attach' => $row['id_attach'],
+							 'id_topic' => $row['id_topic'],
+							 'locked' => $row['locked'],
+							 'size' => $row['size']
+						);
+					}
+					$pmxcFunc['db_free_result']($request);
+
+					// sort by custom subject field [1234 SubjectText]
+					uasort($data, 'CustomSort');
+				}
+
+				$dlacs = implode('=1,', $this->cfg['config']['settings']['download_acs']);
+				if(count($data > 0))
+				{
+					foreach($data as $row)
 					{
 						$this->download_content .= '
 						<div style="text-align:left;">';
@@ -62,16 +93,16 @@ class pmxc_download extends PortaMxC_SystemBlock
 						if(allowPmxGroup($dlacs))
 							$this->download_content .= '
 							<a href="'. $scripturl .'?action=dlattach;id='. $row['id_attach'] .';fld='. $this->cfg['id'] .'">
-								<img style="vertical-align:middle;" src="'. $context['pmx_imageurl'] .'download.png" alt="*" title="'. (empty($row['file_order']) ? $row['subject'] : substr($row['subject'], 4)) .'" /></a>';
+								<img style="vertical-align:middle;" src="'. $context['pmx_imageurl'] .'download.png" alt="*" title="'. $row['subject'] .'" /></a>';
 
 						if($user_info['is_admin'])
 							$this->download_content .= '
 							<a href="'. $scripturl .'?topic='. $row['id_topic'] .'">
-								<strong>'. (empty($row['file_order']) ? $row['subject'] : substr($row['subject'], 4)) .'</strong>
+								<strong>'. $row['subject'] .'</strong>
 							</a>';
 						else
 							$this->download_content .= '
-							<strong>'. (empty($row['file_order']) ? $row['subject'] : substr($row['subject'], 4)) .'</strong>';
+							<strong>'. $row['subject']  .'</strong>';
 
 						$this->download_content .= '
 							<div class="dlcomment">'. parse_bbc(trim($row['body'])) .'</div>
@@ -79,7 +110,6 @@ class pmxc_download extends PortaMxC_SystemBlock
 						</div>' . ($entrys > 1 ? '<hr class="pmx_hr" />' : '');
 						$entrys--;
 					}
-					$pmxcFunc['db_free_result']($request);
 				}
 				else
 					$this->download_content .= '<br />'. $txt['pmx_download_empty'];

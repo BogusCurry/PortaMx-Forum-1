@@ -69,7 +69,7 @@ function PortaMx_getAdmEditBlock($id = null, $block = null, $side = null)
 		}
 	}
 
-	if(in_array($block['blocktype'], array('bbc_script', 'script', 'download', 'fader', 'php')))
+	if(in_array($block['blocktype'], array('bbc_script', 'script', 'fader', 'php')))
 	{
 		if(in_array($block['blocktype'], array('script', 'fader')))
 		{
@@ -147,7 +147,7 @@ function PortaMx_getAdmEditBlock($id = null, $block = null, $side = null)
 	}
 
 	// for html blocks
-	elseif($block['blocktype'] == 'html')
+	elseif(in_array($block['blocktype'], array('html', 'download')))
 	{
 		loadJavascriptFile($boardurl .'/ckeditor/ckeditor.js', array('external' => true));
 

@@ -89,18 +89,30 @@ class pmxc_download_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_content()
 	{
-		global $context, $txt;
+		global $context, $boarddir, $txt;
 
 		// show the content area
 		echo '
 					<td valign="top" colspan="2" style="padding:4px;">
 						<div class="cat_bar catbg_grid" style="margin-right:1px;">
 							<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_content'] .'</span></h4>
-						</div>
-						<input type="hidden" id="smileyset" value="PortaMx" />
-						<div id="bbcBox_message"></div>
-						<div id="smileyBox_message"></div>
-						<div style=padding-right:3px;margin-top:-10px;">', template_control_richedit($context['pmx']['editorID'], 'smileyBox_message', 'bbcBox_message'), '</div>
+						</div>';
+
+		// show the editor
+		$allow = allowPmx('pmx_admin') || allowPmx('pmx_blocks');
+		$fnd = explode('/', str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']));
+		$smfpath = str_replace('\\', '/', $boarddir);
+		foreach($fnd as $key => $val) { $fnd[$key] = $val; $rep[] = ''; }
+		$filepath = trim(str_replace($fnd, $rep, $smfpath), '/') .'/CustomImages';
+		if(count($fnd) == count(explode('/', $smfpath)))
+			$filepath = '/'. $filepath;
+		$_SESSION['pmx_ckfm'] = array('ALLOW' => $allow, 'FILEPATH' => $filepath);
+
+		echo '
+						<textarea name="'. $context['pmx']['htmledit']['id'] .'">'. $context['pmx']['htmledit']['content'] .'</textarea>
+						<script type="text/javascript">
+							CKEDITOR.replace("'. $context['pmx']['htmledit']['id'] .'", {filebrowserBrowseUrl: "ckeditor/fileman/index.php"});
+						</script>
 					</td>
 				</tr>
 				<tr>';
