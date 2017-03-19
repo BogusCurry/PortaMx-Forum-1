@@ -480,7 +480,7 @@ function processAttachments()
  */
 function attachmentChecks($attachID)
 {
-	global $modSettings, $context, $sourcedir, $pmxcFunc;
+	global $modSettings, $context, $sourcedir, $user_info, $pmxcFunc;
 
 	// No data or missing data .... Not necessarily needed, but in case a mod author missed something.
 	if (empty($_SESSION['temp_attachments'][$attachID]))
@@ -594,21 +594,22 @@ function attachmentChecks($attachID)
 
 	// Is the file too big?
 	$context['attachments']['total_size'] += $_SESSION['temp_attachments'][$attachID]['size'];
-	if (!empty($modSettings['attachmentSizeLimit']) && $_SESSION['temp_attachments'][$attachID]['size'] > $modSettings['attachmentSizeLimit'] * 1024)
+
+	if (empty($user_info['is_admin']) && !empty($modSettings['attachmentSizeLimit']) && $_SESSION['temp_attachments'][$attachID]['size'] > $modSettings['attachmentSizeLimit'] * 1024)
 		$_SESSION['temp_attachments'][$attachID]['errors'][] = array('file_too_big', array(comma_format($modSettings['attachmentSizeLimit'], 0)));
 
-	// Check the total upload size for this post...
-	if (!empty($modSettings['attachmentPostLimit']) && $context['attachments']['total_size'] > $modSettings['attachmentPostLimit'] * 1024)
+	// Check the total upload size for this post... (ignored on Admin)
+	if (empty($user_info['is_admin']) && !empty($modSettings['attachmentPostLimit']) && $context['attachments']['total_size'] > $modSettings['attachmentPostLimit'] * 1024)
 		$_SESSION['temp_attachments'][$attachID]['errors'][] = array('attach_max_total_file_size', array(comma_format($modSettings['attachmentPostLimit'], 0), comma_format($modSettings['attachmentPostLimit'] - (($context['attachments']['total_size'] - $_SESSION['temp_attachments'][$attachID]['size']) / 1024), 0)));
 
 	// Have we reached the maximum number of files we are allowed?
 	$context['attachments']['quantity']++;
 
 	// Set a max limit if none exists
-	if (empty($modSettings['attachmentNumPerPostLimit']) && $context['attachments']['quantity'] >= 50)
+	if (empty($user_info['is_admin']) && empty($modSettings['attachmentNumPerPostLimit']) && $context['attachments']['quantity'] >= 50)
 		$modSettings['attachmentNumPerPostLimit'] = 50;
 
-	if (!empty($modSettings['attachmentNumPerPostLimit']) && $context['attachments']['quantity'] > $modSettings['attachmentNumPerPostLimit'])
+	if (empty($user_info['is_admin']) && !empty($modSettings['attachmentNumPerPostLimit']) && $context['attachments']['quantity'] > $modSettings['attachmentNumPerPostLimit'])
 		$_SESSION['temp_attachments'][$attachID]['errors'][] = array('attachments_limit_per_post', array($modSettings['attachmentNumPerPostLimit']));
 
 	// File extension check

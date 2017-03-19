@@ -722,15 +722,12 @@ function Display()
 		// 3. you're not trying to view the results, and
 		// 4. the poll is not locked, and
 		// 5. you have the proper permissions, and
-		// 6. you haven't already voted before.
-		$context['allow_vote'] = !$context['poll']['is_expired'] && (!$user_info['is_guest'] || ($pollinfo['guest_vote'] && allowedTo('poll_vote'))) && empty($pollinfo['voting_locked']) && allowedTo('poll_vote') && !$context['poll']['has_voted'];
-//-> PortaMx
+		// 6. you haven't already voted before, and
+		// 7. ecl is enabled and accepted
 		if(!checkECL_Cookie(true))
 			$context['allow_vote'] = false;
-//<- PortaMx
-
-		if(!checkECL_Cookie(true))
-			$context['allow_vote'] = false;
+		else
+			$context['allow_vote'] = !$context['poll']['is_expired'] && (!$user_info['is_guest'] || ($pollinfo['guest_vote'] && allowedTo('poll_vote'))) && empty($pollinfo['voting_locked']) && allowedTo('poll_vote') && !$context['poll']['has_voted'];
 
 		// You're allowed to view the results if:
 		// 1. you're just a super-nice-guy, or

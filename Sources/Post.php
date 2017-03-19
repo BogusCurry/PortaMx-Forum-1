@@ -1218,14 +1218,14 @@ function Post($post_errors = array())
 			dictFileTooBig: '. JavaScriptEscape(sprintf($txt['file_too_big'], comma_format($modSettings['attachmentSizeLimit'], 0))) .',
 			maxTotalSize: '. JavaScriptEscape($txt['attach_max_total_file_size_current']) .',
 			acceptedFiles: '. JavaScriptEscape($acceptedFiles) .',
-			maxFilesize: '. ($modSettings['attachmentSizeLimit']) .',
+			maxFilesize: '. (!empty($user_info['is_admin']) ? strval(1024 * 100) : $modSettings['attachmentSizeLimit']) .',
 			thumbnailWidth: '.(!empty($modSettings['attachmentThumbWidth']) ? $modSettings['attachmentThumbWidth'] : 'undefined') .',
 			thumbnailHeight: '.(!empty($modSettings['attachmentThumbHeight']) ? $modSettings['attachmentThumbHeight'] : 'undefined') .',
-			maxFiles: '. $context['num_allowed_attachments'] .',
+			maxFiles: '. (!empty($user_info['is_admin']) ? strval(10) : $context['num_allowed_attachments']) .',
 			text_totalMaxSize: '. JavaScriptEscape($txt['attach_max_total_file_size_current']) .',
 			text_max_size_progress: '. JavaScriptEscape($txt['attach_max_size_progress']) .',
 			limitMultiFileUploadSize:'. round(max($modSettings['attachmentPostLimit'] - ($context['attachments']['total_size'] / 1024), 0)) * 1024 .',
-			maxLimitReferenceUploadSize: '. $modSettings['attachmentPostLimit'] * 1024 .',
+			maxLimitReferenceUploadSize: '. (!empty($user_info['is_admin']) ? strval(1024 * 1024 * 100) : $modSettings['attachmentPostLimit'] * 1024) .',
 		});
 	});', true);
 	}
