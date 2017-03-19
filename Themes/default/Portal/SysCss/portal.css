@@ -778,9 +778,8 @@ ul.statistics li span {
 
 /* download */
 .dlcomment {
-	padding: 5px 0px;
-	font-family: Tahoma;
-	line-height: 1.1em;
+	padding: 0px;
+	line-height: 1.5em;
 }
 
 /** home button **/
