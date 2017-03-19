@@ -205,7 +205,7 @@ function showAttachment()
 		}
 
 		// Cache it.
-		if(!empty($file) || !empty($thumbFile) && !isset($_REQUEST['fld']))
+		if(!isset($_REQUEST['fld']) && (!empty($file) || !empty($thumbFile)))
 			$pmxCacheFunc['put']('attachment_lookup_id-'. $file['id_attach'], array($file, $thumbFile), mt_rand(850, 900));
 	}
 
