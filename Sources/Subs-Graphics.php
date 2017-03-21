@@ -143,8 +143,13 @@ function createThumbnail($source, $max_width, $max_height, $useThumbData = true)
 	$destName = $source . '_thumb.tmp';
 
 	// Do the actual resize.
-	if ($useThumbData && !empty($modSettings['attachment_thumb_png']))
-		$success = resizeImageFile($source, $destName, $max_width, $max_height, 3);
+	if ($useThumbData)
+	{
+		if (!empty($modSettings['attachment_thumb_png']))
+			$success = resizeImageFile($source, $destName, $max_width, $max_height, 3);
+		else
+			$success = resizeImageFile($source, $destName, $max_width, $max_height);
+	}
 	else
 		$success = resizeImageFile($source, $destName, $max_width, $max_height);
 
