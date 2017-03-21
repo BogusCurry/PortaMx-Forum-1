@@ -430,7 +430,7 @@ function resizeImage($src_img, $destName, $src_width, $src_height, $max_width, $
 			$dest_height = empty($max_height) ? $src_height : $max_height;
 
 			if ($default_formats[$preferred_format] == 'jpeg')
-				$imagick->setCompressionQuality(!empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 82);
+				$imagick->setCompressionQuality(!empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 100);
 
 			$imagick->setImageFormat($default_formats[$preferred_format]);
 			$imagick->resizeImage($dest_width, $dest_height, Imagick::FILTER_LANCZOS, 1, true);
@@ -446,7 +446,7 @@ function resizeImage($src_img, $destName, $src_width, $src_height, $max_width, $
 			$dest_height = empty($max_height) ? $src_height : $max_height;
 
 			if ($default_formats[$preferred_format] == 'jpeg')
-				MagickSetCompressionQuality($magick_wand, !empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 82);
+				MagickSetCompressionQuality($magick_wand, !empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 100);
 
 			MagickSetImageFormat($magick_wand, $default_formats[$preferred_format]);
 			MagickResizeImage($magick_wand, $dest_width, $dest_height, MW_LanczosFilter, 1, true);
@@ -510,7 +510,7 @@ function resizeImage($src_img, $destName, $src_width, $src_height, $max_width, $
 		elseif (!empty($preferred_format) && ($preferred_format == 1) && function_exists('imagegif'))
 			$success = imagegif($dst_img, $destName);
 		elseif (function_exists('imagejpeg'))
-			$success = imagejpeg($dst_img, $destName, !empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 82);
+			$success = imagejpeg($dst_img, $destName, !empty($modSettings['avatar_jpeg_quality']) ? $modSettings['avatar_jpeg_quality'] : 100);
 
 		// Free the memory.
 		imagedestroy($src_img);
