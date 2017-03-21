@@ -377,7 +377,7 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 		foreach($this->smileys as $sm)
 		{
 			echo '
-						<img onclick="InsertSmiley('. $this->cfg['id'] .', \''. addslashes($sm['code']) .'\')" src="'. $sm['image'] .'" alt="*" title="'. $sm['title'] .'" style="float:left;cursor:pointer;padding:2px 7px;" />';
+							<img onclick="InsertSmiley('. $this->cfg['id'] .', \''. addslashes($sm['code']) .'\')" src="'. $sm['image'] .'" alt="*" title="'. $sm['title'] .'" style="float:left;cursor:pointer;padding:2px 7px;" />';
 			$half--;
 			if($half == 0)
 				echo '
@@ -465,8 +465,7 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 
 		echo '
 				<input type="hidden" id="shoutcount'. $this->cfg['id'] .'" value="'. $cnt .'" />
-			</div>
-		</div>';
+			</div>';
 
 		// have shout access?
 		if($this->canShout)
@@ -497,7 +496,8 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 				echo '
 				<img id="shout_toggle'. $this->cfg['id'] .'" style="'. ($canEdit ? 'cursor:pointer;' : '') .'margin-top:6px;float:right;"'. ($canEdit ? ' onclick="ShoutAdmin('. $this->cfg['id'] .',\'check\');"' : '') .' src="'. $Admimg[0] .'" alt="*" title="'. $txt['pmx_shoutbox_toggle'] .'" />
 				<input id="shout_key'. $this->cfg['id'] .'" onclick="SendShout('. $this->cfg['id'] .', '. intval(!empty($this->cfg['config']['settings']['boxcollapse'])) .')" class="button_submit shoutbutton" type="button" name="button" value="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_open'] : $txt['pmx_shoutbox_button']) .'" title="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_title'] : $txt['pmx_shoutbox_send_title']) .'" />
-			</div>';
+			</div>
+		</div>';
 			}
 		}
 	}

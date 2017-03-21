@@ -63,7 +63,7 @@ function showAttachment()
 	$attachTopic = isset($_REQUEST['topic']) ? (int) $_REQUEST['topic'] : 0;
 
 	// No access in strict maintenance mode or you don't have permission to see attachments.
-	if ((!empty($maintenance) && $maintenance == 2) || (!isset($_REQUEST['fld']) && !allowedTo('view_attachments')))
+	if ((!empty($maintenance) && $maintenance == 2) || !allowedTo('view_attachments'))
 	{
 		header('HTTP/1.0 404 File Not Found');
 		die('404 File Not Found');
