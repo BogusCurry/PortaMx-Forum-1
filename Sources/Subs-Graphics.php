@@ -51,7 +51,7 @@ function downloadAvatar($url, $memID, $max_width, $max_height)
 
 	$id_folder = 1;
 	$avatar_hash = '';
-	$pmxcFunc['db_insert']('',
+	$attachID = $pmxcFunc['db_insert']('',
 		'{db_prefix}attachments',
 		array(
 			'id_member' => 'int', 'attachment_type' => 'int', 'filename' => 'string-255', 'file_hash' => 'string-255', 'fileext' => 'string-8', 'size' => 'int',
@@ -61,9 +61,9 @@ function downloadAvatar($url, $memID, $max_width, $max_height)
 			$memID, 1, $destName, $avatar_hash, $ext, 1,
 			$id_folder,
 		),
-		array('id_attach')
+		array('id_attach'),
+		1
 	);
-	$attachID = $pmxcFunc['db_insert_id']('{db_prefix}attachments', 'id_attach');
 
 	// Retain this globally in case the script wants it.
 	$modSettings['new_avatar_data'] = array(
@@ -136,14 +136,14 @@ function downloadAvatar($url, $memID, $max_width, $max_height)
  * @param int $max_height The maximum allowed height
  * @return boolean Whether the thumbnail creation was successful.
  */
-function createThumbnail($source, $max_width, $max_height)
+function createThumbnail($source, $max_width, $max_height, $useThumbData = true)
 {
 	global $modSettings;
 
 	$destName = $source . '_thumb.tmp';
 
 	// Do the actual resize.
-	if (!empty($modSettings['attachment_thumb_png']))
+	if ($useThumbData && !empty($modSettings['attachment_thumb_png']))
 		$success = resizeImageFile($source, $destName, $max_width, $max_height, 3);
 	else
 		$success = resizeImageFile($source, $destName, $max_width, $max_height);

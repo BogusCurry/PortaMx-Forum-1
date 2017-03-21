@@ -679,7 +679,22 @@ function createAttachment(&$attachmentOptions)
 		$attachmentOptions['width'] = 0;
 		$attachmentOptions['height'] = 0;
 	}
-
+	else
+	{
+		 // resize the image if max-width and max-heigt given and if the image is bigger ..
+		if (!empty($modSettings['max_image_width']) && !empty($modSettings['max_image_height']) && (($attachmentOptions['width'] > $modSettings['max_image_width']) || $attachmentOptions['height'] > $modSettings['max_image_height']))
+		{
+ 			if(createThumbnail($attachmentOptions['tmp_name'], $modSettings['max_image_width'], $modSettings['max_image_height'], false))
+			{
+				@rename($attachmentOptions['tmp_name'] .'_thumb', $attachmentOptions['tmp_name']);
+				$newSize = getimagesize($attachmentOptions['tmp_name']);
+				$attachmentOptions['width'] = $newSize[0];
+				$attachmentOptions['height'] = $newSize[1];
+				$attachmentOptions['size'] = filesize($attachmentOptions['tmp_name']);
+			}
+		}
+	}
+  
 	// Get the hash if no hash has been given yet.
 	if (empty($attachmentOptions['file_hash']))
 		$attachmentOptions['file_hash'] = getAttachmentFilename($attachmentOptions['name'], false, null, true);
@@ -1246,21 +1261,6 @@ function loadAttachmentContext($id_msg, $attachments)
 					'href' => $scripturl . '?action=dlattach;topic=' . $attachment['topic'] . '.0;attach=' . $attachment['id_thumb'] . ';image',
 				);
 			$attachmentData[$i]['thumbnail']['has_thumb'] = !empty($attachment['id_thumb']);
-
-			// If thumbnails are disabled, check the maximum size of the image.
-			if (!$attachmentData[$i]['thumbnail']['has_thumb'] && ((!empty($modSettings['max_image_width']) && $attachment['width'] > $modSettings['max_image_width']) || (!empty($modSettings['max_image_height']) && $attachment['height'] > $modSettings['max_image_height'])))
-			{
-				if (!empty($modSettings['max_image_width']) && (empty($modSettings['max_image_height']) || $attachment['height'] * $modSettings['max_image_width'] / $attachment['width'] <= $modSettings['max_image_height']))
-				{
-					$attachmentData[$i]['width'] = $modSettings['max_image_width'];
-					$attachmentData[$i]['height'] = floor($attachment['height'] * $modSettings['max_image_width'] / $attachment['width']);
-				}
-				elseif (!empty($modSettings['max_image_width']))
-				{
-					$attachmentData[$i]['width'] = floor($attachment['width'] * $modSettings['max_image_height'] / $attachment['height']);
-					$attachmentData[$i]['height'] = $modSettings['max_image_height'];
-				}
-			}
 
 			if (!$attachmentData[$i]['thumbnail']['has_thumb'])
 				$attachmentData[$i]['downloads']++;
