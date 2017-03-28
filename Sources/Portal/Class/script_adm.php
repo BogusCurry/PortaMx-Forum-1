@@ -8,7 +8,7 @@
  * file script_adm.php
  * Admin Systemblock script
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -28,7 +28,7 @@ class pmxc_script_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -40,7 +40,7 @@ class pmxc_script_adm extends PortaMxC_SystemAdminBlock
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
 								<h4 class="catbg catbg_grid">
-									<span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
+									<span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
 								</h4>
 							</div>
 
@@ -50,7 +50,9 @@ class pmxc_script_adm extends PortaMxC_SystemAdminBlock
 								<input class="input_check" type="checkbox" name="config[settings][printing]" value="1"' .(!empty($this->cfg['config']['settings']['printing']) ? ' checked="checked"' : ''). ' />
 							</div>
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_boponews_disableHSimage'] .'</span>
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_disableHSimage'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_disable_lightbox_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+								</span>
 								<input type="hidden" name="config[settings][disableHSimg]" value="0" />
 								<input class="input_check" type="checkbox" name="config[settings][disableHSimg]" value="1"' .(isset($this->cfg['config']['settings']['disableHSimg']) && !empty($this->cfg['config']['settings']['disableHSimg']) ? ' checked="checked"' : '').(!empty($context['pmx']['settings']['disableHS']) ? ' disabled="disabled"' : '') .' />
 							</div>
@@ -74,9 +76,9 @@ class pmxc_script_adm extends PortaMxC_SystemAdminBlock
 		echo '
 					<td valign="top" colspan="2" style="padding:4px;">
 						<div class="cat_bar catbg_grid">
-							<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_content'] .'</span></h4>
+							<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_content'] .'</span></h4>
 						</div>
-						<textarea name="'. $context['pmx']['script']['id'] .'" id="'. $context['pmx']['script']['id'] .'" style="display:block;width:'. $context['pmx']['script']['width'] .';height:'. $context['pmx']['script']['height'] .';">'. $context['pmx']['script']['value'] .'</textarea>
+						<textarea name="'. $context['pmx']['script']['id'] .'" id="'. $context['pmx']['script']['id'] .'" style="display:block;width:'. $context['pmx']['script']['width'] .';height:'. $context['pmx']['script']['height'] .';">'. convertSmileysToUser($context['pmx']['script']['value']) .'</textarea>
 					</td>
 				</tr>
 				<tr>';

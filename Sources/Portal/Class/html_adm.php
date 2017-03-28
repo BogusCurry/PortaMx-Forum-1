@@ -8,7 +8,7 @@
  * file html_adm.php
  * Admin Systemblock html
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -28,7 +28,7 @@ class pmxc_html_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -39,16 +39,15 @@ class pmxc_html_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_html_teaser'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxHTMLH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_html_teaser'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_html_teasehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div>
 									<input type="hidden" name="config[settings][teaser]" value="0" />
 									<input class="input_check" type="checkbox" name="config[settings][teaser]" value="1"' .(!empty($this->cfg['config']['settings']['teaser']) ? ' checked="checked"' : ''). ' />
-									<div id="pmxHTMLH01" class="info_frame" style="margin-top:4px;margin-bottom:0;">'. str_replace('@@', '<img src="'. $context['pmx_imageurl'] .'pgbreak.png" alt="*" title="pagebreak" style="vertical-align:-5px;" />', $txt['pmx_html_teasehelp']) .'</div>
 								</div>
 							</div>
 							<div class="adm_check">
@@ -59,7 +58,9 @@ class pmxc_html_adm extends PortaMxC_SystemAdminBlock
 								</div>
 							</div>
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_boponews_disableHSimage'] .'</span>
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_disableHSimage'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_disable_lightbox_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+								</span>
 								<input type="hidden" name="config[settings][disableHSimg]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][disableHSimg]" value="1"' .(isset($this->cfg['config']['settings']['disableHSimg']) && !empty($this->cfg['config']['settings']['disableHSimg']) ? ' checked="checked"' : '').(!empty($context['pmx']['settings']['disableHS']) ? ' disabled="disabled"' : '') .' /></div>
 							</div>
@@ -77,13 +78,13 @@ class pmxc_html_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_content()
 	{
-		global $context, $txt, $boarddir;
+		global $context, $txt, $user_info, $boarddir;
 
 		// show the content area
 		echo '
 					<td valign="top" colspan="2" style="padding:4px;">
 						<div class="cat_bar catbg_grid">
-							<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_content'] .'</span></h4>
+							<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_content'] .'</span></h4>
 						</div>';
 
 		// show the editor
@@ -92,14 +93,16 @@ class pmxc_html_adm extends PortaMxC_SystemAdminBlock
 		$smfpath = str_replace('\\', '/', $boarddir);
 		foreach($fnd as $key => $val) { $fnd[$key] = $val; $rep[] = ''; }
 		$filepath = trim(str_replace($fnd, $rep, $smfpath), '/') .'/CustomImages';
-		if(count($fnd) == count(explode('/', $smfpath)))
+		if(count($fnd) != count(explode('/', $smfpath)))
 			$filepath = '/'. $filepath;
-		$_SESSION['pmx_ckfm'] = array('ALLOW' => $allow, 'FILEPATH' => $filepath);
+		$_SESSION['pmx_ckfm'] = array('ALLOW' => $allow, 'FILEPATH' => str_replace('//', '/', $filepath));
 
 		echo '
-						<textarea name="'. $context['pmx']['htmledit']['id'] .'">'. $context['pmx']['htmledit']['content'] .'</textarea>
+						<textarea name="'. $context['pmx']['htmledit']['id'] .'">'. convertSmileysToUser($context['pmx']['htmledit']['content']) .'</textarea>
 						<script type="text/javascript">
-							CKEDITOR.replace("'. $context['pmx']['htmledit']['id'] .'", {filebrowserBrowseUrl: "ckeditor/fileman/index.php"});
+							CKEDITOR.replace("'. $context['pmx']['htmledit']['id'] .'", {
+								filebrowserBrowseUrl: "ckeditor/fileman/index.php",
+								smiley_path: CKEDITOR.basePath +"../Smileys/'. $user_info['smiley_set'] .'/"});
 						</script>
 					</td>
 				</tr>

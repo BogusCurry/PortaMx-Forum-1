@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Admin
+// Version: 1.0 RC2; Admin
 
 /**
  * PortaMx Forum
@@ -11,7 +11,7 @@
  */
 
 // Portal Center
-$txt['pmx_admin_center'] = 'Portal Management Center';
+$txt['pmx_admin_center'] = 'Portal Center';
 $txt['pmx_admin_main_welcome'] = 'This is your "'. $txt['pmx_admin_center'] .'".
 	From here, you can maintain your settings, blocks, articles and categories.
 	You may also find answers to your questions by clicking the symbols %s for more information on the related functions.';
@@ -62,7 +62,6 @@ $txt['pmx_action_names'] = array(
 	'topics' => 'Topics',
 	'admin' => 'Admin',
 	'calendar' => 'Calendar',
-	'help' => 'Help',
 	'login,login2,reminder' => 'Login',
 	'logout' => 'Logout',
 	'moderate' => 'Moderate',
@@ -81,9 +80,7 @@ $txt['pmx_action_names'] = array(
 
 // Device settings
 $txt['pmx_blocks_devices'] = 'Visibility on device types';
-$txt['pmx_blocks_deviceshelp'] = 'Select the type of device on which the block is to be displayed.';
 $txt['pmx_settings_devices'] = 'Panel visibility on device types:';
-$txt['pmx_settings_deviceshelp'] = 'Select the type of device on which the panel is to be displayed.';
 $txt['pmx_devices']['all'] = 'Show on all devices';
 $txt['pmx_devices']['desk'] = 'Show only on Desktop devices';
 $txt['pmx_devices']['mobil'] = 'Show only on Mobile devices';
@@ -172,8 +169,8 @@ $txt['pmx_article_filter'] = 'Click to set a article filter';
 $txt['pmx_article_setfilter'] = 'Setup article filter';
 $txt['pmx_article_filter_category'] = 'Show category(s):';
 $txt['pmx_article_filter_categoryClr'] = 'Clear filter';
-$txt['pmx_article_filter_approved'] = 'Show unapproved articles:';
-$txt['pmx_article_filter_active'] = 'Show inactive articles:';
+$txt['pmx_article_filter_approved'] = 'Show not approved articles:';
+$txt['pmx_article_filter_active'] = 'Show not active articles:';
 $txt['pmx_article_filter_myown'] = 'Show my own articles:';
 $txt['pmx_article_filter_member'] = 'Show articles from:';
 $txt['pmx_article_filter_membername'] = '(Member name)';
@@ -199,21 +196,13 @@ $txt['pmx_article_groups'] = 'Access settings';
 $txt['pmx_article_moderate_title'] = 'Other Article settings';
 $txt['pmx_article_moderate'] = 'Enable article moderation:';
 $txt['pmx_article_teaser'] = 'Number of %s before tease:';
-$txt['pmx_article_teasehelp'] = 'Leave this empty or Enter 0 for no tease';
 $txt['pmx_article_footer'] = 'Show Author, Date, last Update:';
-$txt['pmx_article_footerhelp'] = 'If checked, the Article author, date created and last update is show below the article';
+$txt['pmx_settings_restorespeed_time'] = ' milliseconds';
 
 // access popup
 $txt['pmx_acs_repl'] = 'Set';
 $txt['pmx_acs_add'] = 'Add';
 $txt['pmx_acs_rem'] = 'Remove';
-
-// edit help
-$txt['pmx_article_moderatehelp'] = 'If checked, all member in the Article Moderator Group can edit, delete and approve this article.';
-$txt['pmx_article_groupshelp'] = 'Choose your membergroups that will able to see this article.<br />
-	You can also use <b>deny group</b>. This is useful when a user is in more than one group, but one of the groups should not see the block.<br />
-	To toggle between deny groups and access groups, hold down the <b>Ctrl Key</b> and <b>double click</b> on the item.
-	If the group a deny group,  you see the deny symbol <b>^</b> before the group name.';
 
 // Categories Manager
 $txt['pmx_categories_desc'] = 'Manage your categories with create, edit, move, clone or delete.<br />
@@ -318,48 +307,25 @@ $txt['pmx_categorie_global'] = 'Disable global use:';
 $txt['pmx_categorie_request'] = 'Disable category request:';
 
 $txt['pmx_check_catelcmode'] = 'Hide the category until ECL is accepted:';
-$txt['pmx_cat_eclcheckhelp'] = 'If you have the ECL mode enabled and the category is visibe for Guests, he is not shown until ECL is accepted.
-	If ECL mode not enabled, this settings is ignored.';
 $txt['pmx_check_catelcbots'] = 'Hide the category also for spider:';
-$txt['pmx_cat_eclcheckbotshelp'] = 'Is the category visible for Guests, he is also visible for spider (like Google) even is the ECL mode enabled.
-	To hide the category also for spiders, enable these option.';
 
 $txt['pmx_check_artelcmode'] = 'Hide the article until ECL is accepted:';
-$txt['pmx_art_eclcheckhelp'] = 'If you have the ECL mode enabled and the article is visible for Guests, he is not shown until ECL is accepted.
-	If ECL mode not enabled, this settings is ignored.';
 $txt['pmx_check_artelcbots'] = 'Hide the article also for spider:';
-$txt['pmx_art_eclcheckbotshelp'] = 'Is the article visible for Guesta, he is also visible for spider (like Google) even is the ECL mode enabled.
-	To hide the article also for spiders, enable these option.';
-
-// edit help
-$txt['pmx_categories_groupshelp'] = 'Choose your membergroups that will able to see this category.<br />
-	You can also use <b>deny group</b>. This is useful when a user is in more than one group, but one of the groups should not see the category.<br />
-	To toggle between deny groups and access groups, hold down the <b>Ctrl Key</b> and <b>double click</b> on the item.
-	If the group a deny group,  you see the deny symbol <b>^</b> before the group name.';
-$txt['pmx_categories_sorthelp'] = 'You can sort the articles in this category with variable values.
-	If you choice more then one sort option, these are logically XOR-ed (the result is true, if <b>one</b> option true, else the result is false).<br />
-	To select more then one sort option, hold down the <b>Ctrl Key</b> and click on the items.
-	To toggle between ascending and descending sort, hold down the <b>Ctrl Key</b> and <b>double click</b> the item.
-	For a descending sort the symbol <b>^</b> is shown before the sort option.';
-$txt['pmx_categories_inherithelp'] = 'if checked, the category permissions is inherit to the article.
-	This is done even, if the permission on the article are higher as on the category.';
-$txt['pmx_categories_gloablcathelp'] = 'If you disable a category for global use, the category is invisible for Members in the Article Writer and the Article Moderator group.';
-$txt['pmx_categorie_requesthelp'] = 'If you check this option, only a Forum Admin and a Portal Admin can request these category.';
 
 // common edit for Blocks, Articles, Categories
+$txt['pmx_edit_title_helpalign'] = 'Click to set Title align ';
 $txt['pmx_editblock'] = 'Edit Block ';
 $txt['pmx_edit_title'] = 'Title:';
 $txt['pmx_edit_title_lang'] = 'Language:';
 $txt['pmx_edit_title_align'] = 'Align:';
 $txt['pmx_edit_pagename'] = 'Page name:';
-$txt['pmx_edit_pagenamehelp'] = 'You can use any name with the chars <b>a-z, A-Z, 0-9</b>, underscore(<b>_</b>), dot(<b>.</b>) and hyphen(<b>-</b>).';
 $txt['pmx_edit_titleicon'] = 'Title icon:';
 $txt['pmx_edit_no_icon'] = 'no icon';
 $txt['pmx_edit_content'] = 'Create or edit the content';
+$txt['pmx_settings_deviceshelp'] = 'Select the type of device on which the panel is to be displayed.';
 
 $txt['pmx_block_move_error'] = 'You can\'t move the block to itself !';
 $txt['namefielderror'] = 'The input field for "%s" is empty !';
-$txt['pmx_edit_title_helpalign'] = 'Click to set Title align ';
 $txt['pmx_edit_title_align_types'] = array(
 	'left' => 'Left',
 	'center' => 'Center',
@@ -371,7 +337,6 @@ $txt['pmx_status'] = 'Status';
 $txt['pmx_options'] = 'Options';
 $txt['pmx_functions'] = 'Functions';
 $txt['pmx_edit_titles'] = 'Edit title settings';
-$txt['pmx_edit_titlehelp'] = 'Enter a title for each language you have.';
 $txt['pmx_toggle_language'] = 'Click to toggle between languages';
 
 $txt['pmx_edit_visuals'] = 'Visual settings and CSS classes';
@@ -391,10 +356,10 @@ $txt['pmx_collapse_mode'] = array(
 	1 => 'collapsed',
 	2 => 'expanded');
 
-$txt['pmx_edit_cssfilename'] = 'CSS File:';
+$txt['pmx_edit_cssfilename'] = 'Custom CSS File:';
 $txt['pmx_edit_usedclass_type'] = 'Type name';
 $txt['pmx_edit_usedclass_style'] = 'Assigned style class';
-$txt['pmx_edit_canhavecssfile'] = 'Select a cssfile or leave blank';
+$txt['pmx_edit_canhavecssfile'] = 'Select a custom cssfile or leave blank';
 $txt['pmx_edit_nocss_class'] = '[not defined for Theme %s]';
 
 $txt['pmx_edit_innerpad'] = 'Inner padding:';
@@ -402,7 +367,6 @@ $txt['pmx_pixel'] = ' Pixel';
 
 $txt['pmx_htmlsettings_title'] = 'Html block settings';
 $txt['pmx_html_teaser'] = 'Enable the html teaser:';
-$txt['pmx_html_teasehelp'] = 'You can insert a teaser mark in the html content. To do this, set the cursor to a suitable tease position, then click on the <b>Pagebreak</b> icon @@ in the editor.';
 
 $txt['pmx_teasemode'] = array(
 	0 => 'words',
@@ -414,4 +378,5 @@ $txt['pmx_blocks_blocktype'] = 'Select the Blocktype:';
 $txt['pmx_add_new_articletype'] = 'Add new Article';
 $txt['pmx_articles_articletype'] = 'Select the Articletype:';
 $txt['pmx_content_print'] = 'Enable content printing:';
+$txt['close_window'] = 'Close window';
 ?>

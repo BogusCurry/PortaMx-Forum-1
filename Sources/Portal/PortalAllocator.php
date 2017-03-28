@@ -8,7 +8,7 @@
  * file PortaMxAllocator.php
  * The allocator for the Portal.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

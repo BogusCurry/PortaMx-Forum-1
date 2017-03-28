@@ -7,7 +7,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -177,8 +177,8 @@ function template_main()
 		{
 			echo '
 					<div class="board_icon"><a href="'. $context['linktree'][count($context['linktree'])-1]['url'] .'"'. (!empty($context['have_new_topics']) ? ' class="board_on"' : ' class="board_off"') .'></a></div>
-					<div class="info">', $context['topics_headers']['subject'], ' / ', $context['topics_headers']['starter'], '</div>
-					<div class="board_stats centertext">', $context['topics_headers']['replies'], ' / ', $context['topics_headers']['views'], '</div>
+					<div class="info">', $context['topics_headers']['subject'], ' /<br />', $context['topics_headers']['starter'], '</div>
+					<div class="board_stats centertext">', $context['topics_headers']['replies'], ' /<br />', $context['topics_headers']['views'], '</div>
 					<div class="lastpost">', $context['topics_headers']['last_post'], '</div>';
 
 			// Show a "select all" box for quick moderation?

@@ -9,7 +9,7 @@
  * AdminBlocks reached all Posts from Blocks Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -445,38 +445,33 @@ function Portal_AdminBlocks()
 
 					// add a change date to config array
 					$_POST['config']['created'] = time();
+					$_POST['content'] = PortaMx_makeSafeContent($_POST['content'], $_POST['blocktype']); 
 
 					// blocktype change?
 					if(!empty($_POST['chg_blocktype']))
 					{
-						if(isset($_POST['content']) && PortaMx_makeSafeContent($_POST['content']) != '')
+						if(!empty($_POST['content']))
 						{
 							// convert html/script to bbc
 							if($_POST['blocktype'] == 'bbc_script' && in_array($_POST['contenttype'], array('html', 'script')))
 							{
-								$_POST['content'] = PortaMx_SmileyToBBC($_POST['content']);
-								if(preg_match_all('/<a[^>]*>[^<]*(<img[^>]*>)*<\/a>/U', $_POST['content'], $match, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) > 0)
-									foreach($match as $data)
-									{
-										$data[1][0] = preg_replace('/\sid=\"[^\"]*\"/', '', $data[1][0]);
-										$_POST['content'] = substr_replace($_POST['content'], $data[1][0], strpos($_POST['content'], $data[0][0]), strlen($data[0][0]));
-									}
 								// replace with/height styles
 								if(preg_match_all('/<img.*style=\"[^\"]*\"[^>]*>/U', $_POST['content'], $match, PREG_SET_ORDER) > 0)
+								{
 									foreach($match as $data)
 										$_POST['content'] = str_replace($data[0], str_replace(array('style="', ': ', 'px; ', 'px;"'), array('', '="', '" ', '"'), $data[0]), $_POST['content']);     
+								}
 
 								require_once($sourcedir . '/Subs-Editor.php');
 								$modSettings['smiley_enable'] = true;
-								$user_info['smiley_set'] = 'portamx';
-								$_POST['content'] = html_to_bbc($_POST['content']);
+								$_POST['content'] = html_to_bbc(PortaMx_SmileyToBBC($_POST['content']));
 							}
 
 							// convert bbc to html/script
 							elseif($_POST['contenttype'] == 'bbc_script' && in_array($_POST['blocktype'], array('html', 'script')))
 							{
 								unset($context['lbimage_data']);
-								$_POST['content'] = PortaMx_BBCsmileys(parse_bbc(PortaMx_makeSafeContent($_POST['content'], $_POST['contenttype']), false));
+								$_POST['content'] = parse_bbc($_POST['content'], true);
 								$_POST['content'] = str_replace(array('<hr>', '<br>'), array('<hr />', '<br />'), $_POST['content']);
 								$_POST['content'] = preg_replace_callback('/<\/[^>]*>|<[^\/]*\/>|<ul[^>]*>|<ol[^>]*>/', create_function('$matches', 'return $matches[0] ."\n";'), $_POST['content']);
 							}
@@ -492,25 +487,23 @@ function Portal_AdminBlocks()
 						$id = $_POST['id'];
 					}
 
-					// save data
+					// Converting content data
 					if(empty($_POST['move_block']) && (!empty($_POST['save_edit']) || !empty($_POST['save_edit_continue']) || !empty($_POST['chg_blocktype'])))
 					{
 						if($_POST['blocktype'] == 'php' && $_POST['contenttype'] == 'php')
 							pmxPHP_convert();
 
-						// modify html blocks for highslide
+						// modify html/script blocks for Lightbox and correct smiley path
 						elseif($_POST['blocktype'] == 'html' || $_POST['blocktype'] == 'script')
 						{
 							if(isset($_POST['content']))
 							{
-								$_POST['content'] = str_replace('/ckeditor/../Smileys/', '/Smileys/', $_POST['content']);
-								if(preg_match_all('/<img[^c]*class?=?[^r]*resized[^\"]*\"[^>]*>/U', $_POST['content'], $match) == 0)
+								if(preg_match_all('~<img[^>]*>~', $_POST['content'], $match) > 0)
 								{
-									if(preg_match_all('~<img[^>]*>~', $_POST['content'], $match) > 0)
+									foreach($match[0] as $key => $val)
 									{
-										foreach($match[0] as $key => $val)
-											if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/class[^r]*resized[^\"]*\"/', $val, $tmp) == 0)
-												$_POST['content'] = str_replace($val, str_replace('<img', '<img class="bbc_img resized"', $val), $_POST['content']);
+										if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/<img[^c]*class?=?[^r]*resized[^\"]*\"[^>]*>/U', $val) == 0)
+											$_POST['content'] = str_replace($val, str_replace('<img', '<img class="bbc_img resized"', $val), $_POST['content']);
 									}
 								}
 								$_POST['content'] = preg_replace('/'. preg_quote(' oncontextmenu="return false"') .'/', '', $_POST['content']);
@@ -518,8 +511,6 @@ function Portal_AdminBlocks()
 							else
 								$_POST['content'] = '';
 						}
-						elseif($_POST['blocktype'] != 'shoutbox')
-							$_POST['content'] = isset($_POST['content']) ? PortaMx_makeSafeContent($_POST['content'], $_POST['blocktype']) : '';
 
 						$block = array(
 							'id' => $_POST['id'],
@@ -530,7 +521,7 @@ function Portal_AdminBlocks()
 							'blocktype' => $_POST['blocktype'],
 							'acsgrp' => (!empty($_POST['acsgrp']) ? implode(',', $_POST['acsgrp']) : ''),
 							'config' => json_encode($_POST['config'], true),
-							'content' => $_POST['content'],
+							'content' => (isset($_POST['content']) ? $_POST['content'] : ''),
 						);
 
 						$id = $_POST['id'];

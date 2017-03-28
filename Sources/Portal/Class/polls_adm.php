@@ -8,7 +8,7 @@
  * file polls_adm.php
  * Admin Systemblock polls
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -63,7 +63,7 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define additional classnames and styles
 		$used_classdef = $this->block_classdef;
@@ -85,12 +85,13 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_input">
-								<span>'. $txt['pmx_select_polls'] .'</span>
-								<img class="info_toggle" style="padding:0 5px;" onclick=\'Show_help("pmxPOLLH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />';
+								<span>&nbsp;'. $txt['pmx_select_polls'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_polls_hint" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+								</span>';
 
 		if(!empty($this->smf_polls))
 		{
@@ -106,10 +107,9 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 		}
 		else
 			echo '
-								<div class="tborder adm_w90" style="margin-top:25px; height:1.3em;">'. $txt['pmx_no_polls'] .'</div>';
+								<br /><div class="tborder adm_w90" style="margin-top:25px; height:1.3em;">'. $txt['pmx_no_polls'] .'</div>';
 
 		echo '
-								<div id="pmxPOLLH01" class="info_frame" style="margin-top:5px;">'. $txt['pmx_polls_hint'] .'</div>
 							</div>
 							<input type="hidden" name="config[show_sitemap]" value="0" />
 						</div>';

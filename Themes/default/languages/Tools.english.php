@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Tools
+// Version: 1.0 RC2; Tools
 
 // lightbox messages.
 $txt['lightbox_help'] = 'Click here or outside this window to close.';

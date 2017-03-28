@@ -8,7 +8,7 @@
  * file Portal.php
  * The Portal Main.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; EclPrivacynotice
+// Version: 1.0 RC2; EclPrivacynotice
 
 /**
 	Additional informations for this file format:

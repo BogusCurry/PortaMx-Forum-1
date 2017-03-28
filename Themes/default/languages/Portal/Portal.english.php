@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Portal
+// Version: 1.0 RC2; Portal
 
 /**
  * PortaMx Forum
@@ -91,13 +91,13 @@ $txt['pmx_admSet_desc_panels'] = 'Configure the panel setting.';
 $txt['pmx_admSet_desc_control'] = 'Configure the Manager control settings.';
 $txt['pmx_admSet_desc_access'] = 'Configure the PortaMx Admin, PortaMx Moderator and the Article writer access settings.';
 
-$txt['pmx_extension'] = 'Portal Management';
+$txt['pmx_extension'] = 'Portal';
+$txt['pmx_ext_center'] = 'Portal Center';
 $txt['pmx_settings'] = 'Settings Manager';
 $txt['pmx_blocks'] = 'Block Manager';
 $txt['pmx_adm_settings'] = 'Portal Settings Manager';
 $txt['pmx_adm_blocks'] = 'Portal Block Manager';
 $txt['permissionname_manage_portamx'] = 'Moderate the Portal Block Manager';
-$txt['permissionhelp_manage_portamx'] = 'With this permission any members of this group can access the Portal Block Manager moderation.';
 
 $txt['pmx_categories'] = 'Category Manager';
 $txt['pmx_articles'] = 'Article Manager';
@@ -118,7 +118,6 @@ $txt['pmx_hs_noimage'] = 'Image not exists';
 $txt['pmx_hs_imagename'] = 'Name: ';
 $txt['pmx_hs_helpttext'] = 'Click here or outside this window to close.';
 $txt['pmx_hs_albumLabel'] = 'Image %1 of %2';
-
 
 // special PHP type blocks/articles
 $txt['pmx_edit_content_init'] = ' (INIT PART)';
@@ -185,6 +184,7 @@ $txt['pmx_cbt_locked'] = 'Locked';
 $txt['download'] = 'Download';
 $txt['pmx_download_empty'] = '<strong>No downloads available</strong>';
 $txt['pmx_kb_downloads'] = 'Kb, Downloads: ';
+$txt['pmx_dl_noboard'] = 'None';
 
 // polls
 $txt['pmx_poll_novote_opt'] = 'You didn\'t select a vote option.';

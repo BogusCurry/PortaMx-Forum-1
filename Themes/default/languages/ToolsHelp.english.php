@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; ToolsHelp
+// Version: 1.0 RC2; ToolsHelp
 
 global $helptxt;
 

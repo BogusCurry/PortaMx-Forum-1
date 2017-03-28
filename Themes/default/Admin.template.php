@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -781,7 +781,7 @@ function template_show_settings()
 		{
 			$is_open = true;
 			echo '
-							<div class="windowbg2">
+							<div class="windowbg2', in_array($config_var['name'], array('sef_enabled', 'loadavg_enable', 'signature_enable')) ? ' add_top_border' : '', '">
 								<dl class="settings">';
 		}
 
@@ -1579,7 +1579,7 @@ function template_clean_cache_button_below()
 					<div class="cat_bar">
 						<h3 class="catbg">', $txt['maintain_cache'], '</h3>
 					</div>
-					<div class="windowbg">
+					<div class="information">
 						<form action="', $scripturl, '?action=admin;area=maintain;sa=routine;activity=cleancache" method="post" accept-charset="', $context['character_set'], '">
 							<p>', $txt['maintain_cache_info'], '</p>
 							<span><input type="submit" value="', $txt['maintain_run_now'], '" class="button_submit"></span>

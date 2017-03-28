@@ -8,7 +8,7 @@
  * file shoutbox.php
  * Systemblock shoutbox
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -248,7 +248,7 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 	*/
 	function pmxc_ShoutSetup()
 	{
-		global $context, $modSettings, $txt;
+		global $context, $modSettings, $user_info, $txt;
 
 		// check if member can shout
 		if(isset($this->cfg['config']['settings']['shout_acs']))
@@ -340,10 +340,10 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 			$txt['pmx_shoutbbc_colorWhite'] => '#ffffff',
 		);
 
-		// setup the PortaMx smileys
+		// setup the  smileys
 		$codes = array('(:1)', '(:2)', '(:3)', '(:4)', '(:5)', '(:6)', '(:7)', '(:8)', '(:9)', '(:0)', '(;1)', '(;2)', '(;3)', '(;4)', '(;5)', '(;6)', '(;7)', '(;8)', '(;9)', '(;0)');
 		$files = array('smiley', 'wink', 'cheesy', 'grin', 'angry', 'sad', 'shocked', 'cool', 'huh', 'rolleyes', 'tongue', 'embarrassed', 'lipsrsealed', 'undecided', 'kiss', 'cry', 'evil', 'azn',  'afro', 'laugh');
-		$smPath = $modSettings['smileys_url'] . '/portamx/';
+		$smPath = $modSettings['smileys_url'] . '/'. $user_info['smiley_set'] .'/';
 		foreach($codes as $i => $code)
 			$this->smileys[] = array(
 				'code' => $code,

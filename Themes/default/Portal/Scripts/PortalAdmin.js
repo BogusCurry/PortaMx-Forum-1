@@ -7,7 +7,7 @@
  * file PortalAdmin.js
  * Common Javascript functions
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // data objects
@@ -60,7 +60,7 @@ function setNewIcon(elm, event)
 	if(!isMouseClick)
 	{
 		TtlpopupInit();
-		DropDownElm = elm;
+		DropDownElm = elm
 		isMouseClick = event['type'] == 'click';
 
 		if(FirstSelect == false)
@@ -87,7 +87,8 @@ function setNewIcon(elm, event)
 		// show the dropdown
 		if(isIE)
 			elm.style.marginTop = '1px';
-		$(elm).slideDown(200, function(){elm.scrollTop = offsetElement;elm.focus();});
+		$(elm).slideDown(0, function(){elm.scrollTop = offsetElement;elm.focus();});
+		document.getElementById('iconDD').blur();
 
 		// add EventHandler for click outside
 		if(!haveEvent)
@@ -129,7 +130,8 @@ function updIcon(elm)
 		document.getElementById('post_image').value = newIcon;
 
 	// collapse dropdown & init
-	$(DropDownElm).slideUp(200);
+	$(DropDownElm).slideUp(0);
+	document.getElementById('iconDD').blur();
 	TtlpopupInit();
 }
 
@@ -158,7 +160,8 @@ function closeTTLDropDown(e)
 				document.removeEventListener('click', closeTTLDropDown);
 
 				// collapse dropdown
-				$(DropDownElm).slideUp(200);
+				$(DropDownElm).slideUp(0);
+				document.getElementById('iconDD').blur();
 				// init for the next run
 				TtlpopupInit();
 			}

@@ -7,7 +7,7 @@
  * file PortalUser.js
  * Javascript functions for User Block
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // show the server time with users offset

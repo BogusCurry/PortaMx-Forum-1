@@ -7,7 +7,7 @@
  * file PortalPopup.js
  * Common Javascript functions
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // data objects

@@ -7,7 +7,7 @@
  * file Portal.js
  * Common Javascript functions
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // Print the block content
@@ -247,6 +247,7 @@ function eResizeFunc(isEvent)
 		}
 	}
 	fSetContentHeight();
+	portamx_EqualHeight(null);
 }
 
 // set div's to equal height
@@ -254,7 +255,7 @@ function portamx_EqualHeight(skipsetTop)
 {
 	if(!pmx_onForum && !ReloadCalled)
 	{
-		if(typeof skipsetTop === 'undefined' || skipsetTop === true || skipsetTop !== 0)
+		if(skipsetTop !== null && (typeof skipsetTop === 'undefined' || skipsetTop === true || skipsetTop !== 0))
 		{
 			// check if resize need..
 			eResizeFunc(true);
@@ -280,7 +281,7 @@ function portamx_EqualHeight(skipsetTop)
 		}
 	}
 
-	if(skipsetTop !== 0 && !skipsetTop && !pmx_onForum)
+	if(skipsetTop !== null && skipsetTop !== 0 && !skipsetTop && !pmx_onForum)
 		window.setTimeout('pmx_RestoreScrollTop()', 150);
 }
 

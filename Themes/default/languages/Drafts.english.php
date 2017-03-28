@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Drafts
+// Version: 1.0 RC2; Drafts
 
 // profile
 $txt['drafts_show'] = 'Show Drafts';

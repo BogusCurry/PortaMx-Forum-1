@@ -7,7 +7,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -2999,7 +2999,7 @@ function template_profile_theme_pick()
 								<strong>', $txt['current_theme'], ':</strong>
 							</dt>
 							<dd>
-								', $context['member']['theme']['name'], ' [<a href="', $scripturl, '?action=theme;sa=pick;u=', $context['id_member'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['change'], '</a>]
+								', $context['member']['theme']['name'], ' [<a href="', $scripturl, '?action=themes;sa=pick;u=', $context['id_member'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['change'], '</a>]
 							</dd>';
 }
 
@@ -3015,12 +3015,12 @@ function template_profile_smiley_pick()
 								<strong><label for="smiley_set">', $txt['smileys_current'], ':</label></strong>
 							</dt>
 							<dd>
-								<select name="smiley_set" id="smiley_set" onchange="document.getElementById(\'smileypr\').src = this.selectedIndex == 0 ? \'', $settings['images_url'], '/blank.png\' : \'', $modSettings['smileys_url'], '/\' + (this.selectedIndex != 1 ? this.options[this.selectedIndex].value : \'', !empty($settings['smiley_sets_default']) ? $settings['smiley_sets_default'] : $modSettings['smiley_sets_default'], '\') + \'/smiley.gif\';">';
+								<select name="smiley_set" id="smiley_set" onchange="document.getElementById(\'smileypr\').src = \'', $modSettings['smileys_url'] ,'/\' + this.options[this.selectedIndex].value + \'/smiley.gif\';">';
 	foreach ($context['smiley_sets'] as $set)
 		echo '
 									<option value="', $set['id'], '"', $set['selected'] ? ' selected' : '', '>', $set['name'], '</option>';
 	echo '
-								</select> <img id="smileypr" class="centericon" src="', $context['member']['smiley_set']['id'] != 'none' ? $modSettings['smileys_url'] . '/' . ($context['member']['smiley_set']['id'] != '' ? $context['member']['smiley_set']['id'] : (!empty($settings['smiley_sets_default']) ? $settings['smiley_sets_default'] : $modSettings['smiley_sets_default'])) . '/smiley.gif' : $settings['images_url'] . '/blank.png', '" alt=":)"  style="padding-left: 20px;">
+								</select> <img id="smileypr" class="centericon" src="', $modSettings['smileys_url'] . '/' . $context['member']['smiley_set']['id'] . '/smiley.gif', '" alt=":)"  style="padding-left: 20px;">
 							</dd>';
 }
 

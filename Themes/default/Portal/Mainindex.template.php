@@ -8,7 +8,7 @@
  * file Mainindex.template.php
  * Template for the Maininxdex (Forumpage).
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -44,7 +44,7 @@ function template_portal_above()
 
 		echo 'display:'. (!empty($options['collapse_head']) ? 'none;' : 'block;') .'">';
 
-		PortaMx_ShowBlocks('head');
+		PortaMx_ShowBlocks('head', 1);
 
 		echo '
 				</div>
@@ -65,7 +65,7 @@ function template_portal_above()
 			echo '
 						<div id="xbarleft" title="'. (empty($options['collapse_left']) ? $txt['pmx_hidepanel'] : $txt['pmx_showpanel']) . $txt['pmx_block_panels']['left'] .'" onclick="leftPanel.toggle()"'. (!empty($context['pmx']['settings']['left_panel']['collapse']) ? ' style="display:none"' : '') .'></div>';
 
-		Show_Block('Left', 1);
+		Show_Block('Left');
 
 		echo '
 					</div>';
@@ -98,7 +98,7 @@ function template_portal_above()
 
 		echo 'display:'. (!empty($options['collapse_top']) ? 'none;' : 'block;') .'">';
 
-		PortaMx_ShowBlocks('top');
+		PortaMx_ShowBlocks('top', 1);
 
 		echo '
 							</div>
@@ -158,7 +158,7 @@ function template_portal_below()
 			echo '
 						<div id="xbarright" title="'. (empty($options['collapse_right']) ? $txt['pmx_hidepanel'] : $txt['pmx_showpanel']) . $txt['pmx_block_panels']['right'] .'" onclick="rightPanel.toggle()"'. (!empty($context['pmx']['settings']['right_panel']['collapse']) ? ' style="display:none"' : '') .'></div>';
 
-		Show_Block('Right', 1);
+		Show_Block('Right');
 
 		echo '
 					</div>';
@@ -216,7 +216,7 @@ function Show_Block($side)
 	echo '
 						<div id="upshrink'. $side .'Bar" style="max-width:'. strval(intval($context['pmx']['settings'][$lcside .'_panel']['size']) + intval($context['pmx']['settings']['panelpad'])) .'px;display:' .(!empty($options['collapse_'. $lcside]) ? 'none;' : 'block;') .'">';
 
-	PortaMx_ShowBlocks($lcside, 1);
+	PortaMx_ShowBlocks($lcside);
 
 	echo '
 						</div>';

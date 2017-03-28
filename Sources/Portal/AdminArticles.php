@@ -9,7 +9,7 @@
  * AdminArticles reached all Posts from Articles Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -196,7 +196,7 @@ function Portal_AdminArticles()
 									  array(
 											'id' => $id,
 											'config' => json_encode($cfg, true))
-                                    );
+									);
 								}
 
 								// update cat id
@@ -449,34 +449,28 @@ function Portal_AdminArticles()
 						}
 					}
 
-					if(isset($_POST['content']) && PortaMx_makeSafeContent($_POST['content']) != '')
+					if(isset($_POST['content']) && PortaMx_makeSafeContent($_POST['content'], $_POST['ctype']))
 					{
 						// convert html/script to bbc
 						if($_POST['ctype'] == 'bbc_script' && in_array($_POST['contenttype'], array('html', 'script')))
 						{
-							$_POST['content'] = PortaMx_SmileyToBBC($_POST['content']);
-							if(preg_match_all('/<a[^>]*>[^<]*(<img[^>]*>)*<\/a>/U', $_POST['content'], $match, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) > 0)
+							// replace with/height styles
+							if(preg_match_all('/<img.*style=\"[^\"]*\"[^>]*>/U', $_POST['content'], $match, PREG_SET_ORDER) > 0)
+							{
 								foreach($match as $data)
-								{
-									$data[1][0] = preg_replace('/\sid=\"[^\"]*\"/', '', $data[1][0]);
-									$_POST['content'] = substr_replace($_POST['content'], $data[1][0], strpos($_POST['content'], $data[0][0]), strlen($data[0][0]));
-								}
-								// replace with/height styles
-								if(preg_match_all('/<img.*style=\"[^\"]*\"[^>]*>/U', $_POST['content'], $match, PREG_SET_ORDER) > 0)
-									foreach($match as $data)
-										$_POST['content'] = str_replace($data[0], str_replace(array('style="', ': ', 'px; ', 'px;"'), array('', '="', '" ', '"'), $data[0]), $_POST['content']);     
+									$_POST['content'] = str_replace($data[0], str_replace(array('style="', ': ', 'px; ', 'px;"'), array('', '="', '" ', '"'), $data[0]), $_POST['content']);     
+							}
 
 							require_once($sourcedir . '/Subs-Editor.php');
 							$modSettings['smiley_enable'] = true;
-							$user_info['smiley_set'] = 'portamx';
-							$_POST['content'] = html_to_bbc($_POST['content']);
+							$_POST['content'] = html_to_bbc(PortaMx_SmileyToBBC($_POST['content']));
 						}
 
 						// convert bbc to html/script
 						elseif($_POST['contenttype'] == 'bbc_script' && in_array($_POST['ctype'], array('html', 'script')))
 						{
 							unset($context['lbimage_data']);
-							$_POST['content'] = PortaMx_BBCsmileys(parse_bbc(PortaMx_makeSafeContent($_POST['content'], $_POST['contenttype']), false));
+							$_POST['content'] = parse_bbc($_POST['content'], true);
 							$_POST['content'] = str_replace(array('<hr>', '<br>'), array('<hr />', '<br />'), $_POST['content']);
 							$_POST['content'] = preg_replace_callback('/<\/[^>]*>|<[^\/]*\/>|<ul[^>]*>|<ol[^>]*>/', create_function('$matches', 'return $matches[0] ."\n";'), $_POST['content']);
 						}
@@ -485,18 +479,17 @@ function Portal_AdminArticles()
 						elseif($_POST['ctype'] == 'php' && $_POST['contenttype'] == 'php')
 							pmxPHP_convert();
 
-						elseif($_POST['ctype'] == 'html' && $_POST['contenttype'] == 'html')
+						if(in_array($_POST['ctype'], array('html', 'script')))
 						{
-							$_POST['content'] = str_replace('/ckeditor/../Smileys/', '/Smileys/', $_POST['content']);
 							if(preg_match_all('~<img[^>]*>~', $_POST['content'], $match) > 0)
 							{
 								foreach($match[0] as $key => $val)
-									if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/class[^r]*resized[^\"]*\"/', $val, $tmp) == 0)
-									{
-										$endChr = substr($val, -2) !== '/>' ? array('>', '/>') : array('/>', '/>');
-										$_POST['content'] = str_replace($val, str_replace($endChr[0], ' class="bbc_img resized"'. $endChr[1], $val), $_POST['content']);
-									}
+								{
+									if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/<img[^c]*class?=?[^r]*resized[^\"]*\"[^>]*>/U', $val) == 0)
+										$_POST['content'] = str_replace($val, str_replace('<img', '<img class="bbc_img resized"', $val), $_POST['content']);
+								}
 							}
+							$_POST['content'] = preg_replace('/'. preg_quote(' oncontextmenu="return false"') .'/', '', $_POST['content']);
 						}
 					}
 

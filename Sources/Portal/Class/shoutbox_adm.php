@@ -8,7 +8,7 @@
  * file shoutbox_adm.php
  * Admin Systemblock shoutbox_adm
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -37,7 +37,7 @@ class pmxc_shoutbox_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -57,7 +57,7 @@ class pmxc_shoutbox_adm extends PortaMxC_SystemAdminBlock
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
 								<h4 class="catbg catbg_grid">
-									<span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
+									<span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
 								</h4>
 							</div>
 
@@ -66,11 +66,10 @@ class pmxc_shoutbox_adm extends PortaMxC_SystemAdminBlock
 								<div><input onkeyup="check_numeric(this);" size="3" type="text" name="config[settings][maxlen]" value="' .(isset($this->cfg['config']['settings']['maxlen']) ? $this->cfg['config']['settings']['maxlen'] : '100'). '" /></div>
 							</div>
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_shoutbox_maxshouts'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxSBXH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_shoutbox_maxshouts'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_shoutbox_maxshouthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="3" type="text" name="config[settings][maxshouts]" value="' .(isset($this->cfg['config']['settings']['maxshouts']) ? $this->cfg['config']['settings']['maxshouts'] : '50'). '" /></div>
-								<div id="pmxSBXH01" class="info_frame" style="margin-top:2px;">'. $txt['pmx_shoutbox_maxshouthelp'] .'</div>
 							</div>
 							<div class="adm_input">
 								<span class="adm_w80">'. $txt['pmx_shoutbox_maxheight'] .'</span>

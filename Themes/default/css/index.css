@@ -46,6 +46,10 @@ textarea, textarea.editor {
 .sceditor-container textarea, .sceditor-container textarea:focus  {
 	box-shadow: none;
 }
+.sceditor-container {
+	border-radius: 6px;
+	border-bottom-width: 6px !important;
+}
 #quick_edit_body_container textarea,
 .move_topic textarea,
 dd textarea {
@@ -759,7 +763,7 @@ img.sort, .sort {
 	border: 1px solid #777;
 	text-shadow: 0 -1px 1px #254f7a;
 	box-sizing: border-box;
-	background-image: linear-gradient(#5f9cc5,#4e77c0);
+	background-image: linear-gradient(to bottom, #5f9cc5,#4e77c0);
 	font-weight: bold;
 	color: #fff;
 }
@@ -769,7 +773,7 @@ img.sort, .sort {
 	background: #2567ab;
 	text-shadow: 0 1px 0 #254f7a;
 	box-sizing: border-box;
-	background-image: linear-gradient(#396b9e, #2567ab);
+	background-image: linear-gradient(to bottom, #396b9e, #2567ab);
 	color: #fff;
 	cursor: pointer;
 	text-decoration: none;
@@ -1272,7 +1276,7 @@ ul li.greeting {
 /* footer section */
 #footer {
 	background: #5e87b0;
-	background-image: linear-gradient(#5e87b0, #3e6790);
+	background-image: linear-gradient(to bottom, #5e87b0, #3e6790);
 	color: #fff;
 	margin: 0 -1px 0 -1px;
 	padding: 8px 12px 12px 12px;
@@ -1472,9 +1476,15 @@ ul li.greeting {
 	float: right;
 	font-size: 1em;
 	background: none;
+	display: flex;
+	white-space: nowrap;
+}
+.jump_to {
+	vertical-align: -2px;
+	margin-right: 5px;
 }
 #display_jump_to select {
-	margin: 0 -12px 0 0;
+	margin: 0 5px 0 0;
 	padding: 2px;
 }
 
@@ -2677,11 +2687,11 @@ dl.addrules dt.floatleft {
 	padding: 0 6px 6px 6px;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.5);
 	border: 1px solid #777;
-	border-radius: 7px 7px 3px 3px;
-	max-height: none!important; /* Is this declaration necessary? None is the default anyway. */
-	overflow: visible!important;
+	border-radius: 7px;
+	max-height: none !important;
+	overflow: visible !important;
 	background: #FFFFFF;
-	top: 15%;
+	top: 19%;
 	margin: 0 auto;
 }
 .popup_heading {
@@ -2697,10 +2707,9 @@ dl.addrules dt.floatleft {
 	max-height: 30em;
 	overflow: auto;
 	margin: 0;
-	padding: 10px 8px;
+	padding: 5px 8px 8px 8px;
 	border: 1px solid #bbb;
-	border-bottom: 1px solid #ddd;
-	border-radius: 6px 6px 2px 2px;
+	border-radius: 6px;
 	box-shadow: 0 -2px 3px rgba(0,0,0,0.15), 0 1px 1px rgba(255,255,255,0.2);
 }
 .generic_icons.hide_popup {
@@ -2881,10 +2890,8 @@ h3 .collapse {
 	background-position: -45px -45px;
 }
 .board_icon {
-	width: 5%;
-	text-align: center;
-	padding: 8px 0 0 0;
-	min-width: 60px;
+	padding: 8px 0 0 10px !important;
+	min-width: 55px;
 }
 .info {
 	width: 60%;
@@ -2910,7 +2917,7 @@ h3 .collapse {
 	margin: 3px 0 0;
 }
 .lastpost {
-	min-width: 220px;
+	min-width: 150px;
 	font-size: 0.9em;
 }
 .lastpost p {
@@ -2956,6 +2963,7 @@ span.postby {
 /* Info Center */
 #info_center {
 	clear: both;
+	padding: 8px;
 }
 #info_center .sub_bar {
 	border-top: 1px solid #ddd;
@@ -3108,17 +3116,19 @@ span.postby {
 	padding: 0 12px 0 4px;
 	line-height: 2em;
 }
-/* Should lose this before RC1. It's a kludge. Can be fixed by new image */
+/* Should lose this before RC2. It's a kludge. Can be fixed by new image */
 #topic_icons .floatleft img:first-child {
 	padding: 0 2px;
 }
 #message_index_jump_to_select {
 	font-size: 1em;
+	margin-top: 3px;
 	padding: 0;
 }
 /* This is a bit of a kludge too */
 #message_index_jump_to .button_submit {
 	margin-top: 3px;
+	margin-left: 15px;
 	padding: 1px 6px;
 }
 
@@ -3321,6 +3331,7 @@ div#pollmoderation {
 .messageicon {
 	float: left;
 	height: 18px;
+	margin-top: -2px;
 }
 .messageicon img {
 	padding: 0 !important;
@@ -3584,7 +3595,7 @@ div.cat_bar {
 	border-radius: 6px 6px 0 0;
 	text-shadow: 0 -1px 1px #254f7a;
 	box-sizing: border-box;
-	background-image: linear-gradient(#81a8ce,#5e87b0);
+	background-image: linear-gradient(to bottom, #7198be,#5e87b0);
 	margin-bottom: 0px;
 }
 .cat_bar h3 {
@@ -3673,6 +3684,16 @@ h3.titlebg, h4.titlebg, .titlebg, h3.subbg, h4.subbg, .subbg {
 	border-radius: 7px 7px 0 0;
 	margin: 0;
 	padding: 5px 9px 2px 9px;
+	box-sizing: border-box;
+}
+.top_information {
+	background: #F8F8F8;
+	overflow: auto;
+	padding-bottom: .5em;
+	border: 1px solid #ddd;
+	border-radius: 0 0 7px 7px;
+	margin: 0 0 10px 0;
+	padding: 5px 9px 5px 9px;
 	box-sizing: border-box;
 }
 .information {

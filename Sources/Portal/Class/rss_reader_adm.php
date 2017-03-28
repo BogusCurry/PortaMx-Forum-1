@@ -8,7 +8,7 @@
  * file rss_reader_adm.php
  * Admin Systemblock rss_reader
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -38,7 +38,7 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -55,41 +55,37 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
 								<h4 class="catbg catbg_grid">
-								<span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
+								<span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
 								</h4>
 							</div>
 
 							<div class="adm_input adm_sel">
-								<span class="adm_w80">'. $txt['pmx_rssreader_url'] .'
-									<img class="info_toggle" style="vertical-align:text-bottom;" onclick=\'Show_help("pmxRSSH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80" style="margin-bottom:5px;">&nbsp;'. $txt['pmx_rssreader_url'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_urlhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input class="adm_w90" type="text" name="config[settings][rssfeedurl]" value="' .(!empty($this->cfg['config']['settings']['rssfeedurl']) ? $this->cfg['config']['settings']['rssfeedurl'] : ''). '" />
 							</div>
-							<div id="pmxRSSH01" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_urlhelp'] .'</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_rssreader_timeout'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH02")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_timeout'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_timeouthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" style="width:10%;" type="text" name="config[settings][rsstimeout]" value="' .(!empty($this->cfg['config']['settings']['rsstimeout']) ? $this->cfg['config']['settings']['rsstimeout'] : '5'). '" /></div>
 							</div>
-							<div id="pmxRSSH02" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_timeouthelp'] .'</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_rssreader_usettl'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH03")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_usettl'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_usettlhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][usettl]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][usettl]" value="1"' .(!empty($this->cfg['config']['settings']['usettl']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
-							<div id="pmxRSSH03" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_usettlhelp'] .'</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_rssreader_maxitems'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH06a")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_maxitems'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssmaxitems_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" style="width:10%;" type="text" name="config[settings][rssmaxitems]" value="' .(!empty($this->cfg['config']['settings']['rssmaxitems']) ? $this->cfg['config']['settings']['rssmaxitems'] : ''). '" /></div>
-								<div id="pmxRSSH06a" class="info_frame" style="margin-top:2px;">'. $txt['pmx_rssmaxitems_help'] .'</div>
 							</div>
 
 							<div class="adm_input">
@@ -98,22 +94,20 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_pageindex_pagetop'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH07")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nnbsp;'. $txt['pmx_pageindex_pagetop'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_pageindex_tophelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][pgidxtop]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][pgidxtop]" value="1"' .(isset($this->cfg['config']['settings']['pgidxtop']) && !empty($this->cfg['config']['settings']['pgidxtop']) ? ' checked="checked"' : ''). ' /></div>
-								<div id="pmxRSSH07" class="info_frame" style="margin-top:4px;">'. $txt['pmx_pageindex_tophelp'] .'</div>
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_rssreader_cont_encode'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH04")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_cont_encode'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_cont_encodehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][cont_encode]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][cont_encode]" value="1"' .(!empty($this->cfg['config']['settings']['cont_encode']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
-							<div id="pmxRSSH04" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_cont_encodehelp'] .'</div>
 
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['pmx_rssreader_split'] .'</span>
@@ -128,13 +122,12 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_rssreader_showhead'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH05")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_showhead'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][showhead]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][showhead]" value="1"' .(!empty($this->cfg['config']['settings']['showhead']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
-							<div id="pmxRSSH05" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_help'] .'</div>
 
 							<div class="adm_input">
 								<span class="adm_w30">'. $txt['pmx_rssreader_name'] .'</span>
@@ -152,21 +145,19 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_input" style="padding-top:2px;">
-								<span class="adm_w80">'. sprintf($txt['pmx_adm_teaser'], $txt['pmx_teasemode'][intval(!empty($context['pmx']['settings']['teasermode']))]) .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH08")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. sprintf($txt['pmx_adm_teaser'], $txt['pmx_teasemode'][intval(!empty($context['pmx']['settings']['teasermode']))]) .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_adm_teasehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" style="width:10%;" type="text" name="config[settings][teaser]" value="' .(isset($this->cfg['config']['settings']['teaser']) ? $this->cfg['config']['settings']['teaser'] : ''). '" /></div>
-								<div id="pmxRSSH08" class="info_frame" style="margin-top:2px;">'. $txt['pmx_adm_teasehelp'] .'</div>
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_rssreader_delimages'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRSSH09")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_rssreader_delimages'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rssreader_delimagehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][delimage]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][delimage]" value="1"' .(!empty($this->cfg['config']['settings']['delimage']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
-							<div id="pmxRSSH09" class="info_frame" style="margin:2px 0px;">'. $txt['pmx_rssreader_delimagehelp'] .'</div>
 							<input type="hidden" name="config[show_sitemap]" value="0" />
 						</div>';
 

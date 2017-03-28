@@ -8,7 +8,7 @@
  * file AdminCategories.template.php
  * Template for the Categories Manager.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -248,14 +248,11 @@ function template_main()
 							<div id="pmxSetCatName" class="smalltext" style="width:280px;z-index:9999;margin-top:-29px;display:none;">
 								'. pmx_popupHeader('pmxSetCatName', $txt['pmx_categories_setname']) .'
 									<div style="float:left;width:140px; height:25px;">'. $txt['pmx_categories_name'] .':
-										<img class="info_toggle" onclick=\'Show_help("pmxBH11")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<a href="', $scripturl, '?action=helpadmin;help=pmx_edit_pagenamehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 									</div>
 									<span id="check.name.error" style="display:none;">'. sprintf($txt['namefielderror'], $txt['pmx_categories_name']) .'</span>
 									<div style="height:25px;">
 										<input id="check.name" style="width:160px;" onkeyup="check_requestname(this)" onkeypress="check_requestname(this)" type="text" value="" />
-									</div>
-									<div id="pmxBH11" class="info_frame" style="margin-top:25px;">'.
-										$txt['pmx_edit_pagenamehelp'] .'
 									</div>
 									<div style="text-align:right; height:20px;">
 										<input class="button_submit" type="button" value="'. $txt['pmx_update_save'] .'" onclick="pmxUpdateCatName()" />

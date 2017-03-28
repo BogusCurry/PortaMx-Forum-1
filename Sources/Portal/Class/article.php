@@ -8,7 +8,7 @@
  * file article.php
  * Systemblock Article
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -229,7 +229,7 @@ class pmxc_article extends PortaMxC_SystemBlock
 		{
 			if($article['ctype'] == 'bbc_script')
 			{
-				$article['content'] = PortaMx_BBCsmileys(parse_bbc($article['content']));
+				$article['content'] = parse_bbc($article['content'], true);
 				$tease = $article['config']['settings']['teaser'];
 			}
 

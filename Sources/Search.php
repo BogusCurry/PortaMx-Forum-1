@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if (!defined('PMX'))
@@ -18,7 +18,7 @@ if (!defined('PMX'))
 // This defines two version types for checking the API's are compatible with this version of PMX.
 $GLOBALS['search_versions'] = array(
 	// This is the forum version but is repeated due to some people rewriting $forum_version.
-	'forum_version' => 'PortaMx-Forum 1.0 RC1',
+	'forum_version' => 'PortaMx-Forum 1.0 RC2',
 	// This is the minimum version of PMX that an API could have been written for to work. (strtr to stop accidentally updating version on release)
 	'search_version' => strtr('PortaMx-Forum 2+1=Beta=5', array('+' => '.', '=' => ' ')),
 );

@@ -36,6 +36,8 @@ if(is_dir(fixPath($path))){
 		$temp = file_get_contents(fixPath($path) .'/index.php');
 		$temp = str_replace('Settings.php', '../Settings.php', $temp);
 		file_put_contents(fixPath($path).'/'. $name .'/index.php', $temp);
+		$temp = file_get_contents(fixPath($path) .'/.htaccess');
+		file_put_contents(fixPath($path).'/'. $name .'/.htaccess', $temp);
 		echo getSuccessRes();
 	}
   else

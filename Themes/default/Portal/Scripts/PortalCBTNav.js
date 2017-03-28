@@ -7,7 +7,7 @@
  * file PortalCBTNav.js
  * Javascript functions for CBT Navigator
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // Toggle for on board

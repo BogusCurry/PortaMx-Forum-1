@@ -8,7 +8,7 @@
  * @copyright 2017 Portamx
  * @license BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 function template_main()

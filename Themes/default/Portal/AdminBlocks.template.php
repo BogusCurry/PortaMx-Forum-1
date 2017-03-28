@@ -8,7 +8,7 @@
  * file AdminBlocks.template.php
  * Template for the Blocks Manager.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -439,15 +439,15 @@ echo '
 	}
 
 	// --------------------
-	// singleblock edit
+	// single block edit
 	// --------------------
 	elseif($context['pmx']['function'] == 'edit' || $context['pmx']['function'] == 'editnew')
 	{
 		echo '
 			<table class="pmx_table" style="table-layout:fixed;">
 				<tr>
-					<td style="text-align:center;padding-bottom:5px;">
-						<div class="cat_bar" style="border-bottom-left-radius:6px;border-bottom-right-radius:6px">
+					<td style="text-align:center;">
+						<div class="cat_bar">
 							<h3 class="catbg">
 							'. $txt['pmx_editblock'] .' '. $context['pmx']['RegBlocks'][$context['pmx']['editblock']->cfg['blocktype']]['description'] .'
 							</h3>

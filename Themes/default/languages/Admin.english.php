@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Admin
+// Version: 1.0 RC2; Admin
 
 global $settings, $scripturl;
 
@@ -258,6 +258,10 @@ $txt['errlog_no_entries'] = 'There are currently no error log entries.';
 
 $txt['theme_settings'] = 'Theme Settings';
 $txt['theme_current_settings'] = 'Current Theme';
+$txt['theme_settings_info'] = 'The settings page allows you to change settings specific to a theme. These settings include options such as the themes directory and URL information but
+	also options that affect the layout of a theme on your forum. Most themes will have a variety of user configurable settings, allowing you to adapt a theme
+	to suit your individual forum needs.';
+$txt['theme_modify'] = 'Browse files for a Theme, modify the Theme CSS or create a copy from the selected Theme.';
 
 $txt['dvc_your'] = 'Your Version';
 $txt['dvc_current'] = 'Current Version';

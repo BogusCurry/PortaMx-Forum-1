@@ -8,7 +8,7 @@
  * file cbt_navigator_adm.php
  * Admin Systemblock cbt_navigator (Categorie-Board-Topic)
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -57,7 +57,7 @@ class pmxc_cbt_navigator_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_input">

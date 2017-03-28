@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Help
+// Version: 1.0 RC2; Help
 
 global $helptxt;
 
@@ -181,10 +181,10 @@ $helptxt['theme_settings'] = '<strong>Theme Settings</strong><br>
 	The settings page allows you to change settings specific to a theme. These settings include options such as the themes directory and URL information but
 	also options that affect the layout of a theme on your forum. Most themes will have a variety of user configurable settings, allowing you to adapt a theme
 	to suit your individual forum needs.';
+
 $helptxt['smileys'] = '<strong>Smiley Center</strong><br>
 	Here you can add and remove smileys, and smiley sets. If a smiley is present in one set, it should be present in all sets - otherwise, it might
 	get confusing for your users using different sets.<br><br>
-
 	You are also able to edit message icons from here, if you have them enabled on the settings page.';
 $helptxt['calendar'] = '<strong>Manage Calendar</strong><br>
 	Here you can modify the current calendar settings as well as add and remove holidays that appear on the calendar.';

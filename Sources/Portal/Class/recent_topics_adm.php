@@ -8,7 +8,7 @@
  * file recent_topics_adm.php
  * Admin Systemblock recent_topics
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -37,7 +37,7 @@ class pmxc_recent_topics_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -52,12 +52,12 @@ class pmxc_recent_topics_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_pad">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_input adm_sel" style="margin-top:3px;">
-								<span>'. $txt['pmx_recent_boards'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRTH1")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span>&nbsp;'. $txt['pmx_recent_boards'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_recent_boards_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<select class="adm_w90" name="config[settings][recentboards][]" multiple="multiple" size="4">';
 
@@ -68,7 +68,6 @@ class pmxc_recent_topics_adm extends PortaMxC_SystemAdminBlock
 
 		echo '
 								</select>
-								<div id="pmxRTH1" class="info_frame">'. $txt['pmx_recent_boards_help'] .'</div>
 							</div>
 
 							<div class="adm_input">
@@ -81,11 +80,10 @@ class pmxc_recent_topics_adm extends PortaMxC_SystemAdminBlock
 								<div><input class="input_check" type="checkbox" name="config[settings][showboard]" value="1"' .(!empty($this->cfg['config']['settings']['showboard']) ? ' checked="checked"' : '') .' /></div>
 							</div>
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_recentsplit'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxRPH2")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_recentsplit'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_recentsplit_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input class="input_check" type="checkbox" name="config[settings][recentsplit]" value="1"' .(!empty($this->cfg['config']['settings']['recentsplit']) ? ' checked="checked"' : '') .' /></div>
-								<div id="pmxRPH2" class="info_frame" style="margin-top:5px;">'. $txt['pmx_recentsplit_help'] .'</div>
 							</div>
 							<input type="hidden" name="config[show_sitemap]" value="0" />
 						</div>';

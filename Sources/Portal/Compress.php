@@ -8,7 +8,7 @@
  * file Compress.php
  * Compress (Minimize) Javascript.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
 
  * @author Ryan Grove <ryan@wonko.com>
  * @copyright 2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)

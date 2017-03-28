@@ -8,7 +8,7 @@
  * file user_login_adm.php
  * Admin Systemblock user_login
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -37,7 +37,7 @@ class pmxc_user_login_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define additional classnames and styles
 		$used_classdef = $this->block_classdef;
@@ -58,7 +58,7 @@ class pmxc_user_login_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_check">
@@ -83,21 +83,20 @@ class pmxc_user_login_adm extends PortaMxC_SystemAdminBlock
 
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['show_time'] .'</span>
-								<div><input class="input_check" type="checkbox" name="config[settings][show_time]" value="1"' .(isset($this->cfg['config']['settings']['show_time']) && $this->cfg['config']['settings']['show_time'] == 1 ? ' checked="checked"' : ''). ' /></div>
+								<div><input id="chkTM" class="input_check" type="checkbox" name="config[settings][show_time]" value="1"' .(isset($this->cfg['config']['settings']['show_time']) && $this->cfg['config']['settings']['show_time'] == 1 ? ' checked="checked"' : ''). ' onchange="checkTimeEnabled(this)" /></div>
 							</div>
 
-							<div class="adm_check">
+							<div class="adm_check" id="user_realTime" style="display:none">
 								<span class="adm_w80">'. $txt['show_realtime'] .'</span>
 								<div><input id="pmx_rtcEnabled" onclick="Toggle_pmxRTC(this)" class="input_check" type="checkbox" name="config[settings][show_realtime]" value="1"' .(isset($this->cfg['config']['settings']['show_realtime']) && $this->cfg['config']['settings']['show_realtime'] == 1 ? ' checked="checked"' : ''). ' /></div>
 							</div>
 
 							<div id="pmx_rtcformat" class="adm_input" style="width:95%; display:none;">
-								<span style="width:45%;">'. $txt['pmx_rtcformatstr'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxul_H01\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span style="width:45%;">&nbsp;'. $txt['pmx_rtcformatstr'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_rtc_formathelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input style="margin:-1px 0 4px 0; width:47%;" align="right" type="text" name="config[settings][rtc_format]" value="'. (isset($this->cfg['config']['settings']['rtc_format']) ? $this->cfg['config']['settings']['rtc_format'] : '') .'" />
 							</div>
-							<div id="pmxul_H01" class="info_frame" style="margin-top:2px">'. $txt['pmx_rtc_formathelp'] .'</div>
 
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['show_unapprove'] .'</span>
@@ -120,6 +119,19 @@ class pmxc_user_login_adm extends PortaMxC_SystemAdminBlock
 							</div>
 							<input type="hidden" name="config[show_sitemap]" value="0" />
 							<script type="text/javascript">
+								function checkTimeEnabled(elm)
+								{
+									if(elm.checked == true)
+									{
+										document.getElementById("user_realTime").style.display = "";
+										Toggle_pmxRTC(document.getElementById("pmx_rtcEnabled"));
+									}
+									else
+									{
+										document.getElementById("user_realTime").style.display = "none";
+										document.getElementById("pmx_rtcformat").style.display = "none";
+									}
+								}
 								function Toggle_pmxRTC(elm)
 								{
 									if(elm.checked == true)
@@ -128,6 +140,7 @@ class pmxc_user_login_adm extends PortaMxC_SystemAdminBlock
 										document.getElementById("pmx_rtcformat").style.display = "none";
 								}
 								Toggle_pmxRTC(document.getElementById("pmx_rtcEnabled"));
+								checkTimeEnabled(document.getElementById("chkTM"));
 							</script>
 						</div>';
 

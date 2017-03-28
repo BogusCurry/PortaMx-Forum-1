@@ -26,7 +26,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if (!defined('PMX'))
@@ -652,11 +652,8 @@ function SetThemeSettings()
 		fatal_lang_error('no_theme', false);
 
 	// Fetch the smiley sets...
-	$sets = explode(',', 'none,' . $modSettings['smiley_sets_known']);
-	$set_names = explode("\n", $txt['smileys_none'] . "\n" . $modSettings['smiley_sets_names']);
-	$context['smiley_sets'] = array(
-		'' => $txt['smileys_no_default']
-	);
+	$sets = explode(',', $modSettings['smiley_sets_known']);
+	$set_names = explode("\n", $modSettings['smiley_sets_names']);
 	foreach ($sets as $i => $set)
 		$context['smiley_sets'][$set] = $pmxcFunc['htmlspecialchars']($set_names[$i]);
 
@@ -891,7 +888,7 @@ function PickTheme()
 
 	// Build the link tree.
 	$context['linktree'][] = array(
-		'url' => $scripturl . '?action=theme;sa=pick;u=' . (!empty($_REQUEST['u']) ? (int) $_REQUEST['u'] : 0),
+		'url' => $scripturl . '?action=themes;sa=pick;u=' . (!empty($_REQUEST['u']) ? (int) $_REQUEST['u'] : 0),
 		'name' => $txt['theme_pick'],
 	);
 	$context['default_theme_id'] = $modSettings['theme_default'];

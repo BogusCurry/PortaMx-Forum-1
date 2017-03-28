@@ -8,7 +8,7 @@
  * file AdminSubs.php
  * AdminSubs holds all subroutines for the Admin part.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -78,7 +78,7 @@ function PortaMx_getAdmEditBlock($id = null, $block = null, $side = null)
 
 			$context['pmx']['script'] = array(
 				'id' => 'content',
-				'value' => !empty($block['content'])? $block['content'] : '',
+				'value' => !empty($block['content'])? convertSmileysToUser($block['content']) : '',
 				'width' => '100%',
 				'height' => '150px',
 				'havecont' => !empty($cont),
@@ -119,19 +119,15 @@ function PortaMx_getAdmEditBlock($id = null, $block = null, $side = null)
 		else
 		{
 			// Let's load the SMF editor.
-			addInlineCss('
-	.sceditor-container iframe{min-width:99.4% !important;max-width:99.4% !important;margin-right:-4px !important; margin-left:2px  !important;}');
-
-			require_once($sourcedir . '/Subs-Editor.php');
-			$user_info['smiley_set'] = 'portamx';
 			$modSettings['smiley_enable'] = true;
+			require_once($sourcedir . '/Subs-Editor.php');
 
 			$options['wysiwyg_default'] = true;
 			$editorOptions = array(
 				'id' => 'content',
 				'value' => !empty($block['content'])? $block['content'] : '',
 				'width' => '100%',
-				'height' => (in_array($block['blocktype'], array('script', 'fader')) ? '200px' : '200px'),
+				'height' => '250px',
 				'labels' => array(),
 				'preview_type' => 0,
 				'bbc_level' => (in_array($block['blocktype'], array('script', 'fader')) ? 0 : 'full'),
@@ -153,7 +149,7 @@ function PortaMx_getAdmEditBlock($id = null, $block = null, $side = null)
 
 		$context['pmx']['htmledit'] = array(
 			'id' => 'content',
-			'content' => $block['content'],
+			'content' => convertSmileysToUser($block['content']),
 		);
 	}
 
@@ -182,7 +178,7 @@ function PortaMx_EditArticle($type, $field, $content)
 
 		$context['pmx']['htmledit'] = array(
 			'id' => 'content',
-			'content' => $content,
+			'content' => convertSmileysToUser($content),
 		);
 	}
 	else
@@ -194,7 +190,7 @@ function PortaMx_EditArticle($type, $field, $content)
 
 			$context['pmx']['script'] = array(
 				'id' => 'content',
-				'value' => !empty($content) ? $content : '',
+				'value' => !empty($content) ? convertSmileysToUser($content) : '',
 				'width' => '100%',
 				'height' => '150px',
 			);
@@ -235,11 +231,11 @@ function PortaMx_EditArticle($type, $field, $content)
 		{
 			// Let's load the SMF editor.
 			addInlineCss('
-	.sceditor-container iframe{min-width:99.4% !important;max-width:99.4% !important;margin-right:-4px !important; margin-left:2px  !important;}');
+	.sceditor-container textarea{max-width:98.80% !important;min-width:98.80% !important;}
+	.sceditor-container iframe{min-width:99.45% !important;max-width:99.45% !important;margin-right:-4px !important; margin-left:2px !important;}');
 
-			require_once($sourcedir . '/Subs-Editor.php');
-			$user_info['smiley_set'] = 'portamx';
 			$modSettings['smiley_enable'] = true;
+			require_once($sourcedir . '/Subs-Editor.php');
 
 			$options['wysiwyg_default'] = true;
 			$editorOptions = array(

@@ -7,7 +7,7 @@
  * @author PortaMx
  * @copyright 2017 PortaMx
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  *
  * Developer of the Original Code is Matt Zuba.
  * License: MPL 1.1

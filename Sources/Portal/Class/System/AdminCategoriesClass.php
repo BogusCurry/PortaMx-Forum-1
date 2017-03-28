@@ -8,7 +8,7 @@
  * file PortaMx_AdminCategoriesClass.php
  * Global Categories Admin class
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -70,12 +70,12 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 	*/
 	function pmxc_ShowAdmCategoryConfig()
 	{
-		global $context, $settings, $txt;
+		global $context, $scripturl, $settings, $txt;
 
 		echo '
 				<tr>
 					<td>
-						<div class="windowbg">
+						<div class="windowbg edit_main">
 						<table class="pmx_table">
 							<tr>
 								<td style="width;50%;padding:4px;">
@@ -86,7 +86,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 									<input type="hidden" name="config[settings]" value="" />
 									<input type="hidden" name="check_num_vars[]" value="[config][maxheight], \'\'" />
 									<div style="height:61px;">
-										<div style="float:left;width:90px; padding-top:1px;">'. $txt['pmx_categories_title'] .'</div>';
+										<div style="float:left;width:100px; padding-top:1px;">'. $txt['pmx_categories_title'] .'</div>';
 
 		// all titles depend on language
 		$curlang = '';
@@ -102,10 +102,11 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 										<input id="curlang" type="hidden" value="'. $curlang .'" />
 										<div style="clear:both; height:10px;">
-											<img style="float:left;" src="'. $context['pmx_imageurl'] .'arrow_down.gif" alt="*" title="" />
+											<img style="float:left;padding-left:20px;" src="'. $context['pmx_imageurl'] .'arrow_down.gif" alt="*" title="" />
 										</div>
-										<div style="float:left;width:90px;">'. $txt['pmx_edit_title_lang'] .'
-											<img class="info_toggle" onclick=\'Show_help("pmxBH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<div style="float:left;width:100px;">
+											<span>&nbsp;'. $txt['pmx_edit_title_lang'] .'</span>
+											<a style="float:left;" href="', $scripturl, '?action=helpadmin;help=pmx_edit_titlehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 										</div>
 										<select style="float:left;width:165px;" size="1" onchange="setTitleLang(this)">';
 
@@ -115,7 +116,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 
 		echo '
 										</select>
-										<div style="margin-left:265px;margin-top:2px;">
+										<div style="margin-left:280px;margin-top:2px;">
 											<span style="vertical-align:7px;">'. $txt['pmx_edit_title_align'] .'</span><br />';
 
 		// title align
@@ -131,16 +132,13 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 
 		echo '
 										</div>
-									</div>
-									<div id="pmxBH01" style="margin-top:5px;width:243px" class="info_frame">'.
-										$txt['pmx_edit_titlehelp'] .'
 									</div>';
 
 			// Title icons
 		$this->cfg['config']['title_icon'] = (empty($this->cfg['config']['title_icon']) || $this->cfg['config']['title_icon'] == 'none.gif') ? 'none.png' : $this->cfg['config']['title_icon'];
 		echo '
 									<div style="float:left;height:40px;">
-										<div style="float:left;width:90px; padding-top:8px;">'. $txt['pmx_edit_titleicon'] .'</div>
+										<div style="float:left;width:100px; padding-top:8px;">'. $txt['pmx_edit_titleicon'] .'</div>
 										<div class="ttliconDiv" onclick="setNewIcon(document.getElementById(\'pWind.icon_sel\'), event)">
 											<input id="post_image" type="hidden" name="config[title_icon]" value="'. $this->cfg['config']['title_icon'] .'" />
 											<input id="iconDD" value="'. ucfirst(str_replace('.png', '', $this->cfg['config']['title_icon'])) .'" readonly />
@@ -207,14 +205,11 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 
 		// category name
 		echo '
-									<div class="adm_clear" style="float:left;width:150px; padding-top:3px;">'. $txt['pmx_categories_name'] .':
-										<img class="info_toggle" onclick=\'Show_help("pmxBH11")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-									</div>
-									<span id="check.name.error" style="display:none;">'. sprintf($txt['namefielderror'], $txt['pmx_categories_name']) .'</span>
-									<input id="check.name" style="width:53%; margin-top:1px;" onkeyup="check_requestname(this)" onkeypress="check_requestname(this)" type="text" name="name" value="'. $this->cfg['name'] .'" />
-									<div id="pmxBH11" class="info_frame" style="margin-top:5px;">'.
-										$txt['pmx_edit_pagenamehelp'] .'
-									</div>
+										<div class="adm_clear" style="float:left;width:150px; padding-top:3px;">'. $txt['pmx_categories_name'] .':
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_edit_pagenamehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+										</div>
+										<span id="check.name.error" style="display:none;">'. sprintf($txt['namefielderror'], $txt['pmx_categories_name']) .'</span>
+										<input id="check.name" style="width:53%; margin-top:1px;" onkeyup="check_requestname(this)" onkeypress="check_requestname(this)" type="text" name="name" value="'. $this->cfg['name'] .'" />
 									</div>
 								</td>
 							</tr>
@@ -226,7 +221,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		// show the settings area
 		echo '
 									<div class="cat_bar catbg_grid grid_padd">
-										<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_categories_settings_title'] .'</span></h4>
+										<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_categories_settings_title'] .'</span></h4>
 									</div>';
 
 		// show mode (titelbar/frame)
@@ -241,7 +236,10 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		// show mode also for articles
 		echo '
 									<div class="adm_check" style="height:20px;">
-										<div style="float:left; width:82%;">'. $txt['pmx_categories_visual'] .'</div>
+										<div style="float:left; width:82%;">
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_cat_to_art_design_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+											&nbsp;'. $txt['pmx_categories_visual'].'
+										</div>
 										<input style="float:right;margin-right:20px;" name="config[settings][catstyle]" type="checkbox" class="input_check" value="1"'. (!empty($this->cfg['config']['settings']['catstyle']) ? ' checked="checked"' : '') .' />
 									</div>';
 
@@ -266,7 +264,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 											<div style="float:left;">'. $txt['pmx_categories_sidebarwith'] .'</div>
 											<input style="float:right;margin-right:20px;margin-top:-2px;" onkeyup="check_numeric(this)" type="text" size="3" name="config[settings][sidebarwidth]" value="'. (!empty($this->cfg['config']['settings']['sidebarwidth']) ? $this->cfg['config']['settings']['sidebarwidth'] : '') .'" />
 										</div>
-										<div style="height:25px;margin-top:0px;">
+										<div style="height:25px;margin-top:2px;">
 											<div style="float:left;">'. $txt['pmx_categories_sidebaralign'] .'</div>
 											<div style="float:right; margin-right:20px;margin-top:0px;">
 												<input class="input_radio" type="radio" name="config[settings][sbmalign]" value="1"'. (!empty($this->cfg['config']['settings']['sbmalign']) ? ' checked="checked"' : '') .' /><span style="display:inline-block;margin-top:2px;">'. $txt['pmx_categories_sbalign'][0] .'&nbsp;&nbsp;&nbsp;</span>
@@ -312,18 +310,17 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 									</div>
 									<div class="adm_check" style="height:20px; padding-top:4px;">
 										<div style="float:left; width:82%;">
-											<img class="info_toggle" align="right style="padding:2px 5px;" onclick=\'Show_help("pmxCH06")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-											'. $txt['pmx_categorie_inherit'] .'
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_categories_inherithelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+											&nbsp;'. $txt['pmx_categorie_inherit'] .'
 										</div>
 										<input style="float:right;margin-right:20px;" name="config[settings][inherit_acs]" class="input_check" type="checkbox" value="1"'. (!empty($this->cfg['config']['settings']['inherit_acs']) ? ' checked="checked"' : '') .' />
-									</div>
-									<div id="pmxCH06" class="info_frame">'. $txt['pmx_categories_inherithelp'] .'</div>';
+									</div>';
 
 		// article sort
 		echo '
 									<div class="adm_clear" style="padding-top:4px; height:70px;">
 										<div style="float:left; width:150px;">
-											<img class="info_toggle" align="right style="padding:2px 5px;" onclick=\'Show_help("pmxCH05")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_categories_sorthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 											'. $txt['pmx_categorie_articlesort'] .'
 										</div>
 										<select style="float:right;margin-right:20px; width:45%;margin-top:3px;" name="artsort[]" id="pmxartsort" onchange="changed(\'pmxartsort\');" size="4" multiple="multiple">';
@@ -349,7 +346,6 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 										</select>
 									</div>
 									<div class"adm_clear"></div>
-									<div id="pmxCH05" class="info_frame">'. $txt['pmx_categories_sorthelp'] .'</div>
 									<script type="text/javascript">
 										var pmxartsort = new MultiSelect("pmxartsort");
 									</script>';
@@ -359,36 +355,32 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 									<input type="hidden" name="config[check_ecl]" value="0" />
 									<input type="hidden" name="config[check_eclbots]" value="0" />
 									<div class="cat_bar catbg_grid grid_padd" style="margin-top:10px;">
-										<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_categories_globalcat'] .'</span></h4>
+										<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_categories_globalcat'] .'</span></h4>
 									</div>
 									<div class="adm_check" style="min-height:25px;">
-										<span class="adm_w80">'. $txt['pmx_categorie_global'] .'
-											<img class="info_toggle" onclick=\'Show_help("pmxHCAT02")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<span class="adm_w80">&nbsp;'. $txt['pmx_categorie_global'] .'
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_categories_gloablcathelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 										</span>
 										<input class="input_check" style="float:right; margin-right:20px;" type="checkbox" name="config[global]" value="1"' .(!empty($this->cfg['config']['global']) ? ' checked="checked"' : ''). ' />
-										<div id="pmxHCAT02" class="info_frame" style="margin-top:4px;">'. $txt['pmx_categories_gloablcathelp'] .'</div>
 									</div>
 									<div class="adm_check" style="min-height:25px;">
-										<span class="adm_w80">'. $txt['pmx_categorie_request'] .'
-											<img class="info_toggle" onclick=\'Show_help("pmxHCAT03")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<span class="adm_w80">&nbsp;'. $txt['pmx_categorie_request'] .'
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_categorie_requesthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 										</span>
 										<input class="input_check" style="float:right; margin-right:20px;" type="checkbox" name="config[request]" value="1"' .(!empty($this->cfg['config']['request']) ? ' checked="checked"' : ''). ' />
-										<div id="pmxHCAT03" class="info_frame" style="margin-top:4px;">'. $txt['pmx_categorie_requesthelp'] .'</div>
 									</div>
 									<div class="adm_check" style="min-height:25px;">
-										<span class="adm_w80">'. $txt['pmx_check_catelcmode'] .'
-										 <img class="info_toggle" onclick=\'Show_help("pmxCateclHelp")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<span class="adm_w80">&nbsp;'. $txt['pmx_check_catelcmode'] .'
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_cat_eclcheckhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 										</span>
 										<input class="input_check" style="float:right; margin-right:20px;" type="checkbox" name="config[check_ecl]" value="1"' .(!empty($this->cfg['config']['check_ecl']) ? ' checked="checked"' : ''). ' onclick="showeclbots(this)" />
 									</div>
-									<div id="pmxCateclHelp" class="info_frame" style="margin-top:0;">'. $txt['pmx_cat_eclcheckhelp'] .'</div>
 									<div class="adm_check" id="eclextend" style="min-height:25px;display:'. (!empty($this->cfg['config']['check_ecl']) ? 'block' : 'none') .'">
-										<span class="adm_w80">'. $txt['pmx_check_catelcbots'] .'
-										 <img class="info_toggle" onclick=\'Show_help("pmxeclHelpbots")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+										<span class="adm_w80">&nbsp;'. $txt['pmx_check_catelcbots'] .'
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_cat_eclcheckbotshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 										</span>
 										<input id="eclextendinp" class="input_check" style="float:right; margin-right:20px;" type="checkbox" name="config[check_eclbots]" value="1"' .(!empty($this->cfg['config']['check_eclbots']) ? ' checked="checked"' : ''). ' />
 									</div>
-									<div id="pmxeclHelpbots" class="info_frame" style="margin-top:0;">'. $txt['pmx_cat_eclcheckbotshelp'] .'</div>
 									<script type="text/javascript">
 										function showeclbots(elm) {if(elm.checked == true) document.getElementById("eclextend").style.display = "block"; else {document.getElementById("eclextend").style.display = "none"; document.getElementById("eclextendinp").checked = false;}}
 									</script>
@@ -398,7 +390,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 								<td width="50%" id="set_col" style="padding:4px;">
 									<div class="cat_bar catbg_grid grid_padd">
-										<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_visuals'] .'</span></h4>
+										<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_visuals'] .'</span></h4>
 									</div>
 									<div style="float:left; height:30px; width:177px;">'. $txt['pmx_edit_cancollapse'] .'</div>
 									<input style="padding-left:141px;" type="hidden" name="config[collapse]" value="0" />
@@ -448,8 +440,8 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 									<div class="cat_bar catbg_grid grid_padd">
 										<h4 class="catbg catbg_grid grid_botpad">
-											<div style="float:left; width:174px;"><span class="cat_left_title">'. $txt['pmx_edit_usedclass_type'] .'</span></div>
-											<span class="cat_left_title">'. $txt['pmx_edit_usedclass_style'] .'</span>
+											<div style="float:left; width:174px;"><span class="cat_msg_title">'. $txt['pmx_edit_usedclass_type'] .'</span></div>
+											<span class="cat_msg_title">'. $txt['pmx_edit_usedclass_style'] .'</span>
 										</h4>
 									</div>
 									<div style="margin:2px 0px">';
@@ -473,7 +465,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 									</div>
 									<div class="cat_bar catbg_grid grid_padd" style="margin-top:-2px;">
-										<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_canhavecssfile'] .'</span></h4>
+										<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_canhavecssfile'] .'</span></h4>
 									</div>
 									<div style="float:left; margin:0px 2px; width:176px;">'. $txt['pmx_edit_cssfilename'] .'</div>
 									<select id="sel.css.file" style="width:46%;margin-bottom:2px;" name="config[cssfile]" onchange="pmxChangeCSS(this)">
@@ -541,7 +533,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 									<div class="adm_clear cat_bar catbg_grid grid_padd" style="margin-top:2px;">
 										<h4 class="catbg catbg_grid">
-											<img class="grid_click_image pmxleft" onclick=\'Show_help("pmxBH03")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_categories_groupshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 											<span class="cat_msg_title">'. $txt['pmx_categories_groups'] .'</span>
 										</h4>
 									</div>
@@ -558,7 +550,6 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 
 		echo '
 									</select>
-									<div id="pmxBH03" class="info_frame" style="margin-top:5px;">'. $txt['pmx_categories_groupshelp'] .'</div>
 									<script type="text/javascript">
 										var pmxgroups = new MultiSelect("pmxgroups");
 									</script>

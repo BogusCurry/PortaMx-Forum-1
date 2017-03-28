@@ -898,7 +898,7 @@ pmxc_Toggle.prototype.changeState = function(bCollapse, bInit)
 			if ('oCookieOptions' in this.opt && 'sCookieName' in this.opt.oCookieOptions && this.opt.oCookieOptions.sCookieName.match(/Panel/)
 					&& (this.opt.oCookieOptions.sCookieName.match(/left/) || this.opt.oCookieOptions.sCookieName.match(/right/)))
 			{
-				if (typeof portamx_EqualHeight == 'function')
+				if (typeof portamx_EqualHeight == 'function' && oContainer.id != 'upshrinkVisual')
 				{
 					if (bCollapse)
 						$(oContainer).hide(400, function(){portamx_EqualHeight(true)});
@@ -921,14 +921,14 @@ pmxc_Toggle.prototype.changeState = function(bCollapse, bInit)
 				{
 					if (bCollapse)
 					{
-						if (typeof portamx_EqualHeight == 'function')
+						if (typeof portamx_EqualHeight == 'function' && oContainer.id != 'upshrinkVisual')
 							$(oContainer).slideUp(400, function(){portamx_EqualHeight(null)});
 						else
 							$(oContainer).slideUp(400);
 					}
 					else
 					{
-						if (typeof portamx_EqualHeight == 'function')
+						if (typeof portamx_EqualHeight == 'function' && oContainer.id != 'upshrinkVisual')
 							$(oContainer).slideDown(400, function(){portamx_EqualHeight(null)});
 						else
 							$(oContainer).slideDown(400);
@@ -1068,7 +1068,7 @@ JumpTo.prototype.showSelect = function ()
 	var sChildLevelPrefix = '';
 	for (var i = this.opt.iCurBoardChildLevel; i > 0; i--)
 		sChildLevelPrefix += this.opt.sBoardChildLevelIndicator;
-	setInnerHTML(document.getElementById(this.opt.sContainerId), this.opt.sJumpToTemplate.replace(/%select_id%/, this.opt.sContainerId + '_select').replace(/%dropdown_list%/, '<select ' + (this.opt.bDisabled == true ? 'disabled ' : '') + (this.opt.sClassName != undefined ? 'class="' + this.opt.sClassName + '" ' : '') + 'name="' + (this.opt.sCustomName != undefined ? this.opt.sCustomName : this.opt.sContainerId + '_select') + '" id="' + this.opt.sContainerId + '_select" ' + ('implementation' in document ? '' : 'onmouseover="grabJumpToContent(this);" ') + ('onbeforeactivate' in document ? 'onbeforeactivate' : 'onfocus') + '="grabJumpToContent(this);"><option value="' + (this.opt.bNoRedirect != undefined && this.opt.bNoRedirect == true ? this.opt.iCurBoardId : '?board=' + this.opt.iCurBoardId + '.0') + '">' + sChildLevelPrefix + this.opt.sBoardPrefix + this.opt.sCurBoardName.removeEntities() + '</option></select>&nbsp;' + (this.opt.sGoButtonLabel != undefined ? '<input type="button" class="button_submit" value="' + this.opt.sGoButtonLabel + '" onclick="window.location.href = \'' + pmx_prepareScriptUrl(pmx_scripturl) + 'board=' + this.opt.iCurBoardId + '.0\';">' : '')));
+	setInnerHTML(document.getElementById(this.opt.sContainerId), this.opt.sJumpToTemplate.replace(/%select_id%/, this.opt.sContainerId + '_select').replace(/%dropdown_list%/, '<select ' + (this.opt.bDisabled == true ? 'disabled ' : '') + (this.opt.sClassName != undefined ? 'class="' + this.opt.sClassName + '" ' : '') + 'name="' + (this.opt.sCustomName != undefined ? this.opt.sCustomName : this.opt.sContainerId + '_select') + '" id="' + this.opt.sContainerId + '_select" ' + ('implementation' in document ? '' : 'onmouseover="grabJumpToContent(this);" ') + ('onbeforeactivate' in document ? 'onbeforeactivate' : 'onfocus') + '="grabJumpToContent(this);"><option value="' + (this.opt.bNoRedirect != undefined && this.opt.bNoRedirect == true ? this.opt.iCurBoardId : '?board=' + this.opt.iCurBoardId + '.0') + '">' + sChildLevelPrefix + this.opt.sBoardPrefix + this.opt.sCurBoardName.removeEntities() + '</option></select>' + (this.opt.sGoButtonLabel != undefined ? '<input type="button" class="button_submit" value="' + this.opt.sGoButtonLabel + '" onclick="window.location.href = \'' + pmx_prepareScriptUrl(pmx_scripturl) + 'board=' + this.opt.iCurBoardId + '.0\';">' : '')));
 	this.dropdownList = document.getElementById(this.opt.sContainerId + '_select');
 }
 

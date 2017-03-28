@@ -8,7 +8,7 @@
  * file download_adm.php
  * Admin Systemblock download
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -46,14 +46,16 @@ class pmxc_download_adm extends PortaMxC_SystemAdminBlock
 							<input type="hidden" name="config[settings]" value="" />';
 
 		// show the settings screen
+		$dlboard = isset($this->cfg['config']['settings']['download_board']) ? $this->cfg['config']['settings']['download_board'] : 0;
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_input">
 								<span>'. $txt['pmx_download_board'] .'</span>
-								<select class="adm_w90 adm_select" name="config[settings][download_board]">';
+								<select class="adm_w90 adm_select" name="config[settings][download_board]">
+									<option value="none"'. ($dlboard == 0 ? ' selected="selected"' : '') .'>'. $txt['pmx_dl_noboard'] .'</option>';
 
 		$dlboard = isset($this->cfg['config']['settings']['download_board']) ? $this->cfg['config']['settings']['download_board'] : 0;
 		foreach($this->smf_boards as $brd)
@@ -89,13 +91,13 @@ class pmxc_download_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_content()
 	{
-		global $context, $boarddir, $txt;
+		global $context, $user_info, $boarddir, $txt;
 
 		// show the content area
 		echo '
 					<td valign="top" colspan="2" style="padding:4px;">
 						<div class="cat_bar catbg_grid" style="margin-right:1px;">
-							<h4 class="catbg catbg_grid"><span class="cat_left_title">'. $txt['pmx_edit_content'] .'</span></h4>
+							<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_content'] .'</span></h4>
 						</div>';
 
 		// show the editor
@@ -111,7 +113,9 @@ class pmxc_download_adm extends PortaMxC_SystemAdminBlock
 		echo '
 						<textarea name="'. $context['pmx']['htmledit']['id'] .'">'. $context['pmx']['htmledit']['content'] .'</textarea>
 						<script type="text/javascript">
-							CKEDITOR.replace("'. $context['pmx']['htmledit']['id'] .'", {filebrowserBrowseUrl: "ckeditor/fileman/index.php"});
+							CKEDITOR.replace("'. $context['pmx']['htmledit']['id'] .'", {
+								filebrowserBrowseUrl: "ckeditor/fileman/index.php",
+								smiley_path: CKEDITOR.basePath +"../Smileys/'. $user_info['smiley_set'] .'/"});
 						</script>
 					</td>
 				</tr>

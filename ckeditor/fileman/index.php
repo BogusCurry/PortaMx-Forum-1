@@ -6,7 +6,7 @@ if(empty($_SESSION))
 	include_once(realpath('./php/system_portal.php'));
 }
 define('FILEPATH',  $_SESSION['pmx_ckfm']['FILEPATH']);
-if(!empty( $_SESSION['pmx_ckfm']) && (is_array( $_SESSION['pmx_ckfm']) && !empty( $_SESSION['pmx_ckfm']['ALLOW']) && !empty( $_SESSION['pmx_ckfm']['FILEPATH'])))
+if(!empty($_SESSION['pmx_ckfm']) && (is_array($_SESSION['pmx_ckfm']) && !empty($_SESSION['pmx_ckfm']['ALLOW']) && !empty($_SESSION['pmx_ckfm']['FILEPATH'])))
 	echo '<!DOCTYPE html>
 <html>
 <head>

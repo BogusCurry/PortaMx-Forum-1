@@ -8,7 +8,7 @@
  * file download.php
  * Systemblock Downlaod
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -43,7 +43,7 @@ class pmxc_download extends PortaMxC_SystemBlock
 		{
 			$this->download_content = $this->cfg['content'];
 
-			if(isset($this->cfg['config']['settings']['download_board']) && !empty($this->cfg['config']['settings']['download_board']))
+			if(isset($this->cfg['config']['settings']['download_board']) && !empty($this->cfg['config']['settings']['download_board']) && $this->cfg['config']['settings']['download_board'] != 'none')
 			{
 				// get downloads from the board
 				$request = $pmxcFunc['db_query']('', '
@@ -115,7 +115,10 @@ class pmxc_download extends PortaMxC_SystemBlock
 					$this->download_content .= '<br />'. $txt['pmx_download_empty'];
 			}
 			else
-				$this->download_content .= '<br />'. $txt['pmx_download_empty'];
+			{
+				if($this->cfg['config']['settings']['download_board'] != 'none')
+					$this->download_content .= '<br />'. $txt['pmx_download_empty'];
+			}
 		}
 		// return the visibility flag (true/false)
 		return $this->visible;

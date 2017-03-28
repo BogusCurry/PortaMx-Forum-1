@@ -8,7 +8,7 @@
  * file php_adm.php
  * Admin Systemblock php
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -108,7 +108,7 @@ class pmxc_php_adm extends PortaMxC_SystemAdminBlock
 						<div style="min-height:195px;">
 							<input type="hidden" name="config[settings]" value="" />
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['pmx_content_print'] .'</span>
@@ -141,12 +141,12 @@ class pmxc_php_adm extends PortaMxC_SystemAdminBlock
 								<span style="float:right;display:block;margin-top:-2px;">
 									<img onclick="php_syntax(\''. $context['pmx']['phpShow']['id'] .'\')" style="padding:3px 5px 3px 10px;cursor:pointer;" alt="Syntax check" title="'. $txt['pmx_check_phpsyntax'] .'" src="'. $context['pmx_imageurl'] .'syntaxcheck.png" class="pmxright" />
 								</span>
-								<span class="cat_left_title">'. $txt['pmx_edit_content'] .'
+								<span class="cat_msg_title">'. $txt['pmx_edit_content'] .'
 								<span id="upshrinkPHPinitCont"'. (empty($options['collapse_phpinit']) ? '' : ' style="display:none;"') .'>'. $txt['pmx_edit_content_show'] .'</span></span>
 							</h4>
 						</div>
 						<div id="check_'. $context['pmx']['phpShow']['id'] .'" class="info_frame" style="line-height:1.4em;margin:1px 0;">
-								<img onclick="Hide_SyntaxCheck(this.parentNode)" style="padding-left:10px;cursor:pointer;" alt="close" src="'. $context['pmx_imageurl'] .'cross.png" class="pmxright" />
+							<img onclick="Hide_SyntaxCheck(this.parentNode)" style="padding-left:10px;cursor:pointer;" alt="close" src="'. $context['pmx_imageurl'] .'cross.png" class="pmxright" />
 						</div>
 
 						<textarea name="'. $context['pmx']['phpShow']['id'] .'" id="'. $context['pmx']['phpShow']['id'] .'" style="display:block;width:'. $context['pmx']['phpShow']['width'] .';height:'. $context['pmx']['phpShow']['height'] .';">'. $context['pmx']['phpShow']['value'] .'</textarea>
@@ -158,7 +158,7 @@ class pmxc_php_adm extends PortaMxC_SystemAdminBlock
 									(empty($options['collapse_visual']) ? $txt['pmx_collapse'] : $txt['pmx_expand']) . $txt['pmx_php_partblock'] .'">
 								</span>' : '') .'
 								<span>'. $txt['pmx_php_partblock_note'] .'
-									<img class="info_toggle" onclick=\'Toggle_help("pmxPHPH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" style="vertical-align: -3px;" />
+									<img class="info_toggle" onclick=\'Toggle_help("pmxPHPH01")\' src="'. $context['pmx_imageurl'] .'helptopics.png" alt="*" title="'. $txt['pmx_information_icon'] .'" style="vertical-align: -3px;" />
 								</span>
 							</div>
 							<div id="pmxPHPH01" style="display:none; margin:4px 10px 0;">'. $txt['pmx_php_partblock_help'] .'</div>
@@ -170,7 +170,7 @@ class pmxc_php_adm extends PortaMxC_SystemAdminBlock
 									<span style="float:right;display:block;margin-top:-2px;">
 										<img onclick="php_syntax(\''. $context['pmx']['phpInit']['id'] .'\')" style="padding:3px 5px 3px 10px;cursor:pointer;" title="'. $txt['pmx_check_phpsyntax'] .'" alt="Syntax check" src="'. $context['pmx_imageurl'] .'syntaxcheck.png" class="pmxright" />
 									</span>
-									<span class="cat_left_title">'. $txt['pmx_edit_content'] . $txt['pmx_edit_content_init'] .'</span>
+									<span class="cat_msg_title">'. $txt['pmx_edit_content'] . $txt['pmx_edit_content_init'] .'</span>
 								</h4>
 							</div>
 							<div id="check_'. $context['pmx']['phpInit']['id'] .'" class="info_frame" style="line-height:1.4em;margin:1px 0;">

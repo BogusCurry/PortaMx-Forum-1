@@ -1,3 +1,17 @@
+/* global on mobile */
+.navigate_section ul {
+	padding-top: 4px;
+}
+.display_title {
+	font-size: 23px !important;
+}
+.board_stats {
+	padding-right: 5px !important;
+}
+.generic_icons.help {
+	margin-top: 0px !important;
+}
+
 /* iPhone Tests */
 @media (max-width: 320px) {
 	#pm_menu {
@@ -17,7 +31,7 @@
 	}
 }
 
-/* I have a Lumia with 480px screen... so ^^ */
+/* Lumia with 480px screen */
 @media (max-width: 480px) {
 	/* This is general */
 	.popup_window {
@@ -38,13 +52,6 @@
 		min-width: 15%;
 		margin: 0 0 0 2px;
 	}
-/*
-	h1.forumtitle a, h1.forumtitle {
-		padding: 5px 0 0 4px;
-		max-width: 300px;
-		margin: 10px 0;
-	}
-*/
 	span.board_moderators {
 		display: none !important;
 	}
@@ -379,6 +386,12 @@
 	}
 }
 
+/* adjust ecl overlay on small phones */
+@media screen and (max-width: 360px) {
+	#ecl_outer{
+		max-width: 98.4% !important;
+	}
+
 /* We have shared things... */
 @media screen and (max-width: 720px) {
 	h1.forumtitle {
@@ -482,16 +495,16 @@
 
 	/* General */
 	#wrapper {
-		width: 99.5% !important;
-		margin: 0 0 15px 0;
+		width: 99% !important;
+		margin: 0 2px 15px 2px;
 		border-left: 0;
 		border-right: 0;
 		border-bottom-left-radius: 0 !important;
 		border-bottom-right-radius: 0 !important;
 	}
 	#ecl_outer {
-		width: 99.1% !important;
-		margin: 0 !important;
+		width: 99% !important;
+		margin: 0 2px 0 2px !important;
 	}
 	#top_section {
 		padding-left: 0;
@@ -703,12 +716,4 @@
 	.postarea, .moderatorbar {
 		margin-left:120px;
 	}
-}
-
-/* global on mobile */
-.navigate_section ul {
-	padding-top: 4px;
-}
-.display_title {
-	font-size: 23px !important;
 }

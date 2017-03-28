@@ -8,7 +8,7 @@
  * file PortaMx_BlocksClass.php
  * Global Blocks class
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

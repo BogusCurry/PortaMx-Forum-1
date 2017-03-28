@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -78,7 +78,7 @@ function template_main()
 
 	echo '
 						</select>
-						<span class="smalltext pick_theme"><a href="', $scripturl, '?action=theme;sa=pick;u=-1;', $context['session_var'], '=', $context['session_id'], '">', $txt['theme_select'], '</a></span>
+						<span class="smalltext pick_theme"><a href="', $scripturl, '?action=themes;sa=pick;u=-1;', $context['session_var'], '=', $context['session_id'], '">', $txt['theme_select'], '</a></span>
 					</dd>
 					<dt>
 						<label for="theme_reset">', $txt['theme_reset'], '</label>:
@@ -95,7 +95,7 @@ function template_main()
 
 	echo '
 						</select>
-						<span class="smalltext pick_theme"><a href="', $scripturl, '?action=theme;sa=pick;u=0;', $context['session_var'], '=', $context['session_id'], '">', $txt['theme_select'], '</a></span>
+						<span class="smalltext pick_theme"><a href="', $scripturl, '?action=themes;sa=pick;u=0;', $context['session_var'], '=', $context['session_id'], '">', $txt['theme_select'], '</a></span>
 					</dd>
 				</dl>
 				<input type="submit" name="save" value="' . $txt['save'] . '" class="button_submit">
@@ -118,12 +118,7 @@ function template_main()
 
 	// All the install options.
 	echo '
-		<div id="admin_form_wrapper">
-			<div class="cat_bar">
-				<h3 class="catbg">
-					', $txt['theme_install'], '
-				</h3>
-			</div>';
+		<div id="admin_form_wrapper">';
 
 	if ($context['can_create_new'])
 	{
@@ -212,11 +207,7 @@ function template_list_themes()
 		<div class="information">
 			', $txt['themeadmin_list_tip'], '
 		</div>
-		<form id="admin_form_wrapper" action="', $scripturl, '?action=admin;area=theme;', $context['session_var'], '=', $context['session_id'], ';sa=list" method="post" accept-charset="', $context['character_set'], '">
-			<div class="cat_bar">
-				<h3 class="catbg">', $txt['theme_settings'], '</h3>
-			</div>
-			<br>';
+		<form id="admin_form_wrapper" action="', $scripturl, '?action=admin;area=theme;', $context['session_var'], '=', $context['session_id'], ';sa=list" method="post" accept-charset="', $context['character_set'], '">';
 
 	// Show each theme.... with X for delete, an enable/disable link and a link to their own settings page.
 	foreach ($context['themes'] as $theme)
@@ -462,11 +453,9 @@ function template_set_settings()
 	<div id="admin_form_wrapper">
 		<form action="', $scripturl, '?action=admin;area=theme;sa=list;th=', $context['theme_settings']['theme_id'], '" method="post" accept-charset="', $context['character_set'], '">
 			<div class="cat_bar">
-				<h3 class="catbg">
-					<a href="', $scripturl, '?action=helpadmin;help=theme_settings" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a> ', $txt['theme_settings'], ' - ', $context['theme_settings']['name'], '
-				</h3>
+				<h3 class="catbg">', $txt['theme_settings'], ' - ', $context['theme_settings']['name'], '</h3>
 			</div>
-			<br>';
+			<p class="information">'. $txt['theme_settings_info'] .'</p>';
 
 	// @todo Why can't I edit the default theme popup.
 	if ($context['theme_settings']['theme_id'] != 1)
@@ -710,7 +699,7 @@ function template_pick()
 
 	echo '
 	<div id="pick_theme">
-		<form action="', $scripturl, '?action=theme;sa=pick;u=', $context['current_member'], ';', $context['session_var'], '=', $context['session_id'], '" method="post" accept-charset="', $context['character_set'], '">';
+		<form action="', $scripturl, '?action=themes;sa=pick;u=', $context['current_member'], ';', $context['session_var'], '=', $context['session_id'], '" method="post" accept-charset="', $context['character_set'], '">';
 
 	// Just go through each theme and show its information - thumbnail, etc.
 	foreach ($context['available_themes'] as $theme)
@@ -718,12 +707,12 @@ function template_pick()
 		echo '
 			<div class="cat_bar">
 				<h3 class="catbg">
-					<a href="', $scripturl, '?action=theme;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], !empty($theme['variants']) ? ';vrt=' . $theme['selected_variant'] : '', '">', $theme['name'], '</a>
+					<a href="', $scripturl, '?action=themes;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], !empty($theme['variants']) ? ';vrt=' . $theme['selected_variant'] : '', '">', $theme['name'], '</a>
 				</h3>
 			</div>
 			<div class="', $theme['selected'] ? 'windowbg' : 'windowbg2', '">
 				<div class="flow_hidden">
-					<div class="floatright"><a href="', $scripturl, '?action=theme;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '" id="theme_thumb_preview_', $theme['id'], '" title="', $txt['theme_preview'], '"><img src="', $theme['thumbnail_href'], '" id="theme_thumb_', $theme['id'], '" alt="" class="padding"></a></div>
+					<div class="floatright"><a href="', $scripturl, '?action=themes;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '" id="theme_thumb_preview_', $theme['id'], '" title="', $txt['theme_preview'], '"><img src="', $theme['thumbnail_href'], '" id="theme_thumb_', $theme['id'], '" alt="" class="padding"></a></div>
 					<p>', $theme['description'], '</p>';
 
 		if (!empty($theme['variants']))
@@ -752,10 +741,10 @@ function template_pick()
 					<br>
 					<ul>
 						<li>
-							<a href="', $scripturl, '?action=theme;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], !empty($theme['variants']) ? ';vrt=' . $theme['selected_variant'] : '', '" id="theme_use_', $theme['id'], '">[', $txt['theme_set'], ']</a>
+							<a href="', $scripturl, '?action=themes;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], !empty($theme['variants']) ? ';vrt=' . $theme['selected_variant'] : '', '" id="theme_use_', $theme['id'], '">[', $txt['theme_set'], ']</a>
 						</li>
 						<li>
-							<a href="', $scripturl, '?action=theme;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '" id="theme_preview_', $theme['id'], '">[', $txt['theme_preview'], ']</a>
+							<a href="', $scripturl, '?action=themes;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '" id="theme_preview_', $theme['id'], '">[', $txt['theme_preview'], ']</a>
 						</li>
 					</ul>
 				</div>
@@ -765,8 +754,8 @@ function template_pick()
 		{
 			echo '
 			<script>
-			var sBaseUseUrl', $theme['id'], ' = pmx_prepareScriptUrl(pmx_scripturl) + \'action=theme;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '\';
-			var sBasePreviewUrl', $theme['id'], ' = pmx_prepareScriptUrl(pmx_scripturl) + \'action=theme;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '\';
+			var sBaseUseUrl', $theme['id'], ' = pmx_prepareScriptUrl(pmx_scripturl) + \'action=themes;sa=pick;u=', $context['current_member'], ';th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '\';
+			var sBasePreviewUrl', $theme['id'], ' = pmx_prepareScriptUrl(pmx_scripturl) + \'action=themes;sa=pick;u=', $context['current_member'], ';theme=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], '\';
 			var oThumbnails', $theme['id'], ' = {';
 
 			// All the variant thumbnails.
@@ -846,7 +835,7 @@ function template_edit_list()
 		<div class="cat_bar">
 			<h3 class="catbg">', $txt['themeadmin_edit_title'], '</h3>
 		</div>
-		<br>';
+		<div class="information">', $txt['theme_modify'], '</div>';
 
 	foreach ($context['themes'] as $theme)
 	{
@@ -857,7 +846,7 @@ function template_edit_list()
 				<em>(' . $theme['version'] . ')</em>' : '', '
 			</h3>
 		</div>
-		<div class="windowbg">
+		<div class="windowbg2">
 			<ul>
 				<li><a href="', $scripturl, '?action=admin;area=theme;th=', $theme['id'], ';', $context['session_var'], '=', $context['session_id'], ';sa=edit">', $txt['themeadmin_edit_browse'], '</a></li>', $theme['can_edit_style'] ? '
 				<li><a href="' . $scripturl . '?action=admin;area=theme;th=' . $theme['id'] . ';' . $context['session_var'] . '=' . $context['session_id'] . ';sa=edit;directory=css">' . $txt['themeadmin_edit_style'] . '</a></li>' : '', '

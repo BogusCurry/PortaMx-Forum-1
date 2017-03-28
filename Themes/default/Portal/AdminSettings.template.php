@@ -8,7 +8,7 @@
  * file AdminSettings.template.php
  * Template for the Settings Manager.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -133,10 +133,7 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div style="min-height:25px;">'. $txt['pmx_settings_index_front'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH182")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-								</div>
-								<div id="pmxH182" class="info_frame" style="text-align:left;">
-									'. $txt['pmx_settings_index_front_help'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_index_front_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -151,9 +148,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_settings_pages_hidefront'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH20\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH20" class="info_frame" style="text-align:left">'. $txt['pmx_settings_pages_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<div>
@@ -164,9 +160,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_download'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH01\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_downloadhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH01" class="info_frame">'. $txt['pmx_settings_downloadhelp'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -178,9 +173,8 @@ function template_main()
 						<tr id="dlbutchk1" style="display:'. (!empty($admset['download']) ? '' : 'none;') .'">
 							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_download_action'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxHdl20\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_dl_actionhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxHdl20" class="info_frame">'. $txt['pmx_settings_dl_actionhelp'] .'</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
 								<div style="min-height:25px;">
@@ -214,22 +208,20 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;text-align:right;">
 								<div>'. $txt['pmx_settings_other_actions'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH201\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_other_actionshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH201" class="info_frame">'. $txt['pmx_settings_other_actionshelp'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="min-height:25px;">
-									<input min-height:25px;class="adm_w80" type="text" name="other_actions" value="'. (!empty($admset['other_actions']) ? $admset['other_actions'] : '') .'" />
+									<input style="min-height:25px;" class="adm_w80" type="text" name="other_actions" value="'. (!empty($admset['other_actions']) ? $admset['other_actions'] : '') .'" />
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td style="padding:10px 5px 0 5px;text-align:right;">
 								<div style="min-height:25px;">'. $txt['pmx_settings_panelpadding'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxHpenp\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_panelpadding_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxHpenp" class="info_frame">'. $txt['pmx_settings_panelpadding_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="min-height:25px;">
@@ -240,9 +232,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_restoretop'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxHrst\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_restoretop_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxHrst" class="info_frame">'. $txt['pmx_settings_restoretop_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -254,9 +245,8 @@ function template_main()
 						<tr id="setspeed" style="display:none;">
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_restorespeed'] .'
-									<img class="info_toggle" onclick="Show_help(\'rstSpeed\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_restorespeed_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="rstSpeed" class="info_frame">'. $txt['pmx_settings_restorespeed_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div>
@@ -268,9 +258,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_colminwidth'] .'
-									<img class="info_toggle" onclick="Show_help(\'twocolmw\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_colminwidth_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="twocolmw" class="info_frame">'. $txt['pmx_settings_colminwidth_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div>
@@ -282,9 +271,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_loadinactive'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxLoadInac\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_loadinactive_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxLoadInac" class="info_frame">'. $txt['pmx_settings_loadinactive_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -306,9 +294,8 @@ function template_main()
 									chk_restore();
 								</script>
 								<div>'. $txt['pmx_settings_teasermode'][0] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxteasecnt\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pmxteasecnthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxteasecnt" class="info_frame">'. $txt['pmx_settings_pmxteasecnthelp'] .'</div>
 							</td>
 							<td style="padding:15px 5px 0 5px;width:50%;">
 								<div style="min-height:25px; float:left; margin-left:-4px;">
@@ -324,9 +311,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_blockcachestats'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH24a\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_blockcachestatshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH24a" class="info_frame">'. $txt['pmx_settings_blockcachestatshelp'] .'</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -341,9 +327,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_postcountacs'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH25\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_postcountacshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH25" class="info_frame">'. $txt['pmx_settings_postcountacshelp'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -355,9 +340,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_enable_xbarkeys'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH02\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_xbarkeys_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH02" class="info_frame">'. $txt['pmx_settings_xbarkeys_help'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -369,9 +353,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
 								<div>'. $txt['pmx_settings_enable_xbars'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH03\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_xbars_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH03" class="info_frame">'. $txt['pmx_settings_xbars_help'] .'</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
 								<div style="height:25px;">
@@ -447,9 +430,8 @@ function template_main()
 						<tr>
 							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
 								<div style="min-height:25px;">'. $txt['pmx_settings_collapse_visibility'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH05")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_collapse_vishelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH05" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_collapse_vishelp'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -462,9 +444,8 @@ function template_main()
 							<td style="padding:1px 5px;width:50%;text-align:right;">
 								<input type="hidden" name="manager[follow]" value="0" />
 								<div style="min-height:25px;">'. str_replace('[##]', '<img style="vertical-align:-3px;" src="'. $context['pmx_imageurl'] .'page_edit.gif" alt="*" title="" />', $txt['pmx_settings_quickedit']) .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH07")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_quickedithelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-									<div id="pmxH07" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_quickedithelp'] .'</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -477,9 +458,8 @@ function template_main()
 						<tr>
 							<td style="padding:1px 5px;width:50%;text-align:right;">
 								<div style="min-height:25px;">'. $txt['pmx_settings_enable_promote'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH1promo")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_enable_promote_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH1promo" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_enable_promote_help'] .'</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
 								<div style="margin-left:-4px;">
@@ -491,9 +471,8 @@ function template_main()
 						<tr>
 							<td style="padding:2px 5px; width:50%; text-align:right;">
 								<div>'. $txt['pmx_settings_promote_messages'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH2promo\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_promote_messages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH2promo" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_promote_messages_help'] .'</div>
 							</td>
 							<td style="padding:2px 5px; width:50%;">
 								<div style="min-height:25px;">
@@ -505,9 +484,8 @@ function template_main()
 						<tr>
 							<td style="padding:1px 5px;width:50%;text-align:right;">
 								<div style="min-height:25px;">', $txt['pmx_settings_article_on_page'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH10")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_article_on_pagehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH10" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_article_on_pagehelp'] .'</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
 								<div>
@@ -518,9 +496,8 @@ function template_main()
 						<tr>
 							<td style="padding:1px 5px;width:50%;text-align:right;">
 								<div style="height:25px;">'. $txt['pmx_settings_adminpages'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH09")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_adminpageshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH09" class="info_frame" style="text-align:left;">'. $txt['pmx_settings_adminpageshelp'] .'</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;text-align:right;">
 								<div style="height:25px;">
@@ -609,7 +586,7 @@ function template_main()
 				<td>
 					<div class="cat_bar catbg_grid">
 						<h4 class="catbg catbg_grid">
-							<span class="normaltext cat_msg_title">'. $txt['pmx_settings_panel'. $ActPanel] .'</span>
+							<span class="normaltext cat_msg_title adm_center">'. $txt['pmx_settings_panel'. $ActPanel] .'</span>
 						</h4>
 					</div>
 
@@ -629,9 +606,9 @@ function template_main()
 
 				echo '
 								<div style="padding-top:7px;">
-									'. $txt['pmx_settings_panelhidetitle'] .'&nbsp;<img class="info_toggle" style="text-align:right;padding-top:2px;" onclick="Show_help(\'pmxH_'. $ActPanel .'\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									'. $txt['pmx_settings_panelhidetitle'] .'&nbsp;
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_hidehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH_'. $ActPanel .'" class="info_frame">'. $txt['pmx_settings_hidehelp'] .'</div>
 							</td>
 							<td style="padding:5px; width:50%;">
 								<input type="hidden" name="'. $ActPanel .'_panel[size]" value="0" />
@@ -690,9 +667,8 @@ function template_main()
 						<tr>
 							<td style="padding:2px 5px; width:50%; text-align:right;">
 								<div>'. $txt['pmx_settings_panel_customhide'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH'. $ActPanel .'\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_panel_custhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH'. $ActPanel .'" class="info_frame">'. $txt['pmx_settings_panel_custhelp'] .'</div>
 							</td>
 							<td style="padding:2px 5px; width:50%;">
 								<div style="min-height:25px;">
@@ -704,9 +680,8 @@ function template_main()
 						<tr>
 							<td style="padding:2px 5px; width:50%; text-align:right;">
 								<div style="min-height:25px;padding-top:4px;">'. $txt['pmx_settings_devices'] .'
-									&nbsp;<img class="info_toggle" style="text-align:right;padding-top:2px;" onclick="Show_help(\'pmxDH_'. $ActPanel .'\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_deviceshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxDH_'. $ActPanel .'" class="info_frame">'. $txt['pmx_settings_deviceshelp'] .'</div>
 							</td>
 							<td style="padding:5px; width:50%;">
 								<input type="hidden" name="'. $ActPanel .'_panel[device]" value="0" />
@@ -769,10 +744,7 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div style="min-height:25px;">'. $txt['pmx_settings_index_front'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxH182")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-								</div>
-								<div id="pmxH182" class="info_frame" style="text-align:left;">
-									'. $txt['pmx_settings_index_front_help'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_index_front_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -787,9 +759,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_settings_pages_hidefront'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH20\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH20" class="info_frame" style="text-align:left">'. $txt['pmx_settings_pages_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<div>
@@ -829,9 +800,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_access_promote'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH50\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_promote_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH50" class="info_frame">'. $txt['pmx_access_promote_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<select style="width:61%;" name="setaccess[pmx_promote][]" size="5" multiple="multiple">';
@@ -852,9 +822,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_access_articlecreate'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH30\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_articlecreate_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH30" class="info_frame">'. $txt['pmx_access_articlecreate_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<select style="width:61%;" name="setaccess[pmx_create][]" size="5" multiple="multiple">';
@@ -875,9 +844,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_access_articlemoderator'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH31\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_articlemoderator_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH31" class="info_frame">'. $txt['pmx_access_articlemoderator_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<select style="width:61%;" name="setaccess[pmx_articles][]" size="5" multiple="multiple">';
@@ -898,9 +866,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_access_blocksmoderator'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH32\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_blocksmoderator_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH32" class="info_frame">'. $txt['pmx_access_blocksmoderator_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<select style="width:61%;" name="setaccess[pmx_blocks][]" size="5" multiple="multiple">';
@@ -924,9 +891,8 @@ function template_main()
 						<tr>
 							<td style="padding:5px;width:50%;text-align:right">
 								<div>'. $txt['pmx_access_pmxadmin'] .'
-									<img class="info_toggle" onclick="Show_help(\'pmxH33\', \'left\')" src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_pmxadmin_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</div>
-								<div id="pmxH33" class="info_frame">'. $txt['pmx_access_pmxadmin_help'] .'</div>
 							</td>
 							<td style="padding:5px;width:50%;">
 								<select style="width:61%;" name="setaccess[pmx_admin][]" size="5" multiple="multiple">';

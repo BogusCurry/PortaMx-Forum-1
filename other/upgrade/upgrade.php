@@ -7,13 +7,13 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // Version information...
-define('PMX_VERSION', '1.0 RC1');
-define('PMX_LANG_VERSION', '1.0 RC1');
-define('PMX_FULL_VERSION', 'PortaMx Forum 1.0 RC1');
+define('PMX_VERSION', '1.0 RC2');
+define('PMX_LANG_VERSION', '1.0 RC2');
+define('PMX_FULL_VERSION', 'PortaMx Forum 1.0 RC2');
 define('PMX', 1);
 
 $GLOBALS['required_php_version'] = '5.3.8';
@@ -591,7 +591,7 @@ if (!isset($settings['default_theme_url']))
 if (!isset($settings['default_theme_dir']))
 	$settings['default_theme_dir'] = $modSettings['theme_dir'];
 
-$upcontext['is_large_forum'] = (empty($modSettings['smfVersion']) || $modSettings['smfVersion'] <= '1.1 RC1') && !empty($modSettings['totalMessages']) && $modSettings['totalMessages'] > 75000;
+$upcontext['is_large_forum'] = (empty($modSettings['smfVersion']) || $modSettings['smfVersion'] <= '1.1 RC2') && !empty($modSettings['totalMessages']) && $modSettings['totalMessages'] > 75000;
 // Default title...
 $upcontext['page_title'] = isset($modSettings['smfVersion']) ? 'Updating Your Forum Install!' : 'Upgrading Your PortaMx Forum!';
 

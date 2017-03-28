@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if (!defined('PMX'))
@@ -107,12 +107,17 @@ function ShowAdminHelp()
 	if (!isset($helptxt))
 		$helptxt = array();
 
-	// Load the admin help language file and template.
-	loadLanguage('Help+ToolsHelp');
+	if (isset($_GET['help']) && substr($_GET['help'], 0, 4) == 'pmx_')
+			loadLanguage('Portal/PortalHelp');
+	else
+	{
+		// Load the admin help language file and template.
+		loadLanguage('Help+ToolsHelp');
 
-	// Permission specific help?
-	if (isset($_GET['help']) && substr($_GET['help'], 0, 14) == 'permissionhelp')
-		loadLanguage('ManagePermissions');
+		// Permission specific help?
+		if (isset($_GET['help']) && substr($_GET['help'], 0, 14) == 'permissionhelp')
+			loadLanguage('ManagePermissions');
+	}
 
 	loadTemplate('Help');
 

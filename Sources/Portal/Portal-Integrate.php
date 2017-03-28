@@ -8,7 +8,7 @@
  * file Portal-Integrate.php
  * Integration functions for the Portal
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -90,7 +90,7 @@ function Portal_AdminMenu(&$menudata)
 					'permission' => array('admin_forum'),
 					'areas' => array(
 						'pmx_center' => array(
-							'label' => $txt['pmx_extension'],
+							'label' => $txt['pmx_ext_center'],
 							'bigicon' => $context['pmx_imageurl'] .'adm_center.png',
 							'file' => $context['pmx_templatedir'] .'AdminCenter.php',
 							'function' => 'Portal_AdminCenter',
@@ -226,7 +226,7 @@ function Portal_MenuContext(&$menudata)
 				array_slice($menudata['admin']['sub_buttons'], 0, $fnd),
 				array(
 					'portal' => array(
-						'title' => $txt['pmx_extension'],
+						'title' => $txt['pmx_ext_center'],
 						'href' => $scripturl . '?action=admin;area=pmx_center',
 						'show' => $context['allow_admin'],
 						'sub_buttons' => array(
@@ -269,6 +269,7 @@ function Portal_MenuContext(&$menudata)
 					$fnd = array_search('mlist', array_keys($menudata));
 				if($fnd === false)
 					$fnd = array_search('search', array_keys($menudata));
+
 				$menudata = array_merge(
 				array_slice($menudata, 0, $fnd),
 				array(

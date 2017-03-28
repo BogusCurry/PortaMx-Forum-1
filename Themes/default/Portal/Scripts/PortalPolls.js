@@ -7,7 +7,7 @@
  * file PortalPolls.js
  * Javascript functions for Poll block
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 function pmx_VotePoll(id, elm)

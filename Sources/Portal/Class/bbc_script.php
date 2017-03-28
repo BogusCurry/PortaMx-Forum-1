@@ -8,7 +8,7 @@
  * file bbc_script.php
  * Systemblock BBC_SCRIPT
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -43,7 +43,7 @@ class pmxc_bbc_script extends PortaMxC_SystemBlock
 
 		// Write out bbc parsed content
 		echo '
-			'. PortaMx_BBCsmileys(parse_bbc($this->cfg['content']));
+			'. parse_bbc($this->cfg['content'], true);
 
 		if(!empty($this->cfg['config']['settings']['printing']))
 		{

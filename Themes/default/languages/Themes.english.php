@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Themes
+// Version: 1.0 RC2; Themes
 
 $txt['themeadmin_explain'] = 'Themes are the different looks and feels of your forum. These settings affect the selection of themes, and which themes guests and other members use.';
 
@@ -20,8 +20,7 @@ $txt['theme_confirmed_disabling'] = 'The theme was successfully disabled.';
 $txt['theme_confirmed_enabling'] = 'The theme was successfully enabled.';
 $txt['theme_confirmed_removing'] = 'The theme was successfully removed.';
 
-$txt['theme_install'] = 'Install a New Theme';
-$txt['theme_install_file'] = 'From an archive (e.g. .zip, .tar.gz)';
+$txt['theme_install_file'] = 'Install a new Theme from an archive (e.g. .zip, .tar.gz)';
 $txt['theme_install_dir'] = 'From a directory on the server';
 $txt['theme_install_error'] = 'That theme directory doesn\'t exist, or doesn\'t contain a theme.';
 $txt['theme_install_write_error'] = 'The Themes directory must be writable to continue.';

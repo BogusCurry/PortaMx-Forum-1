@@ -7,7 +7,7 @@
  * file PortalShouts.js
  * Javascript functions for ShoutBox
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 // insert smiley code

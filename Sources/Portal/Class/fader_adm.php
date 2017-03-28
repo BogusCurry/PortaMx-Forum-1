@@ -8,7 +8,7 @@
  * file fader_adm.php
  * Admin Systemblock FADER
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -40,7 +40,7 @@ class pmxc_fader_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -52,12 +52,11 @@ class pmxc_fader_adm extends PortaMxC_SystemAdminBlock
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
 								<h4 class="catbg catbg_grid">
-									<img class="grid_click_image pmxleft" onclick=\'Show_help("pmxFH1")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-									<span class="cat_left_title">&nbsp;'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_fader_timehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span>
 								</h4>
 							</div>
-							<div id="pmxFH1" class="info_frame" style="margin-top:4px;">'. $txt['pmx_fader_timehelp'] .'</div>
-
+	
 							<div class="adm_input">
 								<span class="adm_w60">'. $txt['pmx_fader_uptime'] .'</span>
 								<div><input onkeyup="check_numeric(this, \'.\');" size="6" type="text" name="config[settings][uptime]" value="' .(!empty($this->cfg['config']['settings']['uptime']) ? $this->cfg['config']['settings']['uptime'] : '2.2'). '" />&nbsp;'. $txt['pmx_fader_units'] .'</div>
@@ -88,19 +87,16 @@ class pmxc_fader_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_content()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// show the content area
 		echo '
 					<td valign="top" colspan="2" style="padding:4px;">
 						<div class="cat_bar catbg_grid">
 							<h4 class="catbg catbg_grid">
-								<img class="grid_click_image pmxleft" onclick=\'Show_help("pmxfadeHelp")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
-								<span class="cat_left_title">&nbsp;'. $txt['pmx_fader_content'] .'</span>
+								<a href="', $scripturl, '?action=helpadmin;help=pmx_fader_content_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+								<span class="cat_msg_title">'. $txt['pmx_fader_content'] .'</span>
 							</h4>
-						</div>
-						<div id="pmxfadeHelp" class="info_frame" style="margin-top:4px;">
-							'. $txt['pmx_fader_content_help'] .'<pre>'. htmlentities($txt['pmx_fader_content_help1'], ENT_NOQUOTES, $context['pmx']['encoding']) .'</pre>
 						</div>
 						<textarea name="'. $context['pmx']['script']['id'] .'" id="'. $context['pmx']['script']['id'] .'" style="display:block;width:'. $context['pmx']['script']['width'] .';height:'. $context['pmx']['script']['height'] .';">'. $context['pmx']['script']['value'] .'</textarea>
 					</td>

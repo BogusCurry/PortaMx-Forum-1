@@ -8,7 +8,7 @@
  * file newposts_adm.php
  * Admin Systemblock newposts
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -38,7 +38,7 @@ class pmxc_newposts_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define the settings options
 		echo '
@@ -53,7 +53,7 @@ class pmxc_newposts_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_input adm_sel">
@@ -87,37 +87,33 @@ class pmxc_newposts_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_boponews_page'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH03")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_page'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_pageindex_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" type="text" name="config[settings][onpage]" value="' .(isset($this->cfg['config']['settings']['onpage']) ? $this->cfg['config']['settings']['onpage'] : ''). '" /></div>
-								<div id="pmxNPH03" class="info_frame" style="margin-top:2px;">'. $txt['pmx_pageindex_help'] .'</div>
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_pageindex_pagetop'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH04")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_pageindex_pagetop'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_pageindex_tophelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][pgidxtop]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][pgidxtop]" value="1"' .(isset($this->cfg['config']['settings']['pgidxtop']) && !empty($this->cfg['config']['settings']['pgidxtop']) ? ' checked="checked"' : ''). ' /></div>
-								<div id="pmxNPH04" class="info_frame" style="margin-top:4px;">'. $txt['pmx_pageindex_tophelp'] .'</div>
 							</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. sprintf($txt['pmx_adm_teaser'], $txt['pmx_teasemode'][intval(!empty($context['pmx']['settings']['teasermode']))]) .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. sprintf($txt['pmx_adm_teaser'], $txt['pmx_teasemode'][intval(!empty($context['pmx']['settings']['teasermode']))]) .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_adm_teasehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" type="text" name="config[settings][teaser]" value="' .(isset($this->cfg['config']['settings']['teaser']) ? $this->cfg['config']['settings']['teaser'] : ''). '" /></div>
-								<div id="pmxNPH01" class="info_frame" style="margin-top:2px;">'. $txt['pmx_adm_teasehelp'] .'</div>
 							</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_boponews_rescale'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH02")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_rescale'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_boponews_rescalehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this,\'%\');" style="width:75px;" type="text" name="config[settings][rescale]" value="' .(isset($this->cfg['config']['settings']['rescale']) ? $this->cfg['config']['settings']['rescale'] : ''). '" /></div>
 							</div>
-							<div id="pmxNPH02" class="info_frame" style="margin-top:4px;">'. $txt['pmx_boponews_rescalehelp'] .'</div>
 
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['pmx_boponews_showthumbs'] .'</span>
@@ -126,29 +122,26 @@ class pmxc_newposts_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_boponews_thumbcnt'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH2x")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_thumbcnt'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_boponews_thumbcnthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="2" type="text" name="config[settings][thumbcnt]" value="' .(isset($this->cfg['config']['settings']['thumbcnt']) ? $this->cfg['config']['settings']['thumbcnt'] : ''). '" /></div>
 							</div>
-							<div id="pmxNPH2x" class="info_frame" style="margin-top:4px;">'. $txt['pmx_boponews_thumbcnthelp'] .'</div>
 
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_boponews_thumbsize'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPHrs")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_thumbsize'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_boponews_thumbsizehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this,\',\');" style="width:75px;" type="text" name="config[settings][thumbsize]" value="' .(isset($this->cfg['config']['settings']['thumbsize']) ? $this->cfg['config']['settings']['thumbsize'] : ''). '" /></div>
 							</div>
-							<div id="pmxNPHrs" class="info_frame" style="margin-top:4px;">'. $txt['pmx_boponews_thumbsizehelp'] .'</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_boponews_hidethumbs'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxNPH2y")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_hidethumbs'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_boponews_hidethumbshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][hidethumbs]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][hidethumbs]" value="1"' .(isset($this->cfg['config']['settings']['hidethumbs']) && !empty($this->cfg['config']['settings']['hidethumbs']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
-							<div id="pmxNPH2y" class="info_frame" style="margin-top:4px;">'. $txt['pmx_boponews_hidethumbshelp'] .'</div>
 
 							<div class="adm_check">
 								<span class="adm_w80">'. $txt['pmx_boponews_split'] .'</span>
@@ -163,7 +156,9 @@ class pmxc_newposts_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">'. $txt['pmx_boponews_disableHSimage'] .'</span>
+								<span class="adm_w80">&nbsp;'. $txt['pmx_boponews_disableHSimage'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_disable_lightbox_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+								</span>
 								<input type="hidden" name="config[settings][disableHSimg]" value="0" />
 								<div><input class="input_check" type="checkbox" name="config[settings][disableHSimg]" value="1"' .(isset($this->cfg['config']['settings']['disableHSimg']) && !empty($this->cfg['config']['settings']['disableHSimg']) ? ' checked="checked"' : '').(!empty($context['pmx']['settings']['disableHS']) ? ' disabled="disabled"' : '') .' /></div>
 							</div>

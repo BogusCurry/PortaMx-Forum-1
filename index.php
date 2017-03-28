@@ -15,10 +15,10 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
-$forum_version = 'PortaMx-Forum 1.0 RC1';
+$forum_version = 'PortaMx-Forum 1.0 RC2';
 $software_year = '2017';
 
 // Get everything started up...
@@ -313,7 +313,7 @@ function pmx_main()
 		'splittopics' => array('SplitTopics.php', 'SplitTopics'),
 		'stats' => array('Stats.php', 'DisplayStats'),
 		'sticky' => array('Topic.php', 'Sticky'),
-		'theme' => array('Themes.php', 'ThemesMain'),
+		'themes' => array('Themes.php', 'ThemesMain'),
 		'trackip' => array('Profile-View.php', 'trackIP'),
 		'about:unknown' => array('Likes.php', 'BookOfUnknown'),
 		'unread' => array('Recent.php', 'UnreadTopics'),

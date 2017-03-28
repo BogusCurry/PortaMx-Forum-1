@@ -8,7 +8,7 @@
  * file LoadData.php
  * Subroutines for the Portal.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -218,6 +218,7 @@ function ParseXmlurl($feedurl, $resposetime, $headerstart = '<?xml')
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);		// Should cURL return or print the data? (true = return, false = print)
 		curl_setopt($handle, CURLOPT_TIMEOUT, $resposetime);	// Timeout in seconds
 		curl_setopt($handle, CURLOPT_CRLF, true);							// Convert unix lf to crlf
+		curl_setopt($handle, CURLOPT_TRANSFERTEXT, true);			//
 		$content = curl_exec($handle);												// Download from the given URL
 		curl_close($handle);																	// Close the cURL resource
 	}
@@ -239,7 +240,7 @@ function ParseXmlurl($feedurl, $resposetime, $headerstart = '<?xml')
 		}
 
 		// prepare the header and send request
-		$header = "GET ". $parts['path'] ." HTTP/1.1\r\n";
+		$header = "GET ". $parts['path'] ." HTTP/1.0\r\n";
 		$header .= "Host: ". $parts['host'] ."\r\n";
 		$header .= "Connection: Close\r\n\r\n";
 		fputs($handle, $header);
@@ -275,11 +276,20 @@ function ParseXmlurl($feedurl, $resposetime, $headerstart = '<?xml')
 	// check header if OK and/or chunked transfer
 	$httpResposes = array('http/1.0 100 ok', 'http/1.1 100 ok', 'http/1.0 200 ok', 'http/1.1 200 ok');
 	$ischunked = (in_array('transfer-encoding: chunked', $headers));
+
 	if(in_array($headers[0], $httpResposes))
 	{
 		// chunked transfer ?
 		if(!empty($ischunked))
-			$body = trim(unchunkResponse($body));
+		{
+			$loop = 100000;
+			$body = trim(unchunkResponse($body, $loop));
+			if($loop <= 0)
+			{
+				$context['pmx']['feed_error_text'] = $eStr;
+				return '';
+			}
+		}
 		else
 			$body = trim($body);
 	}
@@ -308,9 +318,11 @@ function ParseXmlurl($feedurl, $resposetime, $headerstart = '<?xml')
 * Unchunk http content.
 * Returns unchunked content on success
 */
-function unchunkResponse($content = '')
+function unchunkResponse($content = '', &$loop)
 {
-	if(strpos(rtrim($content), "\r\n") === false)
+	global $txt;
+
+	if(strpos(rtrim($content), "\r\n\s") === false)
 		return $content;
 
 	$result = '';
@@ -318,7 +330,7 @@ function unchunkResponse($content = '')
 	{
 		do
 		{
-			$content = rtrim($content);
+			$loop--;
 			$pos = strpos($content, "\r\n");
 			if($pos === false)
 				return '';
@@ -332,9 +344,12 @@ function unchunkResponse($content = '')
 			$content  = substr($content, ($len + $pos + 2));
 			$check = trim($content);
 		}
-		while(!empty($check));
+		while(!empty($check) && $loop > 0);
 		unset($content);
 	}
+	if($loop <= 0)
+		$result = $txt['pmx_rssreader_error'];
+
 	return $result;
 }
 
@@ -2772,9 +2787,29 @@ function pmx_ContentLightBox($content)
 			$replace = preg_replace('/<img/', '<img alt="'. $altstr .'"'. (isset($context['lbimage_data']['lightbox_id']) ? '' : ' oncontextmenu="return false"'), $replace);
 
 			if(isset($context['lbimage_data']['lightbox_id']))
-				$replace = '<a class="lb-link" href='. $srcstr[1] .' title="'. $txt['lightbox_expand'] .'" data-lightbox="'. $context['lbimage_data']['lightbox_id'] .'" data-title="'. $altstr .'" oncontextmenu="return false">'. $replace .'</a>';
+				$replace = '<a class="lb-link" href="" data-link='. $srcstr[1] .' title="'. $txt['lightbox_expand'] .'" data-lightbox="'. $context['lbimage_data']['lightbox_id'] .'" data-title="'. $altstr .'" oncontextmenu="return false">'. $replace .'</a>';
 
 			$content = substr_replace($content, $replace, strpos($content, $data[0][0]), strlen($data[0][0]));
+		}
+	}
+
+	// convert smileys to the users set..
+	return convertSmileysToUser($content);
+}
+
+/**
+* Convert smileys to the users Smiley set
+*/
+function convertSmileysToUser($content)
+{
+	global $modSettings, $user_info;
+
+	if(preg_match_all('~<img.*'. preg_quote($modSettings['smileys_url'] .'/') .'(.*[^\/]*)\/[^>]*>~U', $content, $match, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) > 0)
+	{
+		while(($data = array_pop($match)) !== null)
+		{
+			if($data[1][0] !== $user_info['smiley_set'])
+				$content = substr_replace($content, $user_info['smiley_set'], $data[1][1], strlen($data[1][0]));
 		}
 	}
 	return $content;

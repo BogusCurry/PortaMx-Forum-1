@@ -8,7 +8,7 @@
  * file AdminArticles.template.php
  * Template for the Articles Manager.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -151,6 +151,21 @@ function template_main()
 		$articleCnt = count($context['pmx']['articles']);
 		$artIDs = array();
 		$pgCount = 0;
+
+		// filter out articles in categories they have a "Gobal use"
+		if(allowPmx('pmx_create, pmx_articles', true))
+		{
+			foreach($context['pmx']['articles'] as $aID => $article)
+			{
+				foreach($categories as $cat)
+				{
+					if($cat['id'] == $article['catid'] && strpos($cat['config'], '"global":"1"') !== false)
+						unset($context['pmx']['articles'][$aID]);
+				}
+			}
+		}
+
+		// call PmxArticleOverview for each article
 		foreach($context['pmx']['articles'] as $article)
 		{
 			if($pgCount >= $context['pmx']['articlestart'] && $pgCount < $context['pmx']['articlestart'] + $context['pmx']['settings']['manager']['artpage'])
@@ -364,7 +379,7 @@ function template_main()
 								</div>'. $txt['pmx_article_filter_membername'];
 
 		echo '
-								<div style="text-align:right;margin-top:-5px;">
+								<div style="text-align:right;'. (allowPmx('pmx_articles, pmx_admin') ? 'margin-top:-5px;' : 'margin-top:5px;') .'">
 									<input class="button_submit" type="button" value="'. $txt['set_article_filter'] .'" onclick="pmxSendFilter()" />
 									<div style="height:20px;"></div>
 								</div>

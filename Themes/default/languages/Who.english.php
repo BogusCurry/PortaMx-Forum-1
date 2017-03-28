@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC1; Who
+// Version: 1.0 RC2; Who
 
 global $scripturl, $context;
 

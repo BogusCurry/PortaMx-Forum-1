@@ -8,7 +8,7 @@
  * file newposts.php
  * Systemblock Newposts
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -540,7 +540,7 @@ class pmxc_newposts extends PortaMxC_SystemBlock
 
 		elseif(!empty($this->footNote[$post['id_msg']]))
 			echo '
-								<span style="inline-block;float:right;">'. $this->footNote[$post['id_msg']] .'</span>';
+								<span class="pmxp_attnote">'. $this->footNote[$post['id_msg']] .'</span>';
 
 		echo '
 					</div>

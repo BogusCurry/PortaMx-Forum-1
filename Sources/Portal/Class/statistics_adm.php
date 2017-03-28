@@ -8,7 +8,7 @@
  * file statistics_adm.php
  * Admin Systemblock statistics
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))
@@ -37,7 +37,7 @@ class pmxc_statistics_adm extends PortaMxC_SystemAdminBlock
 	*/
 	function pmxc_AdmBlock_settings()
 	{
-		global $context, $txt;
+		global $context, $scripturl, $txt;
 
 		// define additional classnames and styles
 		$used_classdef = $this->block_classdef;
@@ -62,7 +62,7 @@ class pmxc_statistics_adm extends PortaMxC_SystemAdminBlock
 		// show the settings screen
 		echo '
 							<div class="cat_bar catbg_grid grid_padd">
-								<h4 class="catbg catbg_grid"><span class="cat_left_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
+								<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. sprintf($txt['pmx_blocks_settings_title'], $this->register_blocks[$this->cfg['blocktype']]['description']) .'</span></h4>
 							</div>
 
 							<div class="adm_check">
@@ -86,12 +86,11 @@ class pmxc_statistics_adm extends PortaMxC_SystemAdminBlock
 								<div><input class="input_check" type="checkbox" name="config[settings][stat_spider]" value="1"' .(isset($this->cfg['config']['settings']['stat_spider']) && !empty($this->cfg['config']['settings']['stat_spider']) ? ' checked="checked"' : ''). ' /></div>
 							</div>
 							<div class="adm_input">
-								<span class="adm_w80">'. $txt['pmx_admstat_olheight'] .'
-									<img class="info_toggle" onclick=\'Show_help("pmxSTH01")\' src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="'. $txt['pmx_information_icon'] .'" />
+								<span class="adm_w80">&nbsp;'. $txt['pmx_admstat_olheight'] .'
+									<a href="', $scripturl, '?action=helpadmin;help=pmx_admstat_olheight_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<div><input onkeyup="check_numeric(this);" size="3" type="text" name="config[settings][stat_olheight]" value="' .(isset($this->cfg['config']['settings']['stat_olheight']) ? $this->cfg['config']['settings']['stat_olheight'] : '10'). '" /></div>
 							</div>
-							<div id="pmxSTH01" class="info_frame" style="margin-top:4px;">'. $txt['pmx_admstat_olheight_help'] .'</div>
 								<input type="hidden" name="config[show_sitemap]" value="0" />
 							</div>
 						</div>';

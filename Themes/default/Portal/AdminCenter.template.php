@@ -8,7 +8,7 @@
  * file AdminCenter.template.php
  * Template for the Admin Center.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 function template_main()
@@ -21,7 +21,7 @@ function template_main()
 	if(allowPmx('pmx_admin', true))
 		echo '
 		<div class="cat_bar"><h3 class="catbg">'. $txt['pmx_admin_center'] .'</h3></div>
-		<p class="information">'. sprintf($txt['pmx_admin_main_welcome'] ,'<img src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="" style="vertical-align: text-bottom;" />') .'</p>';
+		<p class="information">'. sprintf($txt['pmx_admin_main_welcome'] ,'<span class="generic_icons help" title="'. $txt['help'] .'"></span>') .'</p>';
 
 	echo '
 			<div class="roundframe" style="padding:10px 5px;margin-top:2px;">

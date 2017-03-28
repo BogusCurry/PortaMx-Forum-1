@@ -8,7 +8,7 @@
  * file rss_reader.php
  * Systemblock RSS Feed Reader
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

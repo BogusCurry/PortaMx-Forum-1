@@ -9,7 +9,7 @@
  * AdminSettings reached all Posts from Settings Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

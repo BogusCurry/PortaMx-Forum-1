@@ -8,7 +8,7 @@
  * file cbt_navigator.php
  * Systemblock cbt_navigator (Categorie-Board-Topic)
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

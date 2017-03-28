@@ -8,7 +8,7 @@
  * file recent_topics.php
  * Systemblock recent_topics
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if(!defined('PMX'))

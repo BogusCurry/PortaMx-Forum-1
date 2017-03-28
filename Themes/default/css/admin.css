@@ -43,6 +43,11 @@ a.help .icon {
 .additional_row div.floatleft {
 	padding: 0 10px;
 }
+.additional_row input,
+.additional_row .button_link {
+	margin-top: 5px !important;
+	margin-bottom: 18px !important;
+}
 fieldset {
 	padding: 6px;
 }
@@ -649,7 +654,7 @@ h3.grid_header {
 
 /* More error log stuff. Could still be cleaned up a bit. */
 #error_log {
-	margin: 4px 0;
+	margin: 4px 0 12px 0;
 }
 #error_log tr:first-child td {
 	background: #fff;
@@ -682,9 +687,14 @@ h3.config_hd {
 .winfo {
 	border-radius: 0;
 	border-bottom: 0;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
 	margin: 0 !important;
 }
-
+.add_top_border {
+	border-top-left-radius: 6px !important;
+	border-top-right-radius: 6px !important;
+}
 #versions .table_grid {
 	margin: 0;
 }

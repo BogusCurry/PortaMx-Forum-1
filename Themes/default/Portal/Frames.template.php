@@ -8,7 +8,7 @@
  * file Frames.template.php
  * Template for the Block/Category/Article frame.
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -89,9 +89,14 @@ function Pmx_Frame_top($cfg, $count)
 	$cfg['noID'] = in_array($cfg['blocktype'], array('category', 'article', 'static_category', 'static_article'));
 	$showAcs = allowPmxGroup($cfg['acsgrp']);
 	$cfg['active'] = !isset($cfg['active']) ? true : $cfg['active'];
-	echo '
-						<div'. (empty($cfg['noID']) ? ' id="block.id.'. $cfg['id'] .'" ' : '') .' style="padding-bottom:'. (empty($count) && in_array($cfg['side'], array('left', 'right', 'foot')) ? '0' : $context['pmx']['settings']['panelpad']) .'px; overflow:hidden;'. (in_array(strtolower($cfg['side']), array('left', 'right')) ? 'width:'. $context['pmx']['settings'][strtolower($cfg['side']).'_panel']['size'] .'px; padding-'. (strtolower($cfg['side']) == 'left' ? 'right:' : 'left:') . $context['pmx']['settings']['panelpad'] .'px;' : '') . (empty($cfg['active']) || empty($showAcs) ? 'display:none;' : '') .'">';
 
+	if(in_array($cfg['side'], array('front', 'head', 'top', 'left', 'right', 'category', 'article', 'pages')))
+		echo '
+						<div'. (empty($cfg['noID']) ? ' id="block.id.'. $cfg['id'] .'" ' : '') .' style="padding-bottom:'. (empty($count) ? '0' : $context['pmx']['settings']['panelpad']) .'px; overflow:hidden;'. (in_array(strtolower($cfg['side']), array('left', 'right')) ? 'width:'. $context['pmx']['settings'][strtolower($cfg['side']).'_panel']['size'] .'px; padding-'. (strtolower($cfg['side']) == 'left' ? 'right:' : 'left:') . $context['pmx']['settings']['panelpad'] .'px;' : '') . (empty($cfg['active']) || empty($showAcs) ? 'display:none;' : '') .'">';
+	else
+		echo '
+						<div'. (empty($cfg['noID']) ? ' id="block.id.'. $cfg['id'] .'" ' : '') .' style="padding-top:'. (empty($count) ? '0' : $context['pmx']['settings']['panelpad']) .'px; overflow:hidden;' . (empty($cfg['active']) || empty($showAcs) ? 'display:none;' : '') .'">';
+		
 	// show the collapse, if set and have a header
 	$head_bar = !empty($cfg['config']['visuals']['header']) && $cfg['config']['visuals']['header'] !== 'hide' ? str_replace('bg', '_bar', $cfg['config']['visuals']['header']) : '';
 

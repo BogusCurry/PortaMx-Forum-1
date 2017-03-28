@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /**
@@ -45,7 +45,7 @@ function template_generic_menu_dropdown_above()
 		}
 		else
 		{
-			$infoText = '<b>'. $txt['hello_guest'] .' '. $context['user']['name'] .'!</b> '. sprintf($txt['pmx_admin_main_welcome'] ,'<img src="'. $context['pmx_imageurl'] .'information.png" alt="*" title="" style="vertical-align: text-bottom;" />');
+			$infoText = '<b>'. $txt['hello_guest'] .' '. $context['user']['name'] .'!</b> '. sprintf($txt['pmx_admin_main_welcome'] ,'<span class="generic_icons help" title="'. $txt['help'] .'"></span>');
 			$titleText = $txt['pmx_admin_center'];
 		}
 	}

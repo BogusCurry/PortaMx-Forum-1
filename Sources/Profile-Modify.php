@@ -11,7 +11,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 if (!defined('PMX'))
@@ -460,8 +460,8 @@ function loadProfileFields($force_reload = false)
 			'preload' => function () use ($modSettings, &$context, $txt, $cur_profile, $pmxcFunc)
 			{
 				$context['member']['smiley_set']['id'] = empty($cur_profile['smiley_set']) ? '' : $cur_profile['smiley_set'];
-				$context['smiley_sets'] = explode(',', 'none,,' . $modSettings['smiley_sets_known']);
-				$set_names = explode("\n", $txt['smileys_none'] . "\n" . $txt['smileys_forum_board_default'] . "\n" . $modSettings['smiley_sets_names']);
+				$context['smiley_sets'] = explode(',', $modSettings['smiley_sets_known']);
+				$set_names = explode("\n", $modSettings['smiley_sets_names']);
 				foreach ($context['smiley_sets'] as $i => $set)
 				{
 					$context['smiley_sets'][$i] = array(

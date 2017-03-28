@@ -7,27 +7,25 @@
  * file portal.css
  * CSS file for portal Admin part
  *
- * @version 1.0 RC1
+ * @version 1.0 RC2
  */
 
 /* small modifications for the smf jquery editor */
-.sceditor-container iframe, .sceditor-container textarea
-{
-	padding: 0px !important;
-	margin: 3px 0px 10px 7px !important;
-}
 .sceditor-insertemoticon {
 	margin-bottom: 3px !important;
 	margin-top: -3px !important;
 }
 .sceditor-container {
-	border-top-left-radius:0 !important;
-	border-top-right-radius:0 !important;
-	border-bottom-left-radius:6px !important;
-	border-bottom-right-radius:6px !important;
+	border-radius: 0 0 6px 6px !important;
 }
-.sceditor-container iframe{
-	width:99.1% !important;
+.red_content {
+	margin-top: -10px;
+	margin-right: 3px;
+}
+
+.generic_icons.help {
+	background: url(Images/helptopics.png) no-repeat;
+	margin-top: 2px;
 }
 
 textarea#content, textarea#content_init {
@@ -38,6 +36,11 @@ textarea#content, textarea#content_init {
 }
 #check_content, #check_content_init {
 	border-radius: 0;
+}
+.edit_main {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	margin-top: 0px !important;
 }
 
 /* style for special dropdown */
@@ -63,16 +66,15 @@ textarea#content, textarea#content_init {
 	padding-top: 1px;
 	cursor: default;
 }
-
 .Blkedit {
 	position: relative !important;
 	top: -12px !important;
-	left: 90px !important;
+	left: 100px !important;
 }
 .Artedit {
 	position: relative !important;
 	top: -12px !important;
-	left: 90px !important;
+	left: 100px !important;
 }
 .ttlicondd {
 	position: absolute;
@@ -325,6 +327,10 @@ textarea#content, textarea#content_init {
 }
 .adm_center_titlebar {
 	text-align: center;
+}
+.adm_center {
+	text-align: center;
+	display: block;
 }
 .adm_txt {
 	width: 99.5%;
