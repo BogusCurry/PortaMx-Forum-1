@@ -30,6 +30,9 @@ function reloadSettings()
 			)
 		);
 
+	// setup cache enabled or not ..
+	$modSettings['cache_enable'] = $cache_enable;
+
 	// Try to load it from the cache first; it'll never get cached if the setting is off.
 	if (($modSettings = $pmxCacheFunc['get']('modSettings')) == null)
 	{
@@ -59,7 +62,11 @@ function reloadSettings()
 		$pmxCacheFunc['put']('modSettings', $modSettings, 3600);
 	}
 
-	$modSettings['cache_enable'] = $cache_enable;
+	// check if a Mobile device used
+	$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
+	$modSettings['isMobile'] = false;
+	if(preg_match("/(android|webos|avantgo|iphone|ipad|ipod|blackberry|iemobile|bolt|bo‌​ost|cricket|docomo|fone|hiptop|mini|opera mini|kitkat|lumia|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $useragent))
+		$modSettings['isMobile'] = true;
 
 	// UTF-8 ?
 	$utf8 = (empty($modSettings['global_character_set']) ? $txt['lang_character_set'] : $modSettings['global_character_set']) === 'UTF-8';
@@ -297,12 +304,6 @@ function reloadSettings()
 			uset($_SESSION['pmx_shoutreload']);
 			exit;
 		}
-
-		// check if a Mobile device used
-		$useragent = strtolower($_SERVER['HTTP_USER_AGENT']);
-		$modSettings['isMobile'] = false;
-		if(preg_match("/(android|webos|avantgo|iphone|ipad|ipod|blackberry|iemobile|bolt|bo‌​ost|cricket|docomo|fone|hiptop|mini|opera mini|kitkat|lumia|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $useragent))
-			$modSettings['isMobile'] = true;
 
 		// let us emulate a spider..
 		if(!empty($_COOKIE['spidertest']))
