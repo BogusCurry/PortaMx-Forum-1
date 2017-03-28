@@ -445,7 +445,7 @@ function Portal_AdminBlocks()
 
 					// add a change date to config array
 					$_POST['config']['created'] = time();
-					$_POST['content'] = PortaMx_makeSafeContent($_POST['content'], $_POST['blocktype']); 
+					$_POST['content'] = PortaMx_makeSafeContent((isset($_POST['content']) ? $_POST['content'] : ''), $_POST['blocktype']); 
 
 					// blocktype change?
 					if(!empty($_POST['chg_blocktype']))
