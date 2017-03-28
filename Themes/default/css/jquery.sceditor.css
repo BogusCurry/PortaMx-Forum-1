@@ -177,6 +177,7 @@ div.sceditor-grip {
 }
 .sceditor-container textarea {
 	padding: 5px;
+	line-height: 1.4em;
 }
 div.sceditor-resize-cover {
 	position: absolute;
