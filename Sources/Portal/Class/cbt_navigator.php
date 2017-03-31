@@ -126,7 +126,7 @@ class pmxc_cbt_navigator extends PortaMxC_SystemBlock
 					WHERE b.id_board IN ({array_int:boards}) AND {query_wanna_see_board}
 					'. ($modSettings['postmod_active'] ? ' AND m.approved = {int:approv}' : '') .'
 					AND (b.id_last_msg = m.id_msg OR t.id_last_msg >= {int:min_msg} OR t.id_last_msg IS NULL)
-					ORDER BY c.cat_order ASC, b.board_order ASC, t.id_topic ASC, m.id_msg ASC',
+					ORDER BY c.cat_order ASC, b.board_order ASC, t.is_sticky DESC, m.id_msg DESC',
 				array(
 					'idmem' => $user_info['id'],
 					'boards' => $this->cfg['config']['settings']['recentboards'],

@@ -874,7 +874,7 @@ function constructPageIndex($base_url, &$start, $max_value, $num_per_page, $flex
 			'previous_page' => '<span class="generic_icons previous_page"></span>',
 			'current_page' => '<span class="current_page">%1$d</span> ',
 			'page' => '<a class="navPages" href="{URL}">%2$s</a> ',
-			'expand_pages' => '<span class="expand_pages" onclick="expandPages(this, {LINK}, {FIRST_PAGE}, {LAST_PAGE}, {PER_PAGE});"> ... </span>',
+			'expand_pages' => '<span class="expand_pages"> ... </span>',
 			'next_page' => '<span class="generic_icons next_page"></span>',
 			'extra_after' => '',
 		);

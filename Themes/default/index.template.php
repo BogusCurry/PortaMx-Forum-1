@@ -64,7 +64,7 @@ function template_init()
 		'previous_page' => '<span class="generic_icons previous_page"></span>',
 		'current_page' => '<span class="current_page">%1$d</span> ',
 		'page' => '<a class="navPages" href="{URL}">%2$s</a> ',
-		'expand_pages' => '<span class="expand_pages" onclick="expandPages(this, {LINK}, {FIRST_PAGE}, {LAST_PAGE}, {PER_PAGE});"> ... </span>',
+		'expand_pages' => '<span class="expand_pages"> ... </span>',
 		'next_page' => '<span class="generic_icons next_page"></span>',
 		'extra_after' => '',
 	);
@@ -379,9 +379,9 @@ function template_body_below()
 	if(!empty($modSettings['disclaimer_link']))
 	{
 		if(strpos($modSettings['disclaimer_link'], '?') === false)
-			echo ' | <span class="footer_link"><a href="'. $boardurl .'/'. substr($modSettings['disclaimer_link'], 0, strpos($modSettings['disclaimer_link'], '.')) .'_'. $user_info['language'] . substr($modSettings['disclaimer_link'], strpos($modSettings['disclaimer_link'], '.')) .'" target="_blank">'. $txt['disclaimer'] .'</a></span>';
+			echo '<span class="footer_link disclaimer"> | <a href="'. $boardurl .'/'. substr($modSettings['disclaimer_link'], 0, strpos($modSettings['disclaimer_link'], '.')) .'_'. $user_info['language'] . substr($modSettings['disclaimer_link'], strpos($modSettings['disclaimer_link'], '.')) .'" target="_blank">'. $txt['disclaimer'] .'</a></span>';
 		else if(!empty($modSettings['portal_enabled']))
-			echo ' | <span class="footer_link"><a href="'. $scripturl . $modSettings['disclaimer_link'] .'_'. $user_info['language'] .'">'. $txt['disclaimer'] .'</a></span>';
+			echo '<span class="footer_link disclaimer"> | <a href="'. $scripturl . $modSettings['disclaimer_link'] .'_'. $user_info['language'] .'">'. $txt['disclaimer'] .'</a></span>';
 	}
 
 	echo '<span class="footer_link floatright"><a href="'. $scripturl. '?action=help;sa=rules">'. $txt['terms_and_rules']. '</a> | <a href="#head">', $txt['go_up'], ' &#9650;</a></span>

@@ -15,7 +15,7 @@ body {
 	word-wrap: break-word;
 	overflow: auto;
 	margin: 0 5px;
-	padding: 0
+	padding: 0;
 }
 ol, ul {
 	margin-top: 0;
@@ -49,6 +49,7 @@ code, code:before {
 	text-align: left;
 	direction: ltr;
 }
+/* first level */
 blockquote {
 	margin: 4px 0 8px 0;
 	padding: 6px 10px;
@@ -58,18 +59,22 @@ blockquote {
 	border-right: 2px solid #aaa;
 	background-color: #e0e6f6;
 }
+/* 2nd level */
 blockquote blockquote,
 blockquote blockquote blockquote blockquote {
 	background-color: #ebf4f8;
 }
+/* 3nd level */
 blockquote blockquote blockquote,
 blockquote blockquote blockquote blockquote blockquote blockquote {
 	background-color: #e0e6f6;
 }
+/* 4nd level */
 blockquote blockquote blockquote blockquote,
 blockquote blockquote blockquote blockquote blockquote blockquote blockquote blockquote {
 	background-color: #ebf4f8;
 }
+/* 5nd level */
 blockquote blockquote blockquote blockquote blockquote,
 blockquote blockquote blockquote blockquote blockquote blockquote blockquote blockquote blockquote blockquote {
 	background-color: #e0e6f6;

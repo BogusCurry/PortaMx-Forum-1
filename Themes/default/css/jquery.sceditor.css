@@ -161,10 +161,9 @@ div.sceditor-grip {
 	z-index: 3;
 }
 .sceditor-container iframe, .sceditor-container textarea {
-	line-height: 1;
 	border: 0;
 	outline: 0;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font: 83.33%/150% "Segoe UI", "Helvetica Neue", "Nimbus Sans L", Arial, "Liberation Sans", sans-serif;
 	font-size: 13px;
 	color: #111;
 	padding: 5px 0;
@@ -177,7 +176,7 @@ div.sceditor-grip {
 }
 .sceditor-container textarea {
 	padding: 5px;
-	line-height: 1.4em;
+	line-height: 1.5em;
 }
 div.sceditor-resize-cover {
 	position: absolute;
@@ -460,12 +459,6 @@ div.sceditor-group {
 .rtl div.sceditor-grip {
 	right: auto;
 	left: 0;
-}
-
-/* PMX buttons styles */
-.sceditor-button-pre div {
-	background: url(../images/bbc/pre.png);
-	margin: 0 0 0 -3px;
 }
 .sceditor-insertemoticon img {
 	margin: 6px 0 0 7px;

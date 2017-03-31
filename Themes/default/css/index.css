@@ -1285,6 +1285,9 @@ ul li.greeting {
 	border-radius: 0 0 8px 8px;
 	font-size: 13px;
 	text-shadow: 1px 1px 0px #152f4a;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 #footer div {
 	height: 20px;
@@ -3362,6 +3365,7 @@ div#pollmoderation {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	margin-right: 20px;
 }
 .subject_title a {
 	font-size: 1.1em;

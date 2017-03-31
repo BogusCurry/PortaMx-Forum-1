@@ -605,12 +605,10 @@ function create_sefurl($url)
 		{
 			if($key == 'start')
 				$sefstring2 .= ($value != '' ? $key .'/'. $value .'/' : '');
-
 			elseif(is_array($value))
 				$sefstring1 .= $key .'['. key($value) .']/'. $value[key($value)] .'/';
-
 			else
-				$sefstring1 .= $key .'/'. $value .'/';
+				$sefstring1 .= $key .'/'. ($key == 'subname' ? pmxsef_encode($value) : $value) .'/';
 		}
 
 		// Build the URL

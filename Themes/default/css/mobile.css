@@ -29,6 +29,9 @@
 	.information {
 		padding-bottom: 6px;
 	}
+	.footer_link.disclaimer {
+		display: none;
+	}
 }
 
 /* Lumia with 480px screen */
@@ -133,6 +136,7 @@
 	.poster {
 		float: none !important;
 		margin-bottom: 10px;
+		width: initial !important;
 	}
 	.postarea {
 		margin: 0 !important;
@@ -391,6 +395,7 @@
 	#ecl_outer{
 		max-width: 98.4% !important;
 	}
+}
 
 /* We have shared things... */
 @media screen and (max-width: 720px) {
@@ -711,7 +716,7 @@
 }
 @media (max-width: 600px) {
 	.poster {
-		width: 120px;
+		width: 110px;
 	}
 	.postarea, .moderatorbar {
 		margin-left:120px;
