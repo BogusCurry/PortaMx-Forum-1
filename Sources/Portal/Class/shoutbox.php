@@ -477,27 +477,27 @@ class pmxc_shoutbox extends PortaMxC_SystemBlock
 			if(checkECL_Cookie(true))
 			{
 				echo '
-		<div style="overflow:hidden;margin-bottom:2px;margin-top:4px;">
-			<input type="hidden" name="shoutbox_action" value="shout" />
-			<input type="hidden" name="shoutbox_id" value="'. $this->cfg['id'] .'" />
-			<input type="hidden" name="sc" value="'. $context['session_id'] .'" />
-			<input type="hidden" id="shout'. $this->cfg['id'] .'" name="pmx_shout" value="" />
-			<input type="hidden" id="shoutid'. $this->cfg['id'] .'" name="shoutid" value="" />
-			<div id="shoutcontdiv'. $this->cfg['id'] .'" style="display:none;">
-				<textarea id="shoutcontent'. $this->cfg['id'] .'"  style="height:80px;min-height:80px;max-height:250px;width:100%;resize:vertical;" name="post"></textarea>
-			</div>
-			<div style="border-top:1px solid #ddd;margin-top:2px;padding-top:2px;">
-				<img id="shoutbbon'. $this->cfg['id'] .'" style="cursor:pointer;margin-top:6px;float:left;'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? 'display:none;' : '') .'" onclick="ShoutPopup('. $this->cfg['id'] .');" src="'. $context['pmx_imageurl'] . 'type_bbc.gif" alt="*" title="'. $txt['pmx_shoutbox_bbc_code'] .'" />';
+			<div style="overflow:hidden;margin-bottom:2px;margin-top:4px;">
+				<input type="hidden" name="shoutbox_action" value="shout" />
+				<input type="hidden" name="shoutbox_id" value="'. $this->cfg['id'] .'" />
+				<input type="hidden" name="sc" value="'. $context['session_id'] .'" />
+				<input type="hidden" id="shout'. $this->cfg['id'] .'" name="pmx_shout" value="" />
+				<input type="hidden" id="shoutid'. $this->cfg['id'] .'" name="shoutid" value="" />
+				<div id="shoutcontdiv'. $this->cfg['id'] .'" style="display:none;">
+					<textarea id="shoutcontent'. $this->cfg['id'] .'"  style="height:80px;min-height:80px;max-height:250px;width:100%;resize:vertical;" name="post"></textarea>
+				</div>
+				<div style="border-top:1px solid #ddd;margin-top:2px;padding-top:2px;">
+					<img id="shoutbbon'. $this->cfg['id'] .'" style="cursor:pointer;margin-top:6px;float:left;'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? 'display:none;' : '') .'" onclick="ShoutPopup('. $this->cfg['id'] .');" src="'. $context['pmx_imageurl'] . 'type_bbc.gif" alt="*" title="'. $txt['pmx_shoutbox_bbc_code'] .'" />';
 
 				if(!empty($this->cfg['config']['settings']['boxcollapse']))
 					echo '
-				<img id="shoutbboff'. $this->cfg['id'] .'" style="margin-top:6px;float:left;" src="'. $context['pmx_imageurl'] . 'empty.gif" alt="*" title="" />';
+					<img id="shoutbboff'. $this->cfg['id'] .'" style="margin-top:6px;float:left;" src="'. $context['pmx_imageurl'] . 'empty.gif" alt="*" title="" />';
 
 				echo '
-				<img id="shout_toggle'. $this->cfg['id'] .'" style="'. ($canEdit ? 'cursor:pointer;' : '') .'margin-top:6px;float:right;"'. ($canEdit ? ' onclick="ShoutAdmin('. $this->cfg['id'] .',\'check\');"' : '') .' src="'. $Admimg[0] .'" alt="*" title="'. $txt['pmx_shoutbox_toggle'] .'" />
-				<input id="shout_key'. $this->cfg['id'] .'" onclick="SendShout('. $this->cfg['id'] .', '. intval(!empty($this->cfg['config']['settings']['boxcollapse'])) .')" class="button_submit shoutbutton" type="button" name="button" value="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_open'] : $txt['pmx_shoutbox_button']) .'" title="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_title'] : $txt['pmx_shoutbox_send_title']) .'" />
-			</div>
-		</div>';
+					<img id="shout_toggle'. $this->cfg['id'] .'" style="'. ($canEdit ? 'cursor:pointer;' : '') .'margin-top:6px;float:right;"'. ($canEdit ? ' onclick="ShoutAdmin('. $this->cfg['id'] .',\'check\');"' : '') .' src="'. $Admimg[0] .'" alt="*" title="'. $txt['pmx_shoutbox_toggle'] .'" />
+					<input id="shout_key'. $this->cfg['id'] .'" onclick="SendShout('. $this->cfg['id'] .', '. intval(!empty($this->cfg['config']['settings']['boxcollapse'])) .')" class="button_submit shoutbutton" type="button" name="button" value="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_open'] : $txt['pmx_shoutbox_button']) .'" title="'. (!empty($this->cfg['config']['settings']['boxcollapse']) ? $txt['pmx_shoutbox_button_title'] : $txt['pmx_shoutbox_send_title']) .'" />
+				</div>
+			</div>';
 			}
 		}
 	}
