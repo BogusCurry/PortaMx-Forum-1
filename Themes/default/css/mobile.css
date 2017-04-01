@@ -392,6 +392,9 @@
 
 /* adjust ecl overlay on small phones */
 @media screen and (max-width: 360px) {
+	#wrapper {
+		width: 98.75% !important;
+	}
 	#ecl_outer{
 		max-width: 98.4% !important;
 	}
@@ -500,7 +503,7 @@
 
 	/* General */
 	#wrapper {
-		width: 99% !important;
+		width: 99.4%;
 		margin: 0 2px 15px 2px;
 		border-left: 0;
 		border-right: 0;
