@@ -885,7 +885,8 @@ $txt['notify_board_2_desc'] = 'You will receive alerts for this board.';
 $txt['notify_board_3_desc'] = 'You will receive both alerts and e-mails for this board.';
 
 // Mobile Actions
-$txt['mobile_action'] = 'User actions';
-$txt['mobile_moderation'] = 'Moderation';
-$txt['mobile_user_menu'] = 'Mobile Main Menu';
+$txt['mobile_action'] = '<b>User actions</b>';
+$txt['mobile_moderation'] = '<b>Moderation</b>';
+$txt['mobile_user_menu'] = '<b>Mobile Main Menu</b>';
+$txt['mobile_admin_menu'] = '<b>Mobile Admin Menu</b>';
 ?>

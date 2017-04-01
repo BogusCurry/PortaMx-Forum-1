@@ -99,7 +99,7 @@ function template_generic_menu_mobile(&$menu_context)
 		<a class="menu_icon mobile_generic_menu_', $context['cur_menu_id'], '"></a>
 		<div id="mobile_generic_menu_', $context['cur_menu_id'], '" class="popup_container">
 			<div class="popup_window description">
-				<div class="popup_heading">', $txt['mobile_user_menu'],'
+				<div class="popup_heading">', (isset($_REQUEST['action']) && in_array($_REQUEST['action'], array('admin', 'portamx')) ? $txt['mobile_admin_menu'] : $txt['mobile_user_menu']) ,'
 				<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
 				', template_generic_menu($menu_context), '
 			</div>
