@@ -8,7 +8,7 @@
  * file AdminSubs.php
  * AdminSubs holds all subroutines for the Admin part.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

@@ -8,7 +8,7 @@
  * file polls_adm.php
  * Admin Systemblock polls
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -21,7 +21,7 @@ if(!defined('PMX'))
 */
 class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 {
-	var $smf_polls;
+	var $pmx_polls;
 
 	/**
 	* AdmBlock_init().
@@ -33,7 +33,7 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 		global $modSettings, $pmxcFunc;
 
 		// get all Polls
-		$this->smf_polls = array();
+		$this->pmx_polls = array();
 
 		$request = $pmxcFunc['db_query']('', '
 				SELECT t.id_poll, p.question, p.voting_locked, p.expire_time
@@ -46,7 +46,7 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 			)
 		);
 		while($row = $pmxcFunc['db_fetch_assoc']($request))
-			$this->smf_polls[$row['id_poll']] = array(
+			$this->pmx_polls[$row['id_poll']] = array(
 				'question' => $row['question'],
 				'locked' => !empty($row['voting_locked']),
 				'expired' => !empty($row['expire_time']) && $row['expire_time'] < time(),
@@ -93,12 +93,12 @@ class pmxc_polls_adm extends PortaMxC_SystemAdminBlock
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_polls_hint" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>';
 
-		if(!empty($this->smf_polls))
+		if(!empty($this->pmx_polls))
 		{
 			echo '
 								<select class="adm_w90" name="config[settings][polls][]" size="3" multiple="multiple">';
 
-			foreach($this->smf_polls as $pid => $data)
+			foreach($this->pmx_polls as $pid => $data)
 				echo '
 									<option value="'. $pid .'"'. (!empty($this->cfg['config']['settings']['polls']) && in_array($pid, $this->cfg['config']['settings']['polls']) ? ' selected="selected"' : '') .'>'. $data['question'] .($data['locked'] ? $txt['pmx_poll_select_locked'] : '').($data['expired'] ? $txt['pmx_poll_select_expired'] : '') .'</option>';
 

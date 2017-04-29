@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -18,7 +18,8 @@ function template_main()
 
 	echo '
 	<div class="main_section" id="memberlist">
-		<div class="pagesection">
+		<div class="pagesection" id="top">
+			<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
 			', template_button_strip($context['memberlist_buttons'], 'right'), '
 			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>
@@ -124,7 +125,8 @@ function template_main()
 
 	// Show the page numbers again. (makes 'em easier to find!)
 	echo '
-		<div class="pagesection">
+		<div class="pagesection" id="pbot">
+			<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
 			<div class="pagelinks floatleft">', $context['page_index'], '</div>';
 
 	// If it is displaying the result of a search show a "search again" link to edit their criteria.
@@ -148,7 +150,8 @@ function template_search()
 	echo '
 	<form action="', $scripturl, '?action=mlist;sa=search" method="post" accept-charset="', $context['character_set'], '">
 		<div id="memberlist">
-			<div class="pagesection">
+			<div class="pagesection" id="top">
+			<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
 				', template_button_strip($context['memberlist_buttons'], 'right'), '
 			</div>
 			<div class="cat_bar">

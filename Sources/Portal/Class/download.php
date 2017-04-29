@@ -8,7 +8,7 @@
  * file download.php
  * Systemblock Downlaod
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -93,7 +93,7 @@ class pmxc_download extends PortaMxC_SystemBlock
 						if(allowPmxGroup($dlacs))
 							$this->download_content .= '
 							<a href="'. $scripturl .'?action=dlattach;id='. $row['id_attach'] .';fld='. $this->cfg['id'] .'">
-								<img style="vertical-align:middle;" src="'. $context['pmx_imageurl'] .'download.png" alt="*" title="'. $row['subject'] .'" /></a>';
+								<img style="vertical-align:middle;" alt="download" src="'. $context['pmx_imageurl'] .'download.png" alt="*" title="'. $row['subject'] .'" /></a>';
 
 						if($user_info['is_admin'])
 							$this->download_content .= '

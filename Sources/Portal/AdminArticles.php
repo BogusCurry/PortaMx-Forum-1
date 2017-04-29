@@ -9,7 +9,7 @@
  * AdminArticles reached all Posts from Articles Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -24,28 +24,6 @@ function Portal_AdminArticles()
 	global $pmxcFunc, $context, $sourcedir, $scripturl, $modSettings, $user_info, $txt;
 
 	$admMode = isset($_GET['action']) ? $_GET['action'] : '';
-
-	// fix the linktree
-	if($admMode == 'admin')
-	{
-		foreach($context['linktree'] as $key => $data)
-		{
-			if(strpos($data['url'], 'pmx_articles') !== false)
-			{
-				$context['linktree'] = array_merge(
-					array_slice($context['linktree'], 0, $key),
-					array(
-						array(
-							'url' => $scripturl .'?action=admin;area=pmx_center;'. $context['session_var'] .'='. $context['session_id'],
-							'name' => $txt['pmx_extension']
-						),
-					),
-					array_slice($context['linktree'], $key, count($context['linktree']) - $key)
-				);
-				break;
-			}
-		}
-	}
 
 	if(($admMode == 'admin' || $admMode == 'portal') && isset($_GET['area']) && $_GET['area'] == 'pmx_articles')
 	{

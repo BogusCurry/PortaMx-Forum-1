@@ -10,7 +10,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -93,9 +93,9 @@ function MessageIndex()
 
 	// Make sure the starting place makes sense and construct the page index.
 	if (isset($_REQUEST['sort']))
-		$context['page_index'] = constructPageIndex($scripturl . '?board=' . $board . '.%1$d;sort=' . $_REQUEST['sort'] . (isset($_REQUEST['desc']) ? ';desc#top' : '#top'), $_REQUEST['start'], $board_info['total_topics'], $maxindex, true);
+		$context['page_index'] = constructPageIndex($scripturl . '?board=' . $board . '.%1$d;sort=' . $_REQUEST['sort'] . (isset($_REQUEST['desc']) ? ';desc#ptop' : '#ptop'), $_REQUEST['start'], $board_info['total_topics'], $maxindex, true);
 	else
-		$context['page_index'] = constructPageIndex($scripturl . '?board=' . $board . '.%1$d#top', $_REQUEST['start'], $board_info['total_topics'], $maxindex, true);
+		$context['page_index'] = constructPageIndex($scripturl . '?board=' . $board . '.%1$d', $_REQUEST['start'], $board_info['total_topics'], $maxindex, true);
 	$context['start'] = &$_REQUEST['start'];
 
 	// Set a canonical URL for this page.
@@ -416,11 +416,11 @@ function MessageIndex()
 			{
 				// We can't pass start by reference.
 				$start = -1;
-				$pages = constructPageIndex($scripturl . '?topic=' . $row['id_topic'] . '.%1$d#top', $start, $row['num_replies'] + 1, $context['messages_per_page'], true, false);
+				$pages = constructPageIndex($scripturl . '?topic=' . $row['id_topic'] . '.%1$d', $start, $row['num_replies'] + 1, $context['messages_per_page'], true, false);
 
 				// If we can use all, show all.
 				if (!empty($modSettings['enableAllMessages']) && $row['num_replies'] + 1 < $modSettings['enableAllMessages'])
-					$pages .= ' &nbsp;<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0;all">' . $txt['all'] . '</a>';
+					$pages .= ' &nbsp;<a class="navPages" href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0;all#ptop">' . $txt['all'] . '</a>';
 			}
 			else
 				$pages = '';
@@ -474,8 +474,8 @@ function MessageIndex()
 					'preview' => $row['first_body'],
 					'icon' => $row['first_icon'],
 					'icon_url' => $settings[$context['icon_sources'][$row['first_icon']]] . '/post/' . $row['first_icon'] . '.png',
-					'href' => $scripturl . '?topic=' . $row['id_topic'] . '.0',
-					'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0">' . $row['first_subject'] . '</a>',
+					'href' => $scripturl . '?topic=' . $row['id_topic'] . '.0#ptop',
+					'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0#ptop">' . $row['first_subject'] . '</a>',
 				),
 				'last_post' => array(
 					'id' => $row['id_last_msg'],

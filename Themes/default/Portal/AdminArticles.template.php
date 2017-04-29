@@ -8,7 +8,7 @@
  * file AdminArticles.template.php
  * Template for the Articles Manager.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -20,35 +20,10 @@ function template_main()
 
 	$curarea = isset($_GET['area']) ? $_GET['area'] : 'pmx_center';
 
-	if(allowPmx('pmx_admin', true))
-	{
-		$AdmTabs = array(
-			'pmx_settings' => $txt['pmx_settings'],
-			'pmx_blocks' => $txt['pmx_blocks'],
-			'pmx_categories' => $txt['pmx_categories'],
-			'pmx_articles' => $txt['pmx_articles'],
-		);
-
-		echo '
-			<div style="height:2.6em;margin-top:6px;">
-				<ul id="pmxmenu_nav" class="dropmenu sf-js-enabled">';
-
-		foreach($AdmTabs as $name => $desc)
-			echo '
-					<li id="'. $name .'" class="subsections">
-						<a '. ($name == $curarea ? 'class="active"' : '') .'href="'. $scripturl .'?action=portal;area='. $name .';'. $context['session_var'] .'=' .$context['session_id'] .'">'. $desc .'</a>
-					</li>';
-
-		echo '
-				</ul>
-			</div>';
-	}
-
 	if(allowPmx('pmx_admin, pmx_create, pmx_articles', true) && !in_array($context['pmx']['subaction'], array('edit', 'editnew')))
 		echo '
 			<div class="cat_bar"><h3 class="catbg">'. $txt['pmx_adm_articles'] .'</h3></div>
-			<p class="information">'. $txt['pmx_articles_desc'] .'</p>
-			<div style="height:5px;"></div>';
+			<p class="information">'. $txt['pmx_articles_desc'] .'</p>';
 
 	if(!isset($context['pmx']['articlestart']))
 		$context['pmx']['articlestart'] = 0;
@@ -59,6 +34,7 @@ function template_main()
 		$cururl = (!empty($_GET) ? pmx_http_build_query($_GET, '', ';') .';' : '');
 		$pageindex = constructPageIndex($scripturl . '?'. $cururl .'pg=%1$d', $context['pmx']['articlestart'], $context['pmx']['totalarticles'], $context['pmx']['settings']['manager']['artpage'], true);
 		$pageindex = str_replace(';start=%1$d', '', $pageindex);
+		$pageindex = str_replace('#ptop', '', $pageindex);
 	}
 
 	if (isset($_SESSION['saved_successful']))
@@ -69,7 +45,7 @@ function template_main()
 	}
 
 	echo '
-		<form id="pmx_form" accept-charset="'. $context['character_set'] .'" name="PMxAdminArticles" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_articles;'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin: 0px 0px 45px 0;" onsubmit="submitonce(this);">
+		<form id="pmx_form" accept-charset="'. $context['character_set'] .'" name="PMxAdminArticles" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_articles;'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin:0px;display:block;" onsubmit="submitonce(this);">
 			<input type="hidden" name="sc" value="'. $context['session_id'] .'" />
 			<input type="hidden" name="sa" value="'. $context['pmx']['subaction'] .'" />
 			<input type="hidden" name="articlestart" value="'. $context['pmx']['articlestart'] .'" />
@@ -123,7 +99,8 @@ function template_main()
 
 		// top pageindex
 		echo '
-			<div class="smalltext pmx_pgidx_top">'. $pageindex .'</div>';
+			<div class="pagelinks pmx_pageTop">', $pageindex, '</div>
+			<div class="clear_left" style="height:5px;"></div>';
 
 		echo '
 			<div style="margin-bottom:-10px;">
@@ -142,7 +119,7 @@ function template_main()
 							<div class="pmx_tbl_tdgrid" style="width:25%;"><b>'. $txt['pmx_articles_catname'] .'</b>
 								<span class="pmx_'. (empty($filterActive) ? 'nofilter' : 'filter') .'" title="'. $txt['pmx_article_filter'] .'" onclick="pmxSetFilter(this)"></span>
 							</div>
-							<div class="pmx_tbl_tdgrid" style="width:84px;"><b>'. $txt['pmx_options'] .'</b></div>
+							<div class="pmx_tbl_tdgrid opt_row" style="width:84px;"><b>'. $txt['pmx_options'] .'</b></div>
 							<div class="pmx_tbl_tdgrid" style="width:45px;"><b>'. $txt['pmx_status'] .'</b></div>
 							<div id="func-row" class="pmx_tbl_tdgrid" style="width:84px;"><b>'. $txt['pmx_functions'] .'</b></div>
 						</div>';
@@ -181,15 +158,10 @@ function template_main()
 		echo '
 					</div>
 				</div>
-			</div>';
+			</div>
 
-		// bottom pageindex
-		echo '
-			<div class="smalltext pmx_pgidx_bot">'. $pageindex .'</div>';
-
-		echo '
 			<input id="pWind.all.ids." type="hidden" value="'. implode(',', $artIDs) .'" />
-			<div style="height:5px;margin:-24px 5px 0 6px;border-color:transparent;background-color:transparent;z-index:900;">
+			<div style="height:5px;margin:-65px 5px 0 6px;border-color:transparent;background-color:transparent;z-index:900;">
 				<div class="pmx_tbl" style="table-layout:fixed;">
 					<div class="pmx_tbl_tr" id="popupRow">
 						<div class="pmx_tbl_tdgrid" style="width:46px;border-color:transparent;">';
@@ -295,7 +267,7 @@ function template_main()
 		echo '
 							<div id="pmxSetCats" class="smalltext" style="z-index:9999;width:220px;margin-top:-28px;display:none;">
 								'. pmx_popupHeader('pmxSetCats', $txt['pmx_category_popup']) .'
-									<select id="pWind.cats.sel" onchange="pmxChgCats(this)" style="width:100%;" size="6">';
+									<select id="pWind.cats.sel" onchange="pmxChgCats(this)" style="width:100%;" size="4">';
 
 		$selcats = array_merge(array(PortaMx_getDefaultCategory($txt['pmx_categories_none'])), $categories);
 		$ordercats = array_merge(array(0), $context['pmx']['catorder']);
@@ -338,10 +310,10 @@ function template_main()
 
 		// start filter popup
 		echo '
-							<div id="pmxSetFilter" class="smalltext" style="width:280px;z-index:9999;margin-top:-33px;padding-top:11px;display:none;">
+							<div id="pmxSetFilter" class="smalltext" style="width:230px;z-index:9999;margin-top:-33px;padding-top:11px;display:none;">
 								'. pmx_popupHeader('pmxSetFilter', $txt['pmx_article_setfilter']) .'
 									<div style="padding-bottom:3px; margin-top:-4px;">'. $txt['pmx_article_filter_category'] .'<span style="float:right; cursor:pointer" onclick="pmxSetFilterCatClr()">[<b>'. $txt['pmx_article_filter_categoryClr'] .'</b>]</span></div>
-									<select id="pWind.filter.category" style="width:100%;" size="4" multiple="multiple">';
+									<select id="pWind.filter.category" style="width:100%;" size="3" multiple="multiple">';
 
 		$selcats = array_merge(array(PortaMx_getDefaultCategory($txt['pmx_categories_none'])), $categories);
 		$ordercats = array_merge(array(0), $context['pmx']['catorder']);
@@ -375,7 +347,7 @@ function template_main()
 								</div>
 								<div style="height:18px;">
 									'. $txt['pmx_article_filter_member'] .'
-									<input id="pWind.filter.member" style="float:right;width:130px;" class="input_text" type="text" value="'. $_SESSION['PortaMx']['filter']['member'] .'" />
+									<input id="pWind.filter.member" style="float:right;width:85px;" class="input_text" type="text" value="'. $_SESSION['PortaMx']['filter']['member'] .'" />
 								</div>'. $txt['pmx_article_filter_membername'];
 
 		echo '
@@ -391,7 +363,7 @@ function template_main()
 
 		echo '
 						</div>
-						<div class="pmx_tbl_tdgrid" style="width:84px;border-color:transparent;"></div>
+						<div class="pmx_tbl_tdgrid opt_row" style="width:84px;border-color:transparent;"></div>
 						<div class="pmx_tbl_tdgrid" style="width:45px;border-color:transparent;"></div>
 						<div class="pmx_tbl_tdgrid" style="width:84px;border-color:transparent;">';
 
@@ -486,8 +458,7 @@ function template_main()
 						</div>
 					</div>
 				</div>
-			</div>
-			';
+			</div>';
 	}
 
 	// --------------------
@@ -499,7 +470,7 @@ function template_main()
 			<table class="pmx_table" style="margin-bottom:5px;table-layout:fixed;">
 				<tr>
 					<td style="text-align:center">
-						<div class="cat_bar" style="border-bottom-left-radius:6px;border-bottom-right-radius:6px">
+						<div class="cat_bar">
 							<h3 class="catbg">
 							'. $txt['pmx_article_edit'] .' '. $txt['pmx_articles_types'][$context['pmx']['editarticle']->cfg['ctype']] .'
 							</h3>
@@ -513,6 +484,13 @@ function template_main()
 		echo '
 			</table>';
 	}
+
+		// bottom pageindex
+	if($context['pmx']['subaction'] == 'overview')
+		echo '
+			<div style="margin-top: 51px;">
+				<div class="pagelinks pmx_pageBot">', $pageindex, '</div>
+			</div>';
 
 	echo '
 		</form>';
@@ -612,7 +590,7 @@ function PmxArticleOverview($article, &$cfg_titleicons, &$cfg_smfgroups, $catego
 
 	// options row
 	echo '
-								<div class="pmx_tbl_tdgrid">
+								<div class="pmx_tbl_tdgrid opt_row">
 									<input id="grpAcs.'. $article['id'] .'" type="hidden" value="'. implode(',', $grpacs) .'" />
 									<input id="denyAcs.'. $article['id'] .'" type="hidden" value="'. implode(',', $denyacs) .'" />
 									<div id="pmxSetArtDelete.'. $article['id'] .'"><span id="pmxSetArtClone.'. $article['id'] .'"></span>

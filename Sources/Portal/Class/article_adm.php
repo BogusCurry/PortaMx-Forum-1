@@ -8,7 +8,7 @@
  * file article_adm.php
  * Admin Systemblock article
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

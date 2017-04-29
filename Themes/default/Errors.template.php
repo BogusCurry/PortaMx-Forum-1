@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 // @todo
@@ -67,11 +67,12 @@ function template_error_log()
 					<a href="', $scripturl, '?action=helpadmin;help=error_log" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a> ', $txt['errlog'], '
 				</h3>
 			</div>
-			<div class="pagesection">
-				<div class="floatleft">
-					', $context['page_index'], '
+			<div class="pagesection" id="top">
+				<div class="fixpagesbar">
+					<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+					<div class="pagelinks floatleft">', $context['page_index'], '</div>
 				</div>
-				<div class="floatright">
+				<div class="floatright" style="margin-top:4px;">
 					<input type="submit" name="removeSelection" value="', $txt['remove_selection'] ,'" data-confirm="', $txt['remove_selection_confirm'] ,'" class="button_submit you_sure">
 					<input type="submit" name="delall" value="', ($context['has_filter'] ? $txt['remove_filtered_results'] : $txt['remove_all']) ,'" data-confirm="', ($context['has_filter'] ? $txt['remove_filtered_results_confirm'] : $txt['sure_about_errorlog_remove']) ,'" class="button_submit you_sure">
 				</div>
@@ -179,12 +180,13 @@ function template_error_log()
 					</td>
 				</tr>
 			</table>
-			<div class="pagesection floatleft">
-				&nbsp;&nbsp;', $context['page_index'], '
+			<div class="fixpagesbar" id="pbot">
+				<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+				<div class="pagelinks floatleft">', $context['page_index'], '</div>
 			</div>';
 
 	echo '
-			<div class="floatright">
+			<div class="floatright" style="margin-top:4px;">
 				<input type="submit" name="removeSelection" value="', $txt['remove_selection'] ,'" data-confirm="', $txt['remove_selection_confirm'] ,'" class="button_submit you_sure">
 				<input type="submit" name="delall" value="', ($context['has_filter'] ? $txt['remove_filtered_results'] : $txt['remove_all']) ,'" data-confirm="', ($context['has_filter'] ? $txt['remove_filtered_results_confirm'] : $txt['sure_about_errorlog_remove']) ,'" class="button_submit you_sure">
 			</div>

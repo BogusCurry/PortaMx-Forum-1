@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -33,21 +33,14 @@ function jsCookieHandling($fromPHP = false)
 		{
 			// mode GET
 			case 'get':
-				// get/set Screen width ?
-				if($_REQUEST['name'] == 'screen' && $_REQUEST['type'] == 'io')
-				{
-					$result = get_cookie($_REQUEST['name']);
-					set_cookie($_REQUEST['name'], $_REQUEST['value'], 0);
-				}
-
-				 // get formatted time string?
-				elseif($_REQUEST['type'] == 'format' && $_REQUEST['name'] == 'time')
+				// get formatted time string?
+				if($_REQUEST['type'] == 'format' && $_REQUEST['name'] == 'time')
 				{
 					loadUserSettings();
 					$result = timeformat($_REQUEST['value']);
 				}
 
-				 // get link in SEF format?
+				// get link in SEF format?
 				elseif($_REQUEST['name'] == 'link' && $_REQUEST['type'] == 'sef' && !empty($modSettings['sef_enabled']))
 					$result = create_sefurl($scripturl .'?'. $_REQUEST['value']);
 
@@ -59,6 +52,7 @@ function jsCookieHandling($fromPHP = false)
 					// clear the cookie immediate?
 					if($_REQUEST['type'] == 'clear')
 						set_cookie($_REQUEST['name'], '');
+
 					// get & set ?
 					elseif($_REQUEST['type'] == 'set')
 						set_cookie($_REQUEST['name'], $_REQUEST['value']);
@@ -847,7 +841,27 @@ function updateSettings($changeArray, $update = false)
  */
 function constructPageIndex($base_url, &$start, $max_value, $num_per_page, $flexible_start = false, $show_prevnext = true)
 {
-	global $modSettings, $context, $pmxcFunc, $settings, $txt;
+	global $modSettings, $context, $pmxcFunc, $settings, $topic, $txt;
+
+	// we change the page display on mobile mode according the screesize
+	$cTPC = $modSettings['compactTopicPagesContiguous'];
+	if(!empty($modSettings['isMobile']))
+	{
+		$cTPC = 3;
+		$screen = get_cookie('screen');
+		if(!empty($screen))
+		{
+			$temp = explode('-', $screen);
+			if(isset($temp[1]))
+			{
+				$temp = intval($temp[1]);
+				if($temp > 790)
+					$cTPC = 7;
+				else if($temp > 590)
+					$cTPC = 5;
+			}
+		}
+	}
 
 	// Save whether $start was less than 0 or not.
 	$start = (int) $start;
@@ -871,11 +885,11 @@ function constructPageIndex($base_url, &$start, $max_value, $num_per_page, $flex
 		// This defines the formatting for the page indexes used throughout the forum.
 		$settings['page_index'] = array(
 			'extra_before' => '<span class="pages">' . $txt['pages'] . '</span>',
-			'previous_page' => '<span class="generic_icons previous_page"></span>',
+			'previous_page' => '<span class="previous_page">&#9664;</span>',
 			'current_page' => '<span class="current_page">%1$d</span> ',
-			'page' => '<a class="navPages" href="{URL}">%2$s</a> ',
+			'page' => '<a class="navPages" href="{URL}#ptop">%2$s</a> ',
 			'expand_pages' => '<span class="expand_pages"> ... </span>',
-			'next_page' => '<span class="generic_icons next_page"></span>',
+			'next_page' => '<span class="next_page">&#9654;</span>',
 			'extra_after' => '',
 		);
 	}
@@ -884,7 +898,7 @@ function constructPageIndex($base_url, &$start, $max_value, $num_per_page, $flex
 	$pageindex = $settings['page_index']['extra_before'];
 
 	// Compact pages is off or on?
-	if (empty($modSettings['compactTopicPagesEnable']))
+    if (empty($modSettings['compactTopicPagesEnable']))
 	{
 		// Show the left arrow.
 		$pageindex .= $start == 0 ? ' ' : sprintf($base_link, $start - $num_per_page, $settings['page_index']['previous_page']);
@@ -902,7 +916,7 @@ function constructPageIndex($base_url, &$start, $max_value, $num_per_page, $flex
 	else
 	{
 		// If they didn't enter an odd value, pretend they did.
-		$PageContiguous = (int) ($modSettings['compactTopicPagesContiguous'] - ($modSettings['compactTopicPagesContiguous'] % 2)) / 2;
+		$PageContiguous = (int) ($cTPC - ($cTPC % 2)) / 2;
 
 		// Show the "prev page" link. (>prev page< 1 ... 6 7 [8] 9 10 ... 15 next page)
 		if (!empty($start) && $show_prevnext)
@@ -1685,10 +1699,16 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 
 					// printpage without images?
 					if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'printpage' && !isset($_REQUEST['images']))
-						return $data[0] = '';
+					{
+						$data = '';
+						return $data;
+					}
 
 					if(!empty($disabled['img']))
-						return $data[0] = '';
+					{
+						$data = '';
+						return $data;
+					}
 
 					$data = strtr($data, array('<br>' => ''));
 					if (strpos($data, 'http://') !== 0 && strpos($data, 'https://') !== 0)

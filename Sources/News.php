@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx, Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -273,7 +273,7 @@ function ShowXmlFeed()
 
 	<updated>', gmstrftime('%Y-%m-%dT%H:%M:%SZ'), '</updated>
 	<subtitle>', cdata_parse(strip_tags($txt['xml_rss_desc'])), '</subtitle>
-	<generator uri="http://portamx.com" version="', strtr($forum_version, array('PortaMx Forum' => '')), '">PortaMx</generator>
+	<generator uri="https://www.portamx.com" version="', strtr($forum_version, array('PortaMx Forum' => '')), '">PortaMx</generator>
 	<author>
 		<name>', cdata_parse(strip_tags($context['forum_name'])), '</name>
 	</author>';
@@ -313,7 +313,7 @@ function ShowXmlFeed()
 	else
 	{
 		echo '
-<pmx:xml-feed xmlns:pmx="http://portamx.com/" xmlns="http://portamx.com/xml/', $_GET['sa'], '" xml:lang="', strtr($txt['lang_locale'], '_', '-'), '">';
+<pmx:xml-feed xmlns:pmx="https://www.portamx.com/" xmlns="https://www.portamx.com/xml/', $_GET['sa'], '" xml:lang="', strtr($txt['lang_locale'], '_', '-'), '">';
 
 		// Dump out that associative array.  Indent properly.... and use the right names for the base elements.
 		dumpTags($xml, 1, $subActions[$_GET['sa']][1], $xml_format);

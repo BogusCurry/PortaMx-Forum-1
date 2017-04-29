@@ -7,7 +7,7 @@
  * @author PortaMx
  * @copyright 2017 PortaMx
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))

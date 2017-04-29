@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; Portal
+// Version: 1.0 RC3; Portal
 
 /**
  * PortaMx Forum
@@ -103,6 +103,7 @@ $txt['pmx_categories'] = 'Category Manager';
 $txt['pmx_articles'] = 'Article Manager';
 $txt['pmx_adm_categories'] = 'Portal Category Manager';
 $txt['pmx_adm_articles'] = 'Portal Article Manager';
+$txt['pmx_mobile_tab_blocks'] = 'Portal Blocks Manager';
 
 // teaser
 $txt['pmx_readmore'] = '<b>Read the whole article</b>';
@@ -299,7 +300,7 @@ $txt['pmx_text_show_attach'] = '<b>Show attaches</b>';
 $txt['pmx_text_hide_attach'] = '<b>Hide attaches</b>';
 $txt['pmx_text_printing'] = 'Print the content';
 $txt['pmx_user_unknown'] = 'Unknown';
-$txt['pmx_set_promote'] = 'Promote Message';
+$txt['pmx_set_promote'] = 'Set Promote';
 $txt['pmx_unset_promote'] = 'Clear Promote';
 $txt['pmx_check_phpsyntax'] = 'Check the PHP Syntax';
 ?>

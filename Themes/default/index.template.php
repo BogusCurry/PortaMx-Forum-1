@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /*	This template is, perhaps, the most important template in the theme. It
@@ -31,7 +31,7 @@
 	wants and or needs.
 
 	For more information on the templating system, please see the site at:
-	http://portamx.com
+	https://www.portamx.com
 */
 
 /**
@@ -61,11 +61,11 @@ function template_init()
 	// This defines the formatting for the page indexes used throughout the forum.
 	$settings['page_index'] = array(
 		'extra_before' => '<span class="pages">' . $txt['pages'] . '</span>',
-		'previous_page' => '<span class="generic_icons previous_page"></span>',
+		'previous_page' => '<span class="previous_page">&#9664;</span>',
 		'current_page' => '<span class="current_page">%1$d</span> ',
-		'page' => '<a class="navPages" href="{URL}">%2$s</a> ',
+		'page' => '<a class="navPages" href="{URL}#ptop">%2$s</a> ',
 		'expand_pages' => '<span class="expand_pages"> ... </span>',
-		'next_page' => '<span class="generic_icons next_page"></span>',
+		'next_page' => '<span class="next_page">&#9654;</span>',
 		'extra_after' => '',
 	);
 
@@ -303,17 +303,15 @@ function template_body_above()
 				<div id="inner_wrap">
 					<div class="user">
 						', $context['current_time'], '
-					</div>';
+					</div>
+					<div class="news">';
 
-	// Show a random news item? (or you could pick one from news_lines...)
-	if (!empty($settings['enable_news']) && !empty($context['random_news_line']))
-		echo '
-					<div class="news">
-						<h2>', $txt['news'], ': </h2>
-						<p>', $context['random_news_line'], '</p>
-					</div>';
-
+	if ($context['user']['is_logged'])
 	echo '
+						<a href="', $scripturl, '?action=unread" title="', $txt['unread_since_visit'], '">', $txt['view_unread_category'], '</a> &nbsp;&nbsp;
+						<a href="', $scripturl, '?action=unreadreplies" title="', $txt['show_unread_replies'], '">', $txt['unread_replies'], '</a>';
+
+	echo '	</div>
 					<hr class="clear">
 				</div>';
 
@@ -384,7 +382,7 @@ function template_body_below()
 			echo '<span class="footer_link disclaimer"> | <a href="'. $scripturl . $modSettings['disclaimer_link'] .'_'. $user_info['language'] .'">'. $txt['disclaimer'] .'</a></span>';
 	}
 
-	echo '<span class="footer_link floatright"><a href="'. $scripturl. '?action=help;sa=rules">'. $txt['terms_and_rules']. '</a> | <a href="#head">', $txt['go_up'], ' &#9650;</a></span>
+	echo '<span class="footer_link floatright"><a href="'. $scripturl. '?action=help;sa=rules">'. $txt['terms_and_rules']. '</a> | &nbsp;<a class="notxtdec" href="#head">', $txt['go_up'], '</a>&nbsp;</span>
 			</div>';
 
 	// Show the cache status if enabled and also the cache is enabled
@@ -401,10 +399,10 @@ function template_body_below()
 		echo '&nbsp;<span class="footer_link" id="cachevals">';
 
 		$values = $pmxCache['vals'];
-		$values['time'] = sprintf("%0.3F", $values['time'] * 1000) . $txt['cache_msec'];
+		$values['time'] = sprintf("%0.2F", $values['time'] * 1000) . $txt['cache_msec'];
 
 		foreach($txt['cachestats'] as $key => $keytxt)
-			echo $keytxt . (in_array($key, array('loaded', 'saved')) ? sprintf("%0.3F", $values[$key] / 1024) . $txt['cache_kb'] : $values[$key]);
+			echo $keytxt . (in_array($key, array('loaded', 'saved')) ? sprintf("%0.2F", $values[$key] / 1024) . $txt['cache_kb'] : $values[$key]);
 
 		echo '</span></span>';
 	}
@@ -448,7 +446,7 @@ function theme_linktree($force_show = false)
 	{
 		echo '
 				<div class="navigate_section">
-					<ul id="top">';
+					<ul id="ptop">';
 
 		$context['linktree_first_call'] = true;
 	}
@@ -456,13 +454,6 @@ function theme_linktree($force_show = false)
 		echo '
 				<div class="navigate_section">
 					<ul>';
-
-	if ($context['user']['is_logged'])
-	echo '
-						<li class="unread_links">
-							<a href="', $scripturl, '?action=unread" title="', $txt['unread_since_visit'], '">', $txt['view_unread_category'], '</a>
-							<a href="', $scripturl, '?action=unreadreplies" title="', $txt['show_unread_replies'], '">', $txt['unread_replies'], '</a>
-						</li>';
 
 	// Each tree item has a URL and name. Some may have extra_before and extra_after.
 	foreach ($context['linktree'] as $link_num => $tree)

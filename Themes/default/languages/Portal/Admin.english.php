@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; Admin
+// Version: 1.0 RC3; Admin
 
 /**
  * PortaMx Forum
@@ -24,6 +24,12 @@ $txt['pmx_center_mancategories'] = '<b>Category Manager</b>';
 $txt['pmx_center_mancategories_desc'] = 'Change or set options for Categories, create new, move, edit and delete.';
 $txt['pmx_center_manarticles'] = '<b>Article Manager</b>';
 $txt['pmx_center_manarticles_desc'] = 'Change or set options for Articles, create new, move, edit and delete.';
+
+$txt['pmx_allpanels'] = '<b>Mobile Menu "Portal Panels"</b>';
+$txt['pmx_allpanelSetting'] = '<b>Mobile Menu "Portal Panel Setting"</b>';
+$txt['pmx_allsettings'] = '<b>Mobile Menu "Portal Settings"</b>';
+$txt['mobile_portal_blocks'] = 'Blocks Manager';
+$txt['mobile_portal_settings'] = 'Settings Manager';
 
 // AdminBlocks
 $txt['pmx_admBlk_desc'] = 'Manage your blocks with edit, move, clone, create or delete.<br />
@@ -211,7 +217,7 @@ $txt['pmx_categories_desc'] = 'Manage your categories with create, edit, move, c
 // overview
 $txt['pmx_categories_overview'] = 'Category overview';
 $txt['pmx_categories_add'] = 'Add new category';
-$txt['pmx_categories_name'] = 'Category name';
+$txt['pmx_categories_name'] = 'Name';
 $txt['pmx_categories_order'] = 'Order';
 $txt['pmx_categories_level'] = 'Level';
 $txt['pmx_edit_categories'] = 'Click to edit this category';

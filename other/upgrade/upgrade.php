@@ -7,13 +7,13 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 // Version information...
-define('PMX_VERSION', '1.0 RC2');
-define('PMX_LANG_VERSION', '1.0 RC2');
-define('PMX_FULL_VERSION', 'PortaMx Forum 1.0 RC2');
+define('PMX_VERSION', '1.0 RC3');
+define('PMX_LANG_VERSION', '1.0 RC3');
+define('PMX_FULL_VERSION', 'PortaMx Forum 1.0 RC3');
 define('PMX', 1);
 
 $GLOBALS['required_php_version'] = '5.3.8';
@@ -50,7 +50,7 @@ $databases = array(
 $timeLimitThreshold = 3;
 $upgrade_path = dirname(__FILE__);
 $upgradeurl = $_SERVER['PHP_SELF'];
-$pmxforumsite = 'http://portamx.com';
+$pmxforumsite = 'https://www.portamx.com';
 // Disable the need for admins to login?
 $disable_security = false;
 // How long, in seconds, must admin be inactive to allow someone else to run?
@@ -591,7 +591,7 @@ if (!isset($settings['default_theme_url']))
 if (!isset($settings['default_theme_dir']))
 	$settings['default_theme_dir'] = $modSettings['theme_dir'];
 
-$upcontext['is_large_forum'] = (empty($modSettings['smfVersion']) || $modSettings['smfVersion'] <= '1.1 RC2') && !empty($modSettings['totalMessages']) && $modSettings['totalMessages'] > 75000;
+$upcontext['is_large_forum'] = (empty($modSettings['smfVersion']) || $modSettings['smfVersion'] <= '3.0 RC2') && !empty($modSettings['totalMessages']) && $modSettings['totalMessages'] > 75000;
 // Default title...
 $upcontext['page_title'] = isset($modSettings['smfVersion']) ? 'Updating Your Forum Install!' : 'Upgrading Your PortaMx Forum!';
 
@@ -4591,7 +4591,7 @@ function template_upgrade_below()
 			</div>
 			<div id="footer">
 				<ul>
-					<li class="copyright"><a href="http://portamx.com/" title="PortaMx Forum" target="_blank" class="new_win">PortaMx Forum &copy; 2017, PortaMx</a></li>
+					<li class="copyright"><a href="https://www.portamx.com/" title="PortaMx Forum" target="_blank" class="new_win">PortaMx Forum &copy; 2017, PortaMx</a></li>
 				</ul>
 			</div>
 		</div>
@@ -5806,7 +5806,7 @@ function template_upgrade_complete()
 		echo '<br> Upgrade completed in ', $totalTime, '<br><br>';
 
 	echo '<br>
-			If you had any problems with this upgrade, or have any problems using PortaMx Forum, please don\'t hesitate to <a href="http://portamx.com">look to us for assistance</a>.<br>
+			If you had any problems with this upgrade, or have any problems using PortaMx Forum, please don\'t hesitate to <a href="https://www.portamx.com">look to us for assistance</a>.<br>
 			<br>
 			Best of luck,<br>
 			PortaMx Corp.';

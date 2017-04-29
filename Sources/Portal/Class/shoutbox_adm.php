@@ -8,7 +8,7 @@
  * file shoutbox_adm.php
  * Admin Systemblock shoutbox_adm
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

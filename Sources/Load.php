@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -1719,7 +1719,7 @@ function isBrowser($browser)
 function loadTheme($id_theme = 0, $initialize = true)
 {
 	global $user_info, $user_settings, $board_info, $boarddir, $maintenance;
-	global $txt, $boardurl, $scripturl, $mbname, $modSettings, $cookiename;
+	global $txt, $boardurl, $scripturl, $mbname, $modSettings, $cookiename, $cache_enable;
 	global $context, $settings, $options, $sourcedir, $ssi_theme, $pmxcFunc, $pmxCacheFunc, $language, $board, $image_proxy_enabled;
 
 	// The theme was specified by parameter.
@@ -2177,9 +2177,6 @@ function loadTheme($id_theme = 0, $initialize = true)
 	if (!isset($settings['theme_version']))
 		$modSettings['memberCount'] = $modSettings['totalMembers'];
 
-	// screen dimension check need ?
-	$screenChk = !empty($modSettings['portal_enabled']) && !empty($modSettings['isMobile']) && empty($user_info['possibly_robot']) && ((!empty($modSettings['ecl_enabled']) && (!checkECL_Cookie() && !empty($modSettings['cache_enable']))) || checkECL_Cookie() || empty($modSettings['ecl_enabled']));
-
 	// Default JS variables for use in every theme
 	$context['javascript_vars'] = array(
 'pmx_theme_url' => '"' . $settings['theme_url'] . '"',
@@ -2195,12 +2192,10 @@ function loadTheme($id_theme = 0, $initialize = true)
 'ajax_notification_text' => JavaScriptEscape($txt['ajax_in_progress']),
 'help_popup_heading_text' => JavaScriptEscape($txt['help_popup']),
 'mobile_device' => !empty($modSettings['isMobile']) ? 'true' : 'false',
-'ScreenCheck' => !empty($screenChk) ? 'true' : 'false');
-
-	// hide the body if screen check failed and a reload is need
-	if(!empty($screenChk) && empty(get_cookie('screen')))
-		addInlineCss('
-body{display:none !important;}');
+'Portal_enabled' => !empty($modSettings['portal_enabled']) ? 'true' : 'false',
+'ecl_cache' => (checkECL_Cookie() ? 'true' : !empty($cache_enable) ? 'true' : 'false'),
+'is_search_robot' => !empty($user_info['possibly_robot']) ? 'true' : 'false',
+'pmx_onForum' => isset($_REQUEST['action']) || !empty($board) || !empty($topic) ? 'true' : 'false');
 
 	// Add the JQuery library to the list of files to load.
 	if (isset($modSettings['jquery_source']) && $modSettings['jquery_source'] == 'cdn')
@@ -2305,8 +2300,8 @@ body{display:none !important;}');
 	if (!empty($modSettings['portal_enabled']))
 	{
 		addInlineJavascript('
-	window.addEventListener(\'resize\', eResizeFunc, true);
-	document.onreadystatechange=function(){if(document.readyState==\'interactive\'){fSetFavicon();portamx_onload();}}');
+	window.addEventListener(\'resize\', eResizeFunc);
+	document.onreadystatechange=function(){if(document.readyState==\'interactive\'){portamx_onload();fSetFavicon();}}');
 
 		$tmp[0] = 'var allCookies={Name:[';
 		$tmp[1] = 'Value:[';
@@ -2326,8 +2321,8 @@ body{display:none !important;}');
 	}
 	else
 		addInlineJavascript('
-	window.addEventListener(\'resize\', fSetContentHeight, true);
-	document.onreadystatechange=function(){if(document.readyState==\'interactive\'){fSetFavicon();}}');
+	window.addEventListener(\'resize\', sysOnLoad, true);
+	document.onreadystatechange=function(){if(document.readyState==\'interactive\'){sysOnLoad();}}');
 
 	// If we think we have mail to send, let's offer up some possibilities... robots get pain (Now with scheduled task support!)
 	if ((!empty($modSettings['mail_next_send']) && $modSettings['mail_next_send'] < time() && empty($modSettings['mail_queue_use_cron'])) || empty($modSettings['next_task_time']) || $modSettings['next_task_time'] < time())

@@ -11,7 +11,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -506,11 +506,16 @@ function sendmail($to, $subject, $message, $from = null, $message_id = null, $se
 	// Make sure we actually have email addresses to send this to
 	foreach($to_array as $k => $v)
 	{
+		// Remove all illegal characters from email
+		$v = filter_var($v, FILTER_SANITIZE_EMAIL);
+
+		// Validate e-mail
+		if (filter_var($v, FILTER_VALIDATE_EMAIL) === false)
+			unset($to_array[$k]);
+
 		// This should never happen, but better safe than sorry
 		if (trim($v) == '')
-		{
 			unset($to_array[$k]);
-		}
 	}
 
 	// Nothing left? Nothing else to do
@@ -570,7 +575,7 @@ function sendmail($to, $subject, $message, $from = null, $message_id = null, $se
 	$headers .= 'X-Mailer: PMX^' . $line_break;
 
 	// call SEF..
-	if(pmxsef_EmailOutput($subject, $message, $header) === false)
+	if(pmxsef_EmailOutput($subject, $message, $headers) === false)
 		return false;
 
 	// Pass this to the integration before we start modifying the output -- it'll make it easier later.

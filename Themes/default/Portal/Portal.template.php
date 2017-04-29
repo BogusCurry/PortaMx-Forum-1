@@ -8,7 +8,7 @@
  * file PortaMx.template.php
  * Main template for the Frontpage.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**

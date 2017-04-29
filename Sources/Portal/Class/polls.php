@@ -8,7 +8,7 @@
  * file polls.php
  * Systemblock polls
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -18,7 +18,7 @@ if(!defined('PMX'))
 * @class pmxc_polls
 * Systemblock polls
 * @see polls.php
-* \author Copyright 2008-2017 by PortaMx - http://portamx.com
+* \author Copyright 2008-2017 by PortaMx - https://www.portamx.com
 */
 class pmxc_polls extends PortaMxC_SystemBlock
 {
@@ -35,7 +35,7 @@ class pmxc_polls extends PortaMxC_SystemBlock
 	*/
 	function pmxc_InitContent()
 	{
-		global $context, $pmxcFunc, $user_info, $txt, $pmxCacheFunc;
+		global $context, $pmxcFunc, $user_info, $txt, $modSettings, $pmxCacheFunc;
 
 		if($this->visible)
 		{
@@ -47,6 +47,8 @@ class pmxc_polls extends PortaMxC_SystemBlock
 				{
 					if($this->cfg['cache'] > 0)
 						$pmxCacheFunc['drop']($this->cache_key, $this->cache_mode);
+
+					redirectexit(pmx_http_build_query($_GET) .'#ptop', true);
 				}
 			}
 			else
@@ -123,61 +125,12 @@ class pmxc_polls extends PortaMxC_SystemBlock
 				$this->PollChoices[$key] = explode(',', trim($val, ','));
 
 			// load javascript to header
-			if(strpos($context['html_headers'], 'pmx_VotePoll') === false)
-				PortaMx_loadCompressed('
-			function pmx_VotePoll(id, elm)
+			if(empty($modSettings['pmxPollsLoaded']))
 			{
-				// check if any option selected
-				var isVoted = false;
-				var elmName = "pmx_pollopt" + id + "_";
-				var i = 0;
-				while(document.getElementById(elmName + i))
-				{
-					isVoted = (document.getElementById(document.getElementById(elmName + i).htmlFor).checked == true ? true : isVoted);
-					i++;
-				}
-				if(isVoted)
-				{
-					pmxWinGetTop(\'poll\'+ id);
-					document.getElementById("pmx_voteform" + id).submit();
-				}
-				else
-					alert("'. $txt['pmx_poll_novote_opt'] .'");
+				loadJavascriptFile(PortaMx_loadCompressed('PortalPolls.js'), array('external' => true));
+				$modSettings['pmxPollsLoaded'] = true;
 			}
-			function pmx_ShowPollResult(id, poll)
-			{
-				document.getElementById("pxm_allowvotepoll" + id).style.display = "none";
-				document.getElementById("pxm_allowviewpoll" + id).style.display = "";
-				pmx_SavePolldata(id, poll, 1);
-				return false;
-			}
-			function pmx_ShowPollVote(id, poll)
-			{
-				document.getElementById("pxm_allowviewpoll" + id).style.display = "none";
-				document.getElementById("pxm_allowvotepoll" + id).style.display = "";
-				pmx_SavePolldata(id, poll, 0);
-				return false;
-			}
-			function pmx_ChangePollVote(id, elm)
-			{
-				pmxWinGetTop(\'poll\'+ id);
-				document.getElementById("pmx_voteform" + id).submit();
-			}
-			function pmx_ChangeCurrentPoll(id, elm)
-			{
-				var idx = elm.selectedIndex;
-				var pollid = elm.options[idx].value;
-				pmx_SavePolldata(id, pollid, 0);
-				document.getElementById("pollchanged" + id).value = pollid;
-				pmxWinGetTop(\'poll\'+ id);
-				document.getElementById("pmx_votechange" + id).submit();
-			}
-			function pmx_SavePolldata(id, poll, state)
-			{
-				pmxCookie("set", "poll" + id, poll + "," + state);
-			}', array(), true);
 		}
-
 		// return the visibility flag (true/false)
 		return $this->visible;
 	}
@@ -196,7 +149,7 @@ class pmxc_polls extends PortaMxC_SystemBlock
 		$this->currentpoll = array('id' => 0, 'state' => 0);
 
 		// ckeck if a pollcookie exist
-		$cookname = 'poll'. $this->cfg['id'];
+		$cookname = 'pmx_poll'. $this->cfg['id'];
 		if(($cook = get_cookie($cookname)) && !is_null($cook))
 		{
 			$tmp = explode(',', $cook);
@@ -383,10 +336,7 @@ class pmxc_polls extends PortaMxC_SystemBlock
 
 		echo '
 				<div style="padding-bottom:4px;"'.(isset($this->cfg['config']['visuals']['questiontext']) ? ' class="'. $this->cfg['config']['visuals']['questiontext'] .'"' : ''). '>
-					<a href="'. $scripturl .'?topic='. $this->polls['topic'] .'.0"><b>'. $this->polls['question'] .'</b></a>';
-
-		if(!empty($this->polls['is_locked']) && (!empty($this->polls['allow_view_results']) || (empty($this->polls['allow_view_results']) && empty($this->polls['allow_vote']) && empty($this->polls['is_expired']))))
-			echo '<span'.(isset($this->cfg['config']['visuals']['bodytext']) ? ' class="'. $this->cfg['config']['visuals']['bodytext'] .'"' : ''). '>'. $txt['pmx_poll_select_locked'] .'</span>';
+					<a href="'. $scripturl .'?topic='. $this->polls['topic'] .'.0#ptop"><b>'. $this->polls['question'] .'</b></a>';
 
 		echo '
 				</div>';
@@ -395,7 +345,7 @@ class pmxc_polls extends PortaMxC_SystemBlock
 		{
 			echo '
 				<div id="pxm_allowvotepoll'. $this->cfg['id'] .'"'. (!empty($this->polls['allow_view_results']) && $this->currentpoll['state'] == '1' ? ' style="display:none"' : '') .'>
-					<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'" method="post" accept-charset="', $context['character_set'], '">
+					<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'#ptop" method="post" accept-charset="', $context['character_set'], '">
 						<input type="hidden" name="poll" value="'. $this->polls['id'] .'" />
 						<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
 						<input type="hidden" name="pmx_votepoll" value="'. pmx_http_build_query($_GET) .'" />
@@ -419,13 +369,15 @@ class pmxc_polls extends PortaMxC_SystemBlock
 
 			echo '
 						<hr class="pmx_hr" />
-						<input style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_vote'] .'" onmouseup="pmx_VotePoll(\''. $this->cfg['id'] .'\', this)" />';
+						<div style="min-height:25px;">
+							<input style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_vote'] .'" onmouseup="pmx_VotePoll(\''. $this->cfg['id'] .'\', this)" />';
 
 			if($this->polls['allow_view_results'])
 				echo '
-						<input style="margin:2px;float:left;" type="button" class="button_submit" name="button" value="'. $txt['pmx_poll_results'] .'" onmouseup="pmx_ShowPollResult(\''. $this->cfg['id'] .'\', this)" />';
+							<input style="margin:2px;float:left;" type="button" class="button_submit" name="button" value="'. $txt['pmx_poll_results'] .'" onmouseup="pmx_ShowPollResult(\''. $this->cfg['id'] .'\', this)" />';
 
 			echo '
+						</div>
 					</form>
 				</div>';
 		}
@@ -490,20 +442,24 @@ class pmxc_polls extends PortaMxC_SystemBlock
 			if(!empty($this->polls['allow_vote']) || !empty($this->polls['allow_change_vote']))
 			{
 				echo '
-					<hr class="pmx_hr" />';
+					<hr class="pmx_hr" />
+						<div style="min-height:25px;">';
 
 				if(!empty($this->polls['allow_vote']))
 					echo '
-						<input style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_return_vote'] .'" onmouseup="pmx_ShowPollVote('. $this->cfg['id'] .', '. $this->currentpoll['id'] .')" />';
+							<input style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_return_vote'] .'" onmouseup="pmx_ShowPollVote('. $this->cfg['id'] .', '. $this->currentpoll['id'] .')" />';
 
 				if(!empty($this->polls['allow_change_vote']))
 					echo '
-					<input  style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_change_vote'] .'" onmouseup="pmx_ChangePollVote('. $this->cfg['id'] .', this)" />
-					<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'" method="post" accept-charset="', $context['character_set'], '">
-						<input type="hidden" name="poll" value="'. $this->polls['id'] .'" />
-						<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
-						<input type="hidden" name="pmx_votepoll" value="'. pmx_http_build_query($_GET) .'" />
-					</form>';
+							<input  style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_change_vote'] .'" onmouseup="pmx_ChangePollVote('. $this->cfg['id'] .', this)" />
+							<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'#ptop" method="post" accept-charset="', $context['character_set'], '">
+								<input type="hidden" name="poll" value="'. $this->polls['id'] .'" />
+								<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
+								<input type="hidden" name="pmx_votepoll" value="'. pmx_http_build_query($_GET) .'" />
+							</form>';
+
+				echo '
+						</div>';
 			}
 
 			echo '
@@ -529,16 +485,20 @@ class pmxc_polls extends PortaMxC_SystemBlock
 			if(!empty($this->polls['allow_vote']) || !empty($this->polls['allow_change_vote']))
 			{
 				echo '
-				<hr class="pmx_hr" />';
+				<hr class="pmx_hr" />
+					<div style="min-height:25px">';
 
 				if(!empty($this->polls['allow_change_vote']))
 					echo '
-				<input  style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_change_vote'] .'" onmouseup="pmx_ChangePollVote('. $this->cfg['id'] .', this)" />
-				<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'" method="post" accept-charset="', $context['character_set'], '">
-					<input type="hidden" name="poll" value="'. $this->polls['id'] .'" />
-					<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
-					<input type="hidden" name="pmx_votepoll" value="'. pmx_http_build_query($_GET) .'" />
-				</form>';
+						<input  style="margin:2px;float:right;" type="button" class="button_submit" name="button" value="'. $txt['poll_change_vote'] .'" onmouseup="pmx_ChangePollVote('. $this->cfg['id'] .', this)" />
+						<form id="pmx_voteform'. $this->cfg['id'] .'" action="'. $scripturl .'?action=vote;topic='. $this->polls['topic'] .';poll='. $this->polls['id'] .'" method="post" accept-charset="', $context['character_set'], '">
+							<input type="hidden" name="poll" value="'. $this->polls['id'] .'" />
+							<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
+							<input type="hidden" name="pmx_votepoll" value="'. pmx_http_build_query($_GET) .'" />
+						</form>';
+
+				echo '
+					</div>';
 			}
 		}
 
@@ -552,7 +512,7 @@ class pmxc_polls extends PortaMxC_SystemBlock
 				<form id="pmx_votechange'. $this->cfg['id'] .'" action="'. $scripturl . $cact .'" method="post" accept-charset="', $context['character_set'], '">
 					<input id="pollchanged'. $this->cfg['id'] .'" type="hidden" name="pollchanged'. $this->cfg['id'] .'" value="'. $this->polls['id'] .'" />
 					<input type="hidden" name="'. $context['session_var'] .'" value="'. $context['session_id'] .'" />
-					<div style="padding:5px 0 2px 0;">'. $txt['pmx_pollmultiview'] .'</div>
+					<div style="padding:5px 0 5px 0;">'. $txt['pmx_pollmultiview'] .'</div>
 						<select name="pollselect"'. (!empty($maxwidth) ? ' style="width:'. $maxwidth .';"' : '') .' onchange="pmx_ChangeCurrentPoll(\''. $this->cfg['id'] .'\', this);">';
 
 			foreach($this->pollquestions as $id => $question)

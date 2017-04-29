@@ -4,11 +4,11 @@
  *
  * PortaMx Forum
  * @package PortaMx
- * @author PortaMx http://portamx.com
+ * @author PortaMx https://www.portamx.com
  * @copyright 2017 Portamx
  * @license BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function template_main()

@@ -1,6 +1,7 @@
 var pmx_formSubmitted = false;
 var lastKeepAliveCheck = new Date().getTime();
 var pmx_editorArray = new Array();
+var pop_is_open = false;
 
 // Some very basic browser detection - from Mozilla's sniffer page.
 var ua = navigator.userAgent.toLowerCase();
@@ -431,6 +432,7 @@ pmxc_Popup.prototype.show = function ()
 	$('body').append('<div id="' + this.popup_id + '" class="popup_container"><div class="' + popup_class + '"><div class="catbg popup_heading"><a href="javascript:void(0);" class="generic_icons hide_popup"></a>' + icon + this.opt.heading + '</div><div class="popup_content">' + this.opt.content + '</div></div></div>');
 
 	// Show it
+	pop_is_open = true;
 	this.popup_body = $('#' + this.popup_id).children('.popup_window');
 	this.popup_body.parent().fadeIn(300);
 
@@ -451,6 +453,7 @@ pmxc_Popup.prototype.show = function ()
 pmxc_Popup.prototype.hide = function ()
 {
 	$('#' + this.popup_id).fadeOut(300, function(){ $(this).remove(); });
+	pop_is_open = false;
 
 	return false;
 }
@@ -1614,24 +1617,102 @@ $(function()
 	});
 });
 
-// Cookies via AJAX Request.
-// sMode can be 'get', 'set', 'clr' or 'test'
-// sName is the cookie name
-// sValue is the cookie value
-// sType can by 'ecl', 'format', 'cache', empty or any other string (for mod's as example)
-// bAsync cat be true (async request) or false (sycron request [default])
-// *notes*
-// 1. value on set with type ecl is ignored
-// 2. test returns a value of '1' if true, empty string if false
-// 3. test checks if cookie exist, if a value given this is also tested
+// Onload and Resize(Rotate) event on mobile devices
+function sysOnLoad()
+{
+	// modify the page link ..
+	showPage = $('.pages').css('display');
+	Curr = '#';
+	if($('.current_page')[0])
+		Curr = $('.current_page')[0].innerText;
+
+	if(showPage == 'none')
+		if(Curr == '1')
+			$('.current_page').css({
+			'border-top-left-radius':'3px',
+			'border-bottom-left-radius':'3px'});
+
+	if(Curr == '#')
+	{
+		$('.all').removeClass('navPages').addClass('navPages_sel');
+		$('.pagelinks a:last-of-type').css({
+		'display':'none'});
+	}
+
+	// now check the screen size/rotate
+	CheckScreenSize();
+	if(reloadCalled)
+		return;
+
+	// set content height
+	fSetContentHeight();
+}
+
+// get the screen dimensions and check
+var reloadCalled;
+function CheckScreenSize()
+{
+	reloadCalled = false;
+
+	// Set/Get screen params on Mobile devices
+	if(window.screen.availHeight > window.screen.availWidth)
+		cMode = 'Portrait';
+	else
+		cMode = 'Landscape';
+	cWidth = window.screen.availWidth;
+
+	ScrMode = pmxCookie('get', 'screen', cMode +'-'+ cWidth, 'set');
+	tmp = ScrMode.split('-');
+	oMode = tmp[0];
+	oWidth = parseInt(tmp[1]);
+
+	if(!pmx_onForum && typeof have2colblocks !== 'undefined')
+	{
+		if((oWidth < pmx_colwidth && cWidth > pmx_colwidth) || (oWidth > pmx_colwidth && cWidth < pmx_colwidth))
+		{
+			if(!is_search_robot && !pop_is_open && ecl_cache)
+			{
+				document.getElementsByTagName('BODY')[0].style.display = 'none';
+				setTimeout(function(){window.location.reload(true);});
+				reloadCalled = true;
+				return;
+			}
+		}
+	}
+	else if((oWidth !== cWidth) && (cWidth < 1200 || cWidth > 1200))
+	{
+		if(!is_search_robot && !pop_is_open && ecl_cache)
+		{
+			document.getElementsByTagName('BODY')[0].style.display = 'none';
+			setTimeout(function(){window.location.reload(true);});
+			reloadCalled = true;
+			return;
+		}
+	}
+}
+
+/*
+ Cookies via AJAX Request.
+ sMode can be 'get', 'set', 'clr', 'test', 'syntax'
+ sName is the cookie name
+ sValue is the cookie value
+ sType can by 'ecl', 'format', 'cache', 'time', 'sef' or empty
+ bAsync cat be true (async request) or false (sycron request [default])
+ *NOTES*
+ 1. sValue on 'set' with sType 'ecl' is ignored
+ 2. sMode 'test' returns a value of '1' if true or a empty string if false
+    it checks if the cookie exists. If a sValue given this is also compared
+ 3. on sMode 'set', you can use the sType 'get' or 'clr'
+    if sType 'get', a exist cookie value returned, the new sValue is set.
+    if sType 'clr', a exist cookie value returned, the cookie is deleted.
+ 4. sMode 'get' and sType 'time' the sValue (longint) is converted into the timeformat as set in the Forum settings (dd.mm.yyyy, hh:mm:ss as example)
+ 5. on sMode 'get' and sType 'sef' the link in sValue is returned in SEF format if SEF enable. If SEF disabled a empty value is returned
+ 6. on sMode 'syntax' a packed string in sValue is check by our PHP Syntax checker, the check result is returned
+*/
 function pmxCookie(sMode, sName, sValue, sType, bAsync)
 {
-	sType = sType == undefined ? '' : sType;
-
-	if(sName.indexOf('pmx_YOfs') != -1 && pmx_restore_top == false)
-		return '';
-
-	if(sType == '' && sName.indexOf('pmx_YOfs') == -1)
+	// these cookie is never saved in the allcookies array
+	if(sName.indexOf('pmx_YOfs') == -1 && sName !== 'screen' && sName !== 'spidertest')
 	{
 		if(sMode == 'get' && allCookies.Name.indexOf(sName) >= 0)
 			return allCookies.Value[allCookies.Name.indexOf(sName)];
@@ -1659,6 +1740,7 @@ function pmxCookie(sMode, sName, sValue, sType, bAsync)
 
 	sValue = sValue == undefined ? '' : sValue;
 	bAsync = bAsync == undefined ? false : bAsync;
+	sType = sType == undefined ? '' : sType;
 	var sResult = '';
 
 	$.ajax({type: 'GET', async:bAsync, url:pmx_scripturl +'?jscook', data:{mode:sMode, name:sName, value:sValue, type:sType}, success:function(data){sResult = data;}});
@@ -1666,7 +1748,7 @@ function pmxCookie(sMode, sName, sValue, sType, bAsync)
 	if(sType == 'cache')
 	{
 		var cachedata = document.getElementById('cachevals').innerText;
-		document.getElementById('cachevals').innerText = cachedata.replace(/[0-9\.]+/g, '0.000');
+		document.getElementById('cachevals').innerText = cachedata.replace(/[0-9\.]+/g, '0.00');
 	}
 
 	return sResult;

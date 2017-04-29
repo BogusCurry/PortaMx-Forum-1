@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; index
+// Version: 1.0 RC3; index
 
 global $forum_copyright, $webmaster_email, $scripturl, $context, $boardurl;
 
@@ -92,6 +92,10 @@ $txt['verify_pass'] = 'Verify password';
 $txt['notify_announcements'] = 'Allow the administrators to send me important news by email';
 
 $txt['position'] = 'Position';
+
+$txt['mobile_subMenu_var'] = '<b>Mobile Menu "%s"</b>';
+$txt['profile_submenu_title'] = '<b>Mobile Menu "Profile"</b>';
+$txt['moderate_submenu_title'] = '<b>Mobile Menu "Moderate"</b>';
 
 $txt['profile_of'] = 'View the profile of';
 $txt['total'] = 'Total';
@@ -487,14 +491,14 @@ $txt['pm_online'] = 'Personal Message (Online)';
 $txt['pm_offline'] = 'Personal Message (Offline)';
 $txt['status'] = 'Status';
 
-$txt['go_up'] = 'Go Up';
-$txt['go_down'] = 'Go Down';
+$txt['go_up'] = '<b>&#9650;</b>';
+$txt['go_down'] = '<b>&#9660;</b>';
 
-$forum_copyright = '<a href="' . $scripturl . '?action=credits" title="License" target="_blank" class="new_win">%1$s &copy; %2$s</a>, <a href="http://portamx.com" title="PortaMx Forum" target="_blank" class="new_win">PortaMx</a>';
+$forum_copyright = '<a href="' . $scripturl . '?action=credits" title="License" target="_blank" class="new_win">%1$s &copy; %2$s</a>, <a href="https://www.portamx.com" title="PortaMx Forum" target="_blank" class="new_win">PortaMx</a>';
 $txt['cache'] = 'Cache:';
 $txt['cachestats'] = array(
-	'loaded' => 'Loaded ',
-	'saved' => ', Saved ',
+	'loaded' => 'Load ',
+	'saved' => ', Save ',
 	'time' => ', Time '
 );
 $txt['cache_msec'] = ' ms';
@@ -889,4 +893,6 @@ $txt['mobile_action'] = '<b>User actions</b>';
 $txt['mobile_moderation'] = '<b>Moderation</b>';
 $txt['mobile_user_menu'] = '<b>Mobile Main Menu</b>';
 $txt['mobile_admin_menu'] = '<b>Mobile Admin Menu</b>';
+$txt['mobile_head_submenu'] = 'Mobile Menu "%s"';
+
 ?>

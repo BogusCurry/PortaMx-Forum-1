@@ -8,7 +8,7 @@
  * file category.php
  * Systemblock Category
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -407,7 +407,7 @@ class pmxc_category extends PortaMxC_SystemBlock
 	/**
 	* ShowContent
 	*/
-	function pmxc_ShowContent($blockcount)
+	function pmxc_ShowContent()
 	{
 		global $context;
 
@@ -466,14 +466,15 @@ class pmxc_category extends PortaMxC_SystemBlock
 			if(in_array($this->curCat['config']['settings']['framemode'], array('both', 'category')))
 			{
 				$this->curCat['config']['id'] = !empty($this->cfg) ? $this->cfg['id'] : $this->curCat['id'];
-				Pmx_Frame_top($this->curCat, $blockcount);
+				Pmx_Frame_top($this->curCat, $artCount);
 			}
 
 			// top pageindex
 			if(!empty($pageindex))
 				echo '
-					<div class="smalltext pmx_pgidx_top">'. $pageindex .'</div>';
-				echo '
+					<div class="pagelinks pmx_pageTop">', $pageindex, '</div>';
+
+			echo '
 					<table class="pmx_table">
 						<tr>';
 
@@ -572,7 +573,7 @@ class pmxc_category extends PortaMxC_SystemBlock
 			// bottom pageindex
 			if(!empty($pageindex))
 				echo '
-					<div class="smalltext pmx_pgidx_bot">'. $pageindex .'</div>';
+					<div class="pagelinks pmx_pageBot">', $pageindex, '</div>';
 
 			// show category frame?
 			if(in_array($this->curCat['config']['settings']['framemode'], array('both', 'category')))
@@ -586,7 +587,7 @@ class pmxc_category extends PortaMxC_SystemBlock
 			if(in_array($this->curCat['config']['settings']['framemode'], array('both', 'category')))
 			{
 				$this->curCat['id'] = !empty($this->cfg['static_block']) ? $this->cfg['id'] : $this->curCat['id'];
-				Pmx_Frame_top($this->curCat, $blockcount);
+				Pmx_Frame_top($this->curCat, 0);
 			}
 
 			$subcats = array();

@@ -8,7 +8,7 @@
  * file rss_reader_adm.php
  * Admin Systemblock rss_reader
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -94,7 +94,7 @@ class pmxc_rss_reader_adm extends PortaMxC_SystemAdminBlock
 							</div>
 
 							<div class="adm_check">
-								<span class="adm_w80">&nnbsp;'. $txt['pmx_pageindex_pagetop'] .'
+								<span class="adm_w80">&nbsp;'. $txt['pmx_pageindex_pagetop'] .'
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_pageindex_tophelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
 								</span>
 								<input type="hidden" name="config[settings][pgidxtop]" value="0" />

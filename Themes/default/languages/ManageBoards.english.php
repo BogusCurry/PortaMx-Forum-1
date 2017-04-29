@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; ManageBoards
+// Version: 1.0 RC3; ManageBoards
 
 $txt['boards_and_cats'] = 'Manage Boards and Categories';
 $txt['order'] = 'Order';
@@ -68,7 +68,7 @@ $txt['mboards_override_theme_desc'] = 'Use this board\'s theme even if the membe
 $txt['mboards_redirect'] = 'Redirect to a web address';
 $txt['mboards_redirect_desc'] = 'Enable this option to redirect anyone who clicks on this board to another web address.';
 $txt['mboards_redirect_url'] = 'Address to redirect users to';
-$txt['mboards_redirect_url_desc'] = 'For example: &quot;http://portamx.com&quot;.';
+$txt['mboards_redirect_url_desc'] = 'For example: &quot;https://www.portamx.com&quot;.';
 $txt['mboards_redirect_reset'] = 'Reset redirect count';
 $txt['mboards_redirect_reset_desc'] = 'Selecting this will reset the redirection count for this board to zero.';
 $txt['mboards_current_redirects'] = 'Currently: %1$s';

@@ -7,7 +7,7 @@
  * file PortalFader.js
  * Javascript functions for Opac Fader
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function PmxOpacFader(aOptions)

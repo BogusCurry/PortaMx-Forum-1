@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -229,7 +229,7 @@ function template_merge()
 		echo '
 			<form action="', $scripturl, '?action=mergetopics;sa=options" method="post" accept-charset="', $context['character_set'], '">
 				<div class="pagesection">
-					', $context['page_index'], '
+					<div class="pagelinks floatleft">', $context['page_index'], '</div>
 				</div>
 				<div class="windowbg2">
 					<ul class="merge_topics">';
@@ -248,7 +248,7 @@ function template_merge()
 					<input type="submit" value="', $txt['merge'], '" class="button_submit">
 				</div>
 				<div class="pagesection">
-					', $context['page_index'], '
+					<div class="pagelinks floatleft">', $context['page_index'], '</div>
 				</div>';
 	}
 	else

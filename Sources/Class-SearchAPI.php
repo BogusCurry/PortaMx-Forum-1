@@ -8,7 +8,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -143,12 +143,12 @@ abstract class search_api implements search_api_interface
 	/**
 	 * @var string The last version of PMX that this was tested on. Helps protect against API changes.
 	 */
-	public $version_compatible = 'PMX 1.0 RC2';
+	public $version_compatible = 'PMX 1.0 RC3';
 
 	/**
 	 * @var string The minimum PMX version that this will work with
 	 */
-	public $min_pmx_version = 'PMX 1.0 RC2';
+	public $min_pmx_version = 'PMX 1.0 RC3';
 
 	/**
 	 * @var bool Whether or not it's supported

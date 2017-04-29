@@ -8,7 +8,7 @@
  * file mini_calendar_adm.php
  * Admin Systemblock mini_calendar
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

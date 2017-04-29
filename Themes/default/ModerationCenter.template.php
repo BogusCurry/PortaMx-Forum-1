@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -350,7 +350,7 @@ function template_notes()
 			echo '
 						</ul>
 						<div class="pagesection notes">
-							<span class="smalltext">', $context['page_index'], '</span>
+							<div class="pagelinks floatleft">', $context['page_index'], '</div>
 						</div>';
 		}
 
@@ -394,8 +394,8 @@ function template_unapproved_posts()
 		</div>';
 	else
 		echo '
-			<div class="pagesection floatleft">
-				', $context['page_index'], '
+			<div class="pagesection">
+				<div class="pagelinks floatleft">', $context['page_index'], '</div>
 			</div>';
 
 	foreach ($context['unapproved_items'] as $item)
@@ -445,7 +445,7 @@ function template_unapproved_posts()
 	if (!empty($context['unapproved_items']))
 		echo '
 			<div class="floatleft">
-				<div class="pagelinks">', $context['page_index'], '</div>
+				<div class="pagelinks floateft">', $context['page_index'], '</div>
 			</div>';
 
 	echo '

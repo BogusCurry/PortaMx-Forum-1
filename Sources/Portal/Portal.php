@@ -8,7 +8,7 @@
  * file Portal.php
  * The Portal Main.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -402,7 +402,11 @@ function pmx_MakeLinktree()
 	else
 	{
 		if(!empty($_GET['action']) && $_GET['action'] == 'portal')
-			$context['linktree'][0] = array('url' => $scripturl . '?'. pmx_http_build_query($_GET), 'name' => $txt['pmx_extension']);
+		{
+			$context['linktree'][0] = array('url' => $scripturl . '?action='. $_GET['action'].';area=pmx_center', 'name' => $txt['pmx_extension']);
+			if(isset($_GET['area']) && $_GET['area'] != 'pmx_center')
+				$context['linktree'][1] = array('url' => $scripturl . '?action='. $_GET['action'] .';area='. $_GET['area'], 'name' => $txt[$_GET['area']]);
+		}
 	}
 
 	if(empty($pmxforum))

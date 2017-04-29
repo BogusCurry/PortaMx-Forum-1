@@ -8,7 +8,7 @@
  * file cbt_navigator.php
  * Systemblock cbt_navigator (Categorie-Board-Topic)
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -240,7 +240,7 @@ class pmxc_cbt_navigator extends PortaMxC_SystemBlock
 				<div style="margin:-2px 0 2px 0;">';
 
 		// loop through all cats, boards and topics
-		$found = get_Cookie('pmx_cbtstat'. $this->cfg['id']);
+		$found = get_Cookie('cbtstat'. $this->cfg['id']);
 		$isInit = is_null($found) && empty($user_info['is_guest']);
 		$cook = array();
 
@@ -286,7 +286,7 @@ class pmxc_cbt_navigator extends PortaMxC_SystemBlock
 
 					echo '
 						<div class="cbtshorttxt">
-							<a class="cbtshorttxt" href="'. $scripturl .'?board='. $bid .'.0#top" title="'. $txt['pmx_text_board'] . $cbtboard['name'] .'">'. $cbtboard['name'] .'</a>
+							<a class="cbtshorttxt" href="'. $scripturl .'?board='. $bid .'.0#ptop" title="'. $txt['pmx_text_board'] . $cbtboard['name'] .'">'. $cbtboard['name'] .'</a>
 							'.($cbtboard['unread'] ? '<img src="'. $context['pmx_imageurl'] .'unread.gif" alt="*" title="" />' : '').'
 						</div>
 					</div>';

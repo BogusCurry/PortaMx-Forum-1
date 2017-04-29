@@ -8,7 +8,7 @@
  * file PortaMx_BlocksClass.php
  * Global Blocks class
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -200,7 +200,6 @@ class PortaMxC_Blocks
 	{
 		$pageindex = constructPageIndex($url, $start, $items, $pageitems, true);
 		$pageindex = preg_replace('/\;start\=([\%\$a-z0-9]+)/', '', $pageindex);
-
 		return $pageindex;
 	}
 

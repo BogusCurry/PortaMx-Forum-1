@@ -7,7 +7,7 @@
  * file PortalPolls.js
  * Javascript functions for Poll block
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function pmx_VotePoll(id, elm)
@@ -59,6 +59,6 @@ function pmx_ChangeCurrentPoll(id, elm)
 }
 function pmx_SavePolldata(id, poll, state)
 {
-	pmxCookie("set", "pmx_poll" + id, poll + "," + state, '', true);
+	pmxCookie("set", "pmx_poll" + id, poll + "," + state);
 }
 /* EOF */

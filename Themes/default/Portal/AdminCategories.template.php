@@ -8,7 +8,7 @@
  * file AdminCategories.template.php
  * Template for the Categories Manager.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -19,39 +19,12 @@ function template_main()
 	global $context, $txt, $scripturl;
 	global $cfg_titleicons, $cfg_smfgroups;
 
-	$curarea = isset($_GET['area']) ? $_GET['area'] : 'pmx_settings';
-
-	if(allowPmx('pmx_admin', true))
-	{
-		$AdmTabs = array(
-			'pmx_settings' => $txt['pmx_settings'],
-			'pmx_blocks' => $txt['pmx_blocks'],
-			'pmx_categories' => $txt['pmx_categories'],
-			'pmx_articles' => $txt['pmx_articles'],
-		);
-
+	if(allowPmx('pmx_admin', true) && !in_array($context['pmx']['subaction'], array('edit', 'editnew')))
 		echo '
-			<div style="height:2.6em;margin-top:6px;">
-				<ul id="pmxmenu_nav" class="dropmenu sf-js-enabled">';
-
-		foreach($AdmTabs as $name => $desc)
-			echo '
-					<li id="'. $name .'" class="subsections">
-						<a '. ($name == $curarea ? 'class="active"' : '') .'href="'. $scripturl .'?action=portal;area='. $name .';'. $context['session_var'] .'=' .$context['session_id'] .'">'. $desc .'</a>
-					</li>';
-
-		echo '
-				</ul>
-			</div>';
-
-		if(allowPmx('pmx_admin', true) && !in_array($context['pmx']['subaction'], array('edit', 'editnew')))
-			echo '
-			<div class="cat_bar">
-				<h3 class="catbg">'. $txt['pmx_adm_categories'] .'</h3>
-			</div>
-			<p class="information">'. $txt['pmx_categories_desc'] .'</p>
-			<div style="height:0.5em;"></div>';
-	}
+		<div class="cat_bar">
+			<h3 class="catbg">'. $txt['pmx_adm_categories'] .'</h3>
+		</div>
+		<p class="information">'. $txt['pmx_categories_desc'] .'</p>';
 
 	if (isset($_SESSION['saved_successful']))
 	{
@@ -61,7 +34,7 @@ function template_main()
 	}
 
 	echo '
-		<form id="pmx_form" accept-charset="', $context['character_set'], '" name="PMxAdminCategories" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_categories;'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin: 0px 0px 45px 0;">
+		<form id="pmx_form" accept-charset="', $context['character_set'], '" name="PMxAdminCategories" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_categories;'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin:0px;display:block;">
 			<input type="hidden" name="sc" value="', $context['session_id'], '" />
 			<input type="hidden" name="sa" value="', $context['pmx']['subaction'], '" />
 			<input id="common_field" type="hidden" value="" />
@@ -110,7 +83,7 @@ function template_main()
 						<div class="pmx_tbl_tdgrid" style="width:46px;"><b>'. $txt['pmx_categories_order'] .'</b></div>
 						<div class="pmx_tbl_tdgrid" style="width:57%;cursor:pointer;" onclick="pWindToggleLang(\'cat\')" title="'. $txt['pmx_toggle_language'] .'"><b>'. $txt['pmx_title'] .' [<b id="pWind.def.lang.cat">'. $context['pmx']['currlang'] .'</b>]</b></div>
 						<div class="pmx_tbl_tdgrid" style="width:34%;"><b>'. $txt['pmx_categories_name'] .'</b></div>
-						<div class="pmx_tbl_tdgrid" style="width:84px;"><b>'. $txt['pmx_options'] .'</b></div>
+						<div class="pmx_tbl_tdgrid opt_row" style="width:84px;"><b>'. $txt['pmx_options'] .'</b></div>
 						<div class="pmx_tbl_tdgrid" style="width:84px;"><b>'. $txt['pmx_functions'] .'</b></div>
 					</div>';
 
@@ -263,7 +236,7 @@ function template_main()
 
 		echo '
 						</div>
-						<div class="pmx_tbl_td" style="width:91px;">';
+						<div class="pmx_tbl_td opt_row" style="width:91px;">';
 
 		// start articles in cat popup
 		echo '
@@ -354,7 +327,7 @@ function template_main()
 			<table class="pmx_table" style="margin-bottom:5px;table-layout:fixed;">
 				<tr>
 					<td style="text-align:center">
-						<div class="cat_bar" style="border-bottom-left-radius:6px;border-bottom-right-radius:6px">
+						<div class="cat_bar">
 							<h3 class="catbg">
 								'. $txt['pmx_categories_edit'] .'
 							</h3>
@@ -460,7 +433,7 @@ function PmxCategoryOverview($category)
 
 	// options row
 	echo '
-						<div class="pmx_tbl_tdgrid">
+						<div class="pmx_tbl_tdgrid opt_row">
 							<input id="grpAcs.'. $category['id'] .'" type="hidden" value="'. implode(',', $grpacs) .'" />
 							<input id="denyAcs.'. $category['id'] .'" type="hidden" value="'. implode(',', $denyacs) .'" />
 							<input id="pWind.catarts.'. $category['id'] .'" type="hidden" value="'. implode('|', $catarts) .'" />

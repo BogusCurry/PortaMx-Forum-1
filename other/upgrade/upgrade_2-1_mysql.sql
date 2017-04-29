@@ -126,7 +126,7 @@ A Portal Block can have more settings, this is dependent on block type.
 </ul>
 </div>
 </div>
-Please visit the <a class="bbc_link" href="http://portamx.com" target="_blank">PortaMx support site</a> to find news and updates.</div>'),
+Please visit the <a class="bbc_link" href="https://www.portamx.com" target="_blank">PortaMx support site</a> to find news and updates.</div>'),
 	(2, 'left', 1, 1, 300, 'statistics', '-1=1,0=1', '{"title":{"english":"Statistic"},"title_align":"center","title_icon":"chart_bar.png","pagename":"","settings":{"stat_member":"1","stat_stats":"1","stat_users":"1","stat_spider":"1","stat_olheight":"10"},"show_sitemap":"0","check_ecl":"0","can_moderate":"0","check_eclbots":"0","collapse":"1","collapse_state":"0","overflow":"","innerpad":"4","visuals":{"header":"catbg notrnd","frame":"pmxborder","body":"windowbg","bodytext":"smalltext","stats_text":"normaltext"},"cssfile":"","ext_opts":{"pmxcust":"","device":"0"},"maintenance_mode":"0","frontmode":"","frontview":"","created":1475156995}', '');
 ---#
 

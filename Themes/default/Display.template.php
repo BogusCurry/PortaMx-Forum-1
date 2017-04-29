@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -184,17 +184,22 @@ function template_main()
 		echo '
 			<div class="pagesection top">
 				', $haveButtons, '
-				', $context['menu_separator'], '<a href="#bot" class="topbottom floatleft">', $txt['go_down'], '</a>
-				<div class="pagelinks floatleft">
-					', $context['page_index'], '
+				', $context['menu_separator'], '
+				<div class="fixpagesbar">
+					<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+					<div class="pagelinks floatleft">
+						', $context['page_index'], '
+					</div>
 				</div>
 			</div>';
 	else
 		echo '
 			<div class="pagesection top">
-				<a href="#bot" class="topbottom floatleft">', $txt['go_down'], '</a>
-				<div class="pagelinks floatleft">
-					', $context['page_index'], '
+				<div class="fixpagesbar">
+					<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+					<div class="pagelinks floatleft">
+						', $context['page_index'], '
+					</div>
 				</div>
 			</div>';
 
@@ -226,29 +231,32 @@ function template_main()
 	// Show the page index... "Pages: [1]".
 	if(!empty($haveButtons))
 	echo '
-			<div class="pagesection bot" id="bot">
+			<div class="pagesection bot" id="pbot">
 				', $haveButtons, '
-				', $context['menu_separator'], '<a href="#top" class="topbottom floatleft">', $txt['go_up'], '</a>
-				<div class="pagelinks floatleft">
-					', $context['page_index'], '
+				', $context['menu_separator'], '
+				<div class="fixpagesbar">
+					<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+					<div class="pagelinks floatleft">
+						', $context['page_index'], '
+					</div>
 				</div>
 			</div>';
 	else
 		echo '
-			<div class="pagesection bot" id="bot">
-				<a href="#top" class="topbottom floatleft">', $txt['go_up'], '</a>
-				<div class="pagelinks floatleft">
-					', $context['page_index'], '
+			<div class="pagesection bot" id="pbot">
+				<div class="fixpagesbar">
+					<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+					<div class="pagelinks floatleft">
+						', $context['page_index'], '
+					</div>
 				</div>
 			</div>';
-
 	// Mobile action - moderation buttons (bottom)
 	echo '
 			<div class="mobile_buttons floatright">
 				', (!empty($haveButtons) ? '<a class="button mobile_act">'. $txt['mobile_action'] .'</a>' : ''), '
 				', ($context['can_moderate_forum'] || $context['user']['is_mod'] ? '<a class="button mobile_mod">'. $txt['mobile_moderation'] .'</a>' : ''),'
 			</div>';
-
 	// Show the lower breadcrumbs.
 	theme_linktree();
 

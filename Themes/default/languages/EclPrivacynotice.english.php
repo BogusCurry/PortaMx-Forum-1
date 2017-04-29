@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; EclPrivacynotice
+// Version: 1.0 RC3; EclPrivacynotice
 
 /**
 	Additional informations for this file format:
@@ -64,7 +64,7 @@ $txt['ecl_headrows'] = array(
 		'pmx_poll{ID}',
 		'@host@',
 		'Current session only',
-		'These cookies are set to records the id for the current poll in a multiple Poll block.',
+		'These cookies are set to records the id for the current poll for a multiple Poll block.',
 	),
 	array(
 		'pmx_upshr{NAME}',
@@ -86,25 +86,24 @@ $txt['ecl_headrows'] = array(
 		'These cookies are set to records the current state of the Shout box block.',
 	),
 	array(
-		'pmx_YOfs, pmx_YOfs2',
-		'@host@',
-		'Page load time',
-		'These cookies will probably never see you.
-			It\'s set on portal Action such as a click on page numbers or on Admin action.
-			The cookies are evaluated when loading the desired page and then deleted.
-			It\'s used to set or restore the vertical screen position.',
-	),
-	array(
 		'screen',
 		'@host@',
 		'Current session only',
-		'This cookie contains the orientation and width of the frontpage area and is only used on Mobile Devices.',
+		'This cookie contains the orientation and width of the screen and is only used on Mobile Devices.',
 	),
 	array(
 		'upshrinkIC',
 		'@host@',
 		'Current session only',
 		'This cookie contains the collapse/expand state of the @host@ - Info Center and is set only for non-members (guests).',
+	),
+	array(
+		'pmx_YOfs',
+		'@host@',
+		'Page load time',
+		'These cookies will probably never see you.
+			It is used to restore the vertical screen position on Frontpage blocks, they have more then one page.
+			The cookies is normaly deleted when the desired page is loaded.',
 	),
 );
 

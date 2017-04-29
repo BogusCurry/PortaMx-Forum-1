@@ -8,7 +8,7 @@
  * file Frames.template.php
  * Template for the Block/Category/Article frame.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -137,7 +137,7 @@ function Pmx_Frame_top($cfg, $count)
 		{
 			$btyp = str_replace('static_', '', $cfg['blocktype']);
 			echo '
-										<a href="'. $scripturl .'?action='. (allowPmx('pmx_admin', true) ? 'portal' : 'admin') .';area=pmx_'. (in_array($btyp, array('category', 'article')) ? ($btyp == 'category' ? 'categories;sa=edit;id='. preg_replace('/_[0-9]+/', '', $cfg['catid']) : 'articles;sa=edit;id='. preg_replace('/_[0-9]+/', '', $cfg['id'])) : 'blocks;sa='. $cfg['side']) .';edit='. preg_replace('/_[0-9]+/', '', $cfg['id']) .';'. $context['session_var'] .'=' .$context['session_id'] .'" onclick="pmxsetEditTop(this)">'. $blocktitle .'</a>';
+										<a href="'. $scripturl .'?action='. (allowPmx('pmx_admin', true) ? 'portal' : 'admin') .';area=pmx_'. (in_array($btyp, array('category', 'article')) ? ($btyp == 'category' ? 'categories;sa=edit;id='. preg_replace('/_[0-9]+/', '', $cfg['catid']) : 'articles;sa=edit;id='. preg_replace('/_[0-9]+/', '', $cfg['id'])) : 'blocks;sa='. $cfg['side']) .';edit='. preg_replace('/_[0-9]+/', '', $cfg['id']) .';'. $context['session_var'] .'=' .$context['session_id'] .'">'. $blocktitle .'</a>';
 		}
 		// else show the title normal
 		else

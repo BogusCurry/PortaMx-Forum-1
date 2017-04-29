@@ -11,9 +11,7 @@
 .generic_icons.help {
 	margin-top: 0px !important;
 }
-
-/* iPhone Tests */
-@media (max-width: 320px) {
+@media (max-width: 640px) {
 	#pm_menu {
 		margin: 0 0 0 -60px;
 	}
@@ -23,27 +21,35 @@
 	#notify_dropdown {
 		margin: 5px 0 0 2px;
 	}
-	.nextlinks {
-		display: none;
-	}
 	.information {
 		padding-bottom: 6px;
 	}
-	.footer_link.disclaimer {
+	.portal_adm_menu {
+		margin-top: 0px !important;
+		margin-bottom:6px;
+	}
+	.panel_img {
+		display: none;
+	}
+	.opt_row {
+		display: none !important;
+	}
+}
+
+/* show - hide time display */
+@media (max-width: 350px) {
+	.user {
 		display: none;
 	}
 }
 
-/* Lumia with 480px screen */
 @media (max-width: 480px) {
 	/* This is general */
 	.popup_window {
 		width: 80%;
 		padding: 0;
 		margin: 0 auto;
-	}
-	.topbottom {
-		display: none;
+		top: 5% !important;
 	}
 	.nextlinks {
 		display: none;
@@ -265,11 +271,7 @@
 
 	/* Menu tests */
 	#adm_submenus {
-		padding: 0;
-	}
-	#adm_submenus .dropmenu li {
-		float: left;
-		margin: 0;
+		// display: none;
 	}
 	#header_member_list_user_name, #header_member_list_ip,
 	#header_member_list_last_active, #header_member_list_posts,
@@ -293,6 +295,11 @@
 	.dropmenu li ul ul {
 		margin: 0 !important;
 	}
+
+	.portal_adm_menu {
+		margin-top: 0px !important;
+		margin-bottom:6px;
+	}
 }
 
 @media (min-width: 481px) and (max-width: 720px) {
@@ -308,6 +315,9 @@
 	}
 
 	/* Display (Topic View) */
+	.topic_pages {
+		display: none;
+	}
 	.poster {
 		float: none !important;
 	}
@@ -385,6 +395,9 @@
 	}
 
 	/* Display (Topics) */
+	.topic_pages {
+		display: none;
+	}
 	.user_info li.avatar, .user_info li.poster_ip {
 		display: none;
 	}
@@ -392,16 +405,36 @@
 
 /* adjust ecl overlay on small phones */
 @media screen and (max-width: 360px) {
+	.pages {
+		display: none;
+	}
+	a.navPages:hover, a.navPages:active, a.navPages:focus {
+		border-top-left-radius: 2px;
+		border-bottom-left-radius: 2px;
+	}
+	.footer_link.disclaimer {
+		display: none;
+	}
 	#wrapper {
 		width: 98.75% !important;
 	}
 	#ecl_outer{
 		max-width: 98.4% !important;
 	}
+	.portal_adm_menu {
+		margin-top: 0px !important;
+		margin-bottom:6px;
+	}
+	.panel_img {
+		display: none;
+	}
+	.opt_row {
+		display: none !important;
+	}
 }
 
 /* We have shared things... */
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 740px) {
 	h1.forumtitle {
 		padding: 7px 12px 7px 6px;
 	}
@@ -463,7 +496,7 @@
 		display: none;
 	}
 	.mobile_buttons {
-		margin: 4px 0;
+		margin: 5px 0;
 	}
 	.mobile_buttons .button {
 		margin: 0;
@@ -635,7 +668,7 @@
 		width: 60%;
 	}
 	/* Hide me */
-	#inner_wrap, #pmxlogo, #message_index_jump_to, #display_jump_to,
+	#pmxlogo, #message_index_jump_to, #display_jump_to,
 	#siteslogan, th.website_url, th.registered,
 	td.centertext.website_url, td.centertext.reg_date, td.posts, td.statsbar.posts,
 	#main_content_section .navigate_section, .time, .hidden,
@@ -676,8 +709,7 @@
 	}
 }
 
-/* Still not enough data or people to test this... */
-/* This needs more data and this range is probably for iPad Air (alike) tablets... */
+/* This range is probably for iPad Air (alike) tablets... */
 @media (min-width: 721px) and (max-width: 855px) {
 	div.lastpost {
 		margin: 0 0 0 20px !important;
@@ -702,6 +734,9 @@
 	}
 	.footer_link.floatright {
 		display: none;
+	}
+	.pagesection.top, .pagesection.bot {
+		margin-top: 0px !important;
 	}
 }
 @media (max-width: 585px) {

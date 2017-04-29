@@ -7,7 +7,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -463,7 +463,8 @@ function template_showPosts()
 			</h3>
 		</div>', !empty($context['page_index']) ? '
 		<div class="pagesection">
-			<div class="pagelinks">' . $context['page_index'] . '</div>
+			<a href="#pbot" class="topbottom floatleft">'. $txt['go_down'] .'</a>
+			<div class="pagelinks floatleft">'. $context['page_index'] .'</div>
 		</div>' : '';
 
 	// Are we displaying posts or attachments?
@@ -534,8 +535,9 @@ function template_showPosts()
 	// Show more page numbers.
 	if (!empty($context['page_index']))
 		echo '
-		<div class="pagesection">
-			<div class="pagelinks">', $context['page_index'], '</div>
+		<div class="pagesection" id="pbot">
+			<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 }
 
@@ -583,7 +585,7 @@ function template_showAlerts()
 						<ul class="quickbuttons">
 							<li><a href="', $scripturl, '?action=profile;u=', $context['id_member'], ';area=showalerts;do=remove;aid=', $id ,';', $context['session_var'], '=', $context['session_id'], '" class="you_sure"><span class="generic_icons remove_button"></span>', $txt['delete'] ,'</a></li>
 							<li><a href="', $scripturl, '?action=profile;u=', $context['id_member'], ';area=showalerts;do=', ($alert['is_read'] != 0 ? 'unread' : 'read') ,';aid=', $id ,';', $context['session_var'], '=', $context['session_id'], '"><span class="generic_icons ', $alert['is_read'] != 0 ? 'unread_button' : 'read_button','"></span>', ($alert['is_read'] != 0 ? $txt['mark_unread'] : $txt['mark_read_short']),'</a></li>
-							<li><input type="checkbox" name="mark[', $id ,']" value="', $id ,'" style="margin-top:-1px;height:14px;"></li>
+							<li><input type="checkbox" class="input_check" name="mark[', $id, ']" value="', $id, '" style="margin-top:-1px;height:14px;"></li>
 						</ul>
 					</td>
 				</tr>';
@@ -591,12 +593,12 @@ function template_showAlerts()
 
 		echo '
 			</table>
-			<div class="pagesection">
-				<div class="floatleft">
+			<div class="pagesection" id="pbot">
+				<a href="#pbot" class="topbottom floatleft">', $txt['go_up'], '</a>
 					', $context['pagination'] ,'
 				</div>
 				<div class="floatright">
-					', $txt['check_all'] ,': <input type="checkbox" name="select_all" id="select_all">
+					', $txt['check_all'], ': <input type="checkbox" class="input_check" name="select_all" id="select_all">
 					<select name="mark_as">
 						<option value="read">', $txt['quick_mod_markread'] ,'</option>
 						<option value="unread">', $txt['quick_mod_markunread'] ,'</option>
@@ -622,10 +624,11 @@ function template_showDrafts()
 			<h3 class="catbg">
 				', $txt['drafts'], ' - ', $context['member']['name'], '
 			</h3>
-		</div>', !empty($context['page_index']) ? '
-		<div class="pagesection">
-			<div class="pagelinks">' . $context['page_index'] . '</div>
-		</div>' : '';
+		</div>', (!empty($context['page_index']) ? '
+		<div class="pagesection" id="top">
+			<a href="#pbot" class="topbottom floatleft">'. $txt['go_down'] .'</a>
+			<div class="pagelinks floatleft">'. $context['page_index'] .'</div>
+		</div>' : '');
 
 	// No drafts? Just show an informative message.
 	if (empty($context['drafts']))
@@ -669,9 +672,11 @@ function template_showDrafts()
 
 	// Show page numbers.
 	echo '
-		<div class="pagesection">
-			<div class="pagelinks">', $context['page_index'], '</div>
-		</div>';
+		</div>', (!empty($context['page_index']) ? '
+		<div class="pagesection" id="pbot">
+			<a href="#ptop" class="topbottom floatleft">'. $txt['go_up'] .'</a>
+			<div class="pagelinks floatleft">'. $context['page_index'] .'</div>
+		</div>' : '');
 }
 
 /**
@@ -761,7 +766,7 @@ function template_editBuddies()
 			</dt>
 			<dd>
 				<input type="text" name="new_buddy" id="new_buddy" size="30" class="input_text">
-				<input type="submit" value="', $txt['buddy_add_button'], '" class="button_submit floatnone">
+				<input type="submit" value="', $txt['buddy_add_button'], '" class="button_submit" style="margin-top:8px;">
 			</dd>
 		</dl>';
 
@@ -868,7 +873,7 @@ function template_editIgnoreList()
 
 	echo '
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '">
-		<input type="submit" value="', $txt['ignore_add_button'], '" class="button_submit">
+		<input type="submit" value="', $txt['ignore_add_button'], '" class="button_submit" style="margin-top:10px;">
 	</form>
 	<script>
 		var oAddIgnoreSuggest = new pmxc_AutoSuggest({

@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; EmailTemplates
+// Version: 1.0 RC3; EmailTemplates
 
 // Since all of these strings are being used in emails, numeric entities should be used.
 

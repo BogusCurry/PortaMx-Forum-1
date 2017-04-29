@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -26,9 +26,9 @@ if (!defined('PMX'))
  *  - $fetch_data = new cURL_fetch_web_data(array(CURLOPT_SSL_VERIFYPEER => 1), 5);
  *
  * Make the call
- *  - $fetch_data('http://portamx.com'); // fetch a page
- *  - $fetch_data('http://portamx.com', array('user' => 'name', 'password' => 'password')); // post to a page
- *  - $fetch_data('http://portamx.com', parameter1&parameter2&parameter3); // post to a page
+ *  - $fetch_data('https://www.portamx.com'); // fetch a page
+ *  - $fetch_data('https://www.portamx.com', array('user' => 'name', 'password' => 'password')); // post to a page
+ *  - $fetch_data('https://www.portamx.com', parameter1&parameter2&parameter3); // post to a page
  *
  * Get the data
  *  - $fetch_data->result('body'); // just the page content

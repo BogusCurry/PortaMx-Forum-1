@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -218,7 +218,7 @@ function template_folder()
 		{
 
 			echo '
-	<div class="windowbg">
+	<div class="windowbg" id="top">
 		<div class="poster">';
 
 		// Are there any custom fields above the member name?
@@ -556,9 +556,9 @@ function template_folder()
 
 		if (empty($context['display_mode']))
 			echo '
-
 	<div class="pagesection">
-		<div class="floatleft">', $context['page_index'], '</div>
+		<a href="#ptop" class="topbottom pgtotop floatleft">', $txt['go_up'], '</a>
+		<div class="pagelinks pgtotop floatleft">', $context['page_index'], '</div>
 		<div class="floatright"><input type="submit" name="del_selected" value="', $txt['quickmod_delete_selected'], '" style="font-weight: normal;" onclick="if (!confirm(\'', $txt['delete_selected_confirm'], '\')) return false;" class="button_submit"></div>
 	</div>';
 
@@ -659,8 +659,8 @@ function template_subject_list()
 	echo '
 	</tbody>
 	</table>
-	<div class="pagesection">
-		<div class="floatleft">', $context['page_index'], '</div>
+	<div class="pagesection" id="top">
+		<div class="pagelinks pgtotop floatleft">', $context['page_index'], '</div>
 		<div class="floatright">&nbsp;';
 
 	if ($context['show_delete'])
@@ -704,6 +704,7 @@ function template_subject_list()
 
 	echo '
 				</div>
+			</div>
 	</div>';
 }
 
@@ -847,7 +848,7 @@ function template_search_results()
 			<h3 class="catbg">', $txt['pm_search_results'], '</h3>
 		</div>
 		<div class="pagesection">
-			', $context['page_index'], '
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 
 	// complete results ?
@@ -941,9 +942,8 @@ function template_search_results()
 
 	echo '
 		<div class="pagesection">
-			', $context['page_index'], '
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
-
 }
 
 /**
@@ -1914,8 +1914,8 @@ function template_showPMDrafts()
 				<span class="generic_icons inbox"></span> ', $txt['drafts_show'], '
 			</h3>
 		</div>
-		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+		<div class="pagesection contop">
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 
 	// Button shortcuts
@@ -1960,7 +1960,7 @@ function template_showPMDrafts()
 	// Show page numbers.
 	echo '
 		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 }
 

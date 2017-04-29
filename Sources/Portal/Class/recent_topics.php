@@ -8,7 +8,7 @@
  * file recent_topics.php
  * Systemblock recent_topics
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -99,7 +99,7 @@ class pmxc_recent_topics extends PortaMxC_SystemBlock
 			foreach($this->posts as $id => $post)
 			{
 				if(preg_match('/board\=[0-9\.]+/', $post['board']['link'], $match) > 0)
-					$this->posts[$id]['board']['link'] = str_replace($match[0], $match[0] .'#top', $post['board']['link']);
+					$this->posts[$id]['board']['link'] = str_replace($match[0], $match[0] .'#ptop', $post['board']['link']);
 
 				if(preg_match('/msg([0-9]+)/', $post['href'], $msg) > 0)
 					$this->posts[$id]['href'] = str_replace(';topicseen#new', '#msg'. $msg[1], $post['href']);

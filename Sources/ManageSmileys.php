@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -1746,7 +1746,7 @@ function EditMessageIcons()
 	$pmxcFunc['db_free_result']($request);
 
 	// Submitting a form?
-	if (isset($_POST['icons_save']))
+	if (isset($_POST['icons_save']) || isset($_POST['delete']))
 	{
 		checkSession();
 

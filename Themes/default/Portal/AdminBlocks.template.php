@@ -8,7 +8,7 @@
  * file AdminBlocks.template.php
  * Template for the Blocks Manager.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -16,35 +16,10 @@
 */
 function template_main()
 {
-	global $context, $txt, $scripturl;
+	global $context, $txt, $modSettings, $scripturl;
 
-	$curarea = isset($_GET['area']) ? $_GET['area'] : 'pmx_settigs';
+	$sections = (!isset($_REQUEST['sa']) || (isset($_REQUEST['sa']) && $_REQUEST['sa'] == 'all') ? array_keys($txt['pmx_admBlk_sides']) : Pmx_StrToArray($_REQUEST['sa']));
 
-	if(allowPmx('pmx_admin', true))
-	{
-		$AdmTabs = array(
-			'pmx_settings' => $txt['pmx_settings'],
-			'pmx_blocks' => $txt['pmx_blocks'],
-			'pmx_categories' => $txt['pmx_categories'],
-			'pmx_articles' => $txt['pmx_articles'],
-		);
-
-		echo '
-			<div style="height:2.6em;margin-top:6px;">
-				<ul id="pmxmenu_nav" class="dropmenu sf-js-enabled">';
-
-		foreach($AdmTabs as $name => $desc)
-			echo '
-					<li id="'. $name .'" class="subsections">
-						<a '. ($name == $curarea ? 'class="active"' : '') .'href="'. $scripturl .'?action=portal;area='. $name .';'. $context['session_var'] .'=' .$context['session_id'] .'" onmousedown="pmxWinGetTop(\'adm\',\'set\')">'. $desc .'</a>
-					</li>';
-
-		echo '
-				</ul>
-			</div>';
-	}
-
-	$sections = ($context['pmx']['subaction'] == 'all' ? array_keys($txt['pmx_admBlk_sides']) : Pmx_StrToArray($context['pmx']['subaction']));
 	if(!allowPmx('pmx_admin', true) && allowPmx('pmx_blocks', true))
 	{
 		if(!isset($context['pmx']['settings']['manager']['admin_pages']))
@@ -69,22 +44,45 @@ function template_main()
 		echo '
 		<div class="cat_bar"><h3 class="catbg">'. $txt['pmx_adm_blocks'] .'</h3></div>
 		<p class="information">'. $txt['pmx_admBlk_desc'] .'</p>
+		<div class="generic_menu">
+			<ul class="dropmenu sf-js-enabled">';
 
-		<div id="adm_submenus" style="margin-bottom:6px;overflow:hidden;">
-			<ul class="dropmenu">';
-
-		foreach($MenuTabs as $name)
-		{
+		foreach($txt['pmx_admBlk_panels'] as $name => $desc)
 			echo '
-				<li>
-					<a class="firstlevel'. (in_array($name, $active) ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_blocks;sa='. $name .';'. $context['session_var'] .'=' .$context['session_id'] .'" onclick="pmxWinGetTop(\'adm\',\'set\')">
-						<span class="firstlevel">'. $txt['pmx_admBlk_panels'][$name] .'</span>
+				<li id="'. $name .'" class="subsections">
+					<a class="firstlevel'. ($name == $context['pmx']['subaction'] ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_blocks;sa='. $name .';'. $context['session_var'] .'='. $context['session_id'] .';#ptop">
+						<span class="firstlevel">'. $desc .'</span>
 					</a>
 				</li>';
-		}
+
 		echo '
 			</ul>
-		</div>';
+		</div>
+
+		<div><a class="menu_icon mobile_generic_menu_panels" style="margin-top:-5px;"></a></div>
+		<div id="mobile_generic_menu_panels" class="popup_container">
+			<div class="popup_window description">
+				<div class="popup_heading">', $txt['pmx_allpanels'] ,'<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
+				<div class="generic_menu">
+					<ul class="dropmenu sf-js-enabled">';
+
+		foreach($txt['pmx_admBlk_panels'] as $name => $desc)
+			echo '
+						<li id="'. $name .'" class="subsections">
+							<a class="firstlevel'. ($name == $context['pmx']['subaction'] ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_blocks;sa='. $name .';'. $context['session_var'] .'='. $context['session_id'] .';#ptop">
+								<span class="firstlevel">'. $desc .'</span>
+							</a>
+						</li>';
+
+		echo '
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(".mobile_generic_menu_panels" ).click(function(){$("#mobile_generic_menu_panels" ).show();});
+			$(".hide_popup" ).click(function(){$( "#mobile_generic_menu_panels" ).hide();});
+		</script>';
 	}
 
 	if (isset($_SESSION['saved_successful']))
@@ -95,7 +93,7 @@ function template_main()
 	}
 
 	echo '
-		<form id="pmx_form" accept-charset="'. $context['character_set'] .'" name="PMxAdminBlocks" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_blocks;sa='. $context['pmx']['subaction'] .';'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin: 0px 0px 0 0;display:block;" onsubmit="submitonce(this);">
+		<form id="pmx_form" accept-charset="'. $context['character_set'] .'" name="PMxAdminBlocks" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area=pmx_blocks;sa='. $context['pmx']['subaction'] .';'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin:0px;display:block;" onsubmit="submitonce(this);">
 			<input type="hidden" name="sc" value="'. $context['session_id'] .'" />
 			<input type="hidden" name="function" value="'. $context['pmx']['function'] .'" />
 			<input type="hidden" name="sa" value="'. $context['pmx']['subaction'] .'" />
@@ -161,7 +159,7 @@ function template_main()
 
 			echo '
 							<div class="pmx_tbl_tdgrid" style="width:36%;"><b>'. $txt['pmx_admBlk_type'] .'</b></div>
-							<div class="pmx_tbl_tdgrid" id="RowMove-'. $side .'" style="width:126px;"><b>'. $txt['pmx_options'] .'</b></div>
+							<div class="pmx_tbl_tdgrid opt_row" id="RowMove-'. $side .'" style="width:126px;"><b>'. $txt['pmx_options'] .'</b></div>
 							<div class="pmx_tbl_tdgrid" style="width:43px;"><div style="width:40px;"><b>'. $txt['pmx_status'] .'</b></div></div>
 							<div class="pmx_tbl_tdgrid" style="width:105px;"><div style="width:105px;"><b>'. $txt['pmx_functions'] .'</b></div></div>
 						</div>';
@@ -325,7 +323,7 @@ function template_main()
 
 		echo '
 						<div class="pmx_tbl_tdgrid" style="width:36%;border-color:transparent;height:5px"><div>&nbsp;</div></div>
-						<div class="pmx_tbl_tdgrid" style="width:126px;border-color:transparent;height:5px"><div>&nbsp;</div></div>
+						<div class="pmx_tbl_tdgrid opt_row" style="width:126px;border-color:transparent;height:5px"><div>&nbsp;</div></div>
 						<div class="pmx_tbl_tdgrid" style="width:43px;border-color:transparent;height:5px"><div>&nbsp;</div></div>
 						<div id="func-row" class="pmx_tbl_tdgrid" style="width:105px;border-color:transparent;height:5px">';
 
@@ -533,7 +531,7 @@ function PmxBlocksOverview($block, $side, $cfg_titleicons, $cfg_smfgroups)
 
 	// options row
 	echo '
-								<div class="pmx_tbl_tdgrid" id="RowAccess.'. $block['id'] .'">
+								<div class="pmx_tbl_tdgrid opt_row" id="RowAccess.'. $block['id'] .'">
 									<input id="grpAcs.'. $block['id'] .'" type="hidden" value="'. implode(',', $grpacs) .'" />
 									<input id="denyAcs.'. $block['id'] .'" type="hidden" value="'. implode(',', $denyacs) .'" />
 									<div>

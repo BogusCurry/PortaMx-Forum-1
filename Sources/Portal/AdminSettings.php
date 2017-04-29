@@ -9,7 +9,7 @@
  * AdminSettings reached all Posts from Settings Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -29,6 +29,7 @@ function Portal_AdminSettings()
 
 	if(($admMode == 'admin' || $admMode == 'portal'))
 	{
+        /*
 		foreach($context['linktree'] as $key => $data)
 		{
 			if(strpos($data['url'], 'pmx_settings') !== false)
@@ -37,7 +38,7 @@ function Portal_AdminSettings()
 					array_slice($context['linktree'], 0, $key),
 					array(
 						array(
-							'url' => $scripturl .'?action=admin;area=pmx_center;'. $context['session_var'] .'='. $context['session_id'],
+							'url' => $scripturl .'?action='. $admMode .';area=pmx_center;'. $context['session_var'] .'='. $context['session_id'],
 							'name' => $txt['pmx_extension']
 						),
 					),
@@ -46,7 +47,7 @@ function Portal_AdminSettings()
 				break;
 			}
 		}
-
+        */
 		require_once($context['pmx_sourcedir'] .'AdminSubs.php');
 		$context['pmx']['subaction'] = isset($_GET['sa']) ? $_GET['sa'] : 'globals';
 

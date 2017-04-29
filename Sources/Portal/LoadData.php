@@ -8,7 +8,7 @@
  * file LoadData.php
  * Subroutines for the Portal.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -213,6 +213,8 @@ function ParseXmlurl($feedurl, $resposetime, $headerstart = '<?xml')
 	{  
 		// OK let's create a new cURL resource
 		$handle = curl_init();
+		curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);			// need for https connections
+		curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);			// need for https connections
 		curl_setopt($handle, CURLOPT_URL, $feedurl);					// Set URL to download
 		curl_setopt($handle, CURLOPT_HEADER, 1);							// Include header in result? (1 = yes, 0 = no)
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);		// Should cURL return or print the data? (true = return, false = print)
@@ -855,7 +857,7 @@ function PortaMx_loadCompressed($file, $path = array(), $isInline = false)
 	global $context, $modSettings, $pmxCacheFunc;
 
 	$ext = substr($file, strrpos($file, '.'));
-	if(!empty($isInline) && $ext == '.js')
+	if(!empty($isInline)) // && $ext == '.js')
 	{
 		if(!empty($modSettings['minimize_files']))
 			addInlineJavascript("\t". str_replace("\n", "\n\t", PortaMx_compressJS($file)));
@@ -1251,7 +1253,8 @@ function clearBlocksCache($id = null, $catart = false)
 		)
 	);
 	while($row = $pmxcFunc['db_fetch_assoc']($request))
-		$pmxCacheFunc['drop']($row['blocktype'] . $row['id'], true);
+		$pmxCacheFunc['drop']($row['blocktype'] . $row['id'], ($row['blocktype'] == 'rss_reader' ? false : true));
+
 	$pmxcFunc['db_free_result']($request);
 
 	if(!empty($catart))
@@ -2822,28 +2825,25 @@ function ob_portamx($buffer)
 {
 	global $context;
 
-	// add restore top to admin links
-	if(!empty($context['pmx']['settings']['restoretop']))
+	// set ptop to admin links
+	if(preg_match_all('~<a.*href?=.*\?action[=admin|=portal][^\"]*\"~imU', $buffer, $match))
 	{
-		if(preg_match_all('~<a.*href?=.*\?action[=admin|=portal][^>]*>~imU', $buffer, $match))
+		foreach($match[0] as $data)
 		{
-			foreach($match[0] as $data)
-			{
-				if((strpos($data, '=admin') !== false || strpos($data, '=portal') !== false) && strpos($data, 'onclick="pmxWinGetTop') === false && strpos($data, 'onclick="pmxsetEditTop') === false && strpos($data, 'adminlogoff') === false)
-					$buffer = str_replace($data, str_replace('>', ' onclick="pmxWinGetTop(\'adm\',\'set\')">', $data), $buffer);
-			}
+			if((strpos($data, '=admin') !== false || strpos($data, '=portal') !== false) && strpos($data, 'adminlogoff') === false)
+				$buffer = str_replace($data, str_replace($data, rtrim($data, '"') .'#ptop"', $data), $buffer);
 		}
-		if(preg_match_all('~<form.*\?action[=admin|=portal][^>]*>~imU', $buffer, $match))
-		{
-			foreach($match[0] as $data)
-			{
-				if(strpos($data, 'pmx_form') === false && strpos($data, 'search_form') === false && strpos($data, 'login2') === false && strpos($data, 'onclick="pmxWinGetTop') === false && strpos($data, 'onclick="pmxsetEditTop') === false)
-					$buffer = str_replace($data, str_replace('>', ' onsubmit="pmxWinGetTop(\'adm\',\'set\')">', $data), $buffer);
-			}
-		}
-		if(isset($_REQUEST['action']) && in_array($_REQUEST['action'], array('admin', 'portal')) && preg_match('~<input.*onclick\=\"GoBack\(\)\"[^>]*>~imU', $buffer, $match))
-			$buffer = str_replace($match[0], str_replace('onclick="GoBack()"', 'onclick="pmxWinGetTop(\'adm\',\'set\');GoBack()"', $match[0]), $buffer);
 	}
+
+	if(preg_match_all('~<form.*\?action[=admin|=portal][^\"]*\"~imU', $buffer, $match))
+	{
+		foreach($match[0] as $data)
+		{
+			if(strpos($data, 'search_form') === false && strpos($data, 'login2') === false)
+				$buffer = str_replace($data, str_replace($data, rtrim($data, '"') .'#ptop"', $data), $buffer);
+		}
+	}
+
 	return $buffer;
 }
 
@@ -3019,9 +3019,6 @@ function PortaMx_headers($action = '')
 		addInlineCss('
 	.pwindicon{top:-22px !important;}
 	.ddImage{top:-18px !important;}');
-
-	loadJavascriptFile('lightbox.js', array('default_theme' => true, 'defer' => true), 'lightbox');
-	loadCSSFile('lightbox.css', array('default_theme' => true), 'lightbox');
 
 	if($action == 'frontpage')
 		addInlineCss('.bbc_code{max-height:12.7em;line-height:1.3em;font-size: 11px;}');

@@ -26,7 +26,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -1444,7 +1444,7 @@ function InstallCopy()
 
 	// Lets add a theme_info.xml to this theme.
 	$xml_info = '<' . '?xml version="1.0"?' . '>
-<theme-info xmlns="http://portamx.com/xml/theme-info" xmlns:pmx="http://portamx.com/">
+<theme-info xmlns="https://www.portamx.com/xml/theme-info" xmlns:pmx="https://www.portamx.com/">
 <!-- For the id, always use something unique - put your name, a colon, and then the package name. -->
 <id>pmx:' . $pmxcFunc['strtolower']($context['to_install']['name']) . '</id>
 <!-- The theme\'s version, please try to use semantic versioning. -->
@@ -1456,7 +1456,7 @@ function InstallCopy()
 <!-- Author: your email address or contact information. The name attribute is optional. -->
 <author name="PortaMx">info@portamx.com</author>
 <!-- Website... where to get updates and more information. -->
-<website>http://portamx.com/</website>
+<website>https://www.portamx.com/</website>
 <!-- Template layers to use, defaults to "html,body". -->
 <layers>' . $context['to_install']['theme_layers'] . '</layers>
 <!-- Templates to load on startup. Default is "index". -->

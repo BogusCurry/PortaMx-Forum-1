@@ -8,7 +8,7 @@
  * file html_adm.php
  * Admin Systemblock html
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

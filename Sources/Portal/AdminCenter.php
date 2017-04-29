@@ -8,7 +8,7 @@
  * file AdminCenter.php
  * Portal Admininistration Center.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -21,16 +21,6 @@ if(!defined('PMX'))
 function Portal_AdminCenter()
 {
 	global $context, $txt;
-
-	// fix the linktree
-	foreach($context['linktree'] as $key => $data)
-	{
-		if(strpos($data['url'], 'pmx_center') !== false)
-		{
-			$context['linktree'][$key]['name'] = $txt['pmx_extension'];
-			break;
-		}
-	}
 
 	loadTemplate($context['pmx_templatedir'] .'AdminCenter');
 }

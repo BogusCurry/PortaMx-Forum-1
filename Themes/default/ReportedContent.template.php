@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -408,7 +408,7 @@ function template_reported_members()
 			</h3>
 		</div>
 		<div class="pagesection">
-			<div class="pagelinks">', $context['page_index'], '</div>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 
 	// Make the buttons.
@@ -465,10 +465,10 @@ function template_reported_members()
 
 	echo '
 		<div class="pagesection">
-			<div class="pagelinks floatleft" style="margin-top: -6px;">', $context['page_index'], '</div>
-			<div class="floatright">
-				', !$context['view_closed'] ? '<input type="submit" name="close_selected" value="' . $txt['mc_reportedp_close_selected'] . '" class="button_submit">' : '', '
-			</div>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
+		</div>
+		<div class="floatright">
+			', !$context['view_closed'] ? '<input type="submit" name="close_selected" value="' . $txt['mc_reportedp_close_selected'] . '" class="button_submit">' : '', '
 		</div>
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '">
 	</form>';

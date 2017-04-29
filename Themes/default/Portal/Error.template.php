@@ -8,7 +8,7 @@
  * file Error.template.php
  * Error template.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function template_main()

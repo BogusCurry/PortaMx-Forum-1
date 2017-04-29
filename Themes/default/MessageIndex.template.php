@@ -7,7 +7,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -116,7 +116,13 @@ function template_main()
 		$normButtons = template_button_strip($context['normal_buttons'], 'right', '', true);
 
 		echo '
-	<div class="pagesection">';
+	<div class="pagesection">
+		', $context['menu_separator'], '
+		<div class="fixpagesbar">
+			<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
+		</div>
+		<div>', $normButtons , '</div>';
 
 		if(!empty($normButtons))
 			echo '
@@ -125,9 +131,6 @@ function template_main()
 		</div>';
 
 		echo '
-		', $context['menu_separator'], '<a href="#bot" class="topbottom floatleft">', $txt['go_down'], '</a>
-		<div class="pagelinks floatleft">', $context['page_index'], '</div>
-		', $normButtons, '
 	</div>';
 
 		if ($context['description'] != '' || !empty($context['moderators']))
@@ -246,13 +249,13 @@ function template_main()
 
 			echo '
 							<div class="message_index_title">
-								', $topic['new'] && $context['user']['is_logged'] ? '<a href="' . $topic['new_href'] . '" id="newicon' . $topic['first_post']['id'] . '"><span class="new_posts">' . $txt['new'] . '</span></a>' : '', '
+								', $topic['new'] && $context['user']['is_logged'] ? '<a href="' . $topic['new_href'] . '#ptop" id="newicon' . $topic['first_post']['id'] . '"><span class="new_posts">' . $txt['new'] . '</span></a>' : '', '
 								<span class="preview', $topic['is_sticky'] ? ' bold_text' : '', '" title="', $topic[(empty($modSettings['message_index_preview_first']) ? 'last_post' : 'first_post')]['preview'], '">
 									<span id="msg_', $topic['first_post']['id'], '">', $topic['first_post']['link'], (!$topic['approved'] ? '&nbsp;<em>(' . $txt['awaiting_approval'] . ')</em>' : ''), '</span>
 								</span>
 							</div>
 							<p class="floatleft">', $txt['started_by'], ' ', $topic['first_post']['member']['link'], '</p>
-							', !empty($topic['pages']) ? '<span id="pages'. $topic['first_post']['id']. '" class="topic_pages">&nbsp;'. $topic['pages']. '</span>' : '','
+							', !empty($topic['pages']) ? '<span id="pages'. $topic['first_post']['id']. '" class="topic_pages">'. $topic['pages']. '</span>' : '','
 							<br class="clear">
 						</div>
 					</div>
@@ -332,18 +335,23 @@ function template_main()
 
 	// Mobile action buttons (bottom)
 		echo '
-	<div class="pagesection">';
+	<div class="pagesection" id="pbot">';
 
-		if(!empty($normButtons))
+	if(!empty($normButtons))
 			echo '
 		<div class="mobile_buttons floatright">
 			<a class="button mobile_act">', $txt['mobile_action'],'</a>
 		</div>';
 
 		echo '
-		', $context['menu_separator'], '<a href="#top" class="topbottom floatleft">', $txt['go_up'], '</a>
-		<div class="pagelinks floatleft" id="bot">', $context['page_index'], '</div>
-		', $normButtons, '
+		', $context['menu_separator'] ,'
+		<div class="fixpagesbar">
+			<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
+		</div>
+		<div>', $normButtons, '</div>';
+
+		echo '
 	</div>';
 	}
 

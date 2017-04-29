@@ -8,7 +8,7 @@
  * file AdminCenter.template.php
  * Template for the Admin Center.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function template_main()
@@ -24,29 +24,12 @@ function template_main()
 		<p class="information">'. sprintf($txt['pmx_admin_main_welcome'] ,'<span class="generic_icons help" title="'. $txt['help'] .'"></span>') .'</p>';
 
 	echo '
-			<div class="roundframe" style="padding:10px 5px;margin-top:2px;">
-				<table class="pmx_table middletext" style="padding:5px;">
-					<tr>
-						<td style="width:50%; padding:5px;'. (!allowPmx('pmx_admin') ? 'display:none;"' : '') .'">
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_settings;'. $context['session_var'] .'=' .$context['session_id'] .'"><img style="float:left;margin:5px 10px 20px;" src="'. $context['pmx_imageurl'] .'admc_settings.png" alt="*" title="" /></a>
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_settings;'. $context['session_var'] .'=' .$context['session_id'] .'">'. $txt['pmx_center_mansettings'] .'</a><br /><span class="smalltext">'. $txt['pmx_center_mansettings_desc'] .'</span>
-						</td>
-						<td style="width:50%; padding:5px;'. (!allowPmx('pmx_admin, pmx_blocks') ? 'display:none;' : '') .'">
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_blocks;'. $context['session_var'] .'=' .$context['session_id'] .'"><img style="float:left;margin:5px 10px 20px;" src="'. $context['pmx_imageurl'] .'admc_blocks.png" alt="*" title="" /></a>
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_blocks;'. $context['session_var'] .'=' .$context['session_id'] .'">'. $txt['pmx_center_manblocks'] .'</a><br /><span class="smalltext">'. $txt['pmx_center_manblocks_desc'] .'</span>
-						</td>
-					</tr>
-					<tr>
-						<td style="width:50%; padding:5px;'. (!allowPmx('pmx_admin, pmx_articles, pmx_create') ? 'display:none;"' : '') .'">
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_articles;'. $context['session_var'] .'=' .$context['session_id'] .'"><img style="float:left;margin:5px 10px 20px;" src="'. $context['pmx_imageurl'] .'admc_article.png" alt="*" title="" /></a>
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_articles;'. $context['session_var'] .'=' .$context['session_id'] .'">'. $txt['pmx_center_manarticles'] .'</a><br /><span class="smalltext">'. $txt['pmx_center_manarticles_desc'] .'</span>
-						</td>
-						<td style="width:50%; padding:5px;'. (!allowPmx('pmx_admin') ? 'display:none;' : '') .'">
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_categories;'. $context['session_var'] .'=' .$context['session_id'] .'"><img style="float:left;margin:5px 10px 20px;" src="'. $context['pmx_imageurl'] .'admc_category.png" alt="*" title="" /></a>
-							<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_categories;'. $context['session_var'] .'=' .$context['session_id'] .'">'. $txt['pmx_center_mancategories'] .'</a><br /><span class="smalltext">'. $txt['pmx_center_mancategories_desc'] .'</span>
-						</td>
-					</tr>
-				</table>
-			</div>';
+		<fieldset class="windowbg portal_group">
+			<legend>'. $txt['pmx_button'] .'</legend>
+			'. (allowPmx('pmx_admin') ? '<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_settings;'. $context['session_var'] .'='. $context['session_id'] .'"><div><img src="'. $context['pmx_imageurl'] .'adm_settings.png" alt="settings"></div>'. preg_replace('~\<.?b\>~', '', $txt['pmx_center_mansettings']) .'</a>' : '') .'
+			'. (allowPmx('pmx_admin, pmx_blocks') ? '<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_blocks;'. $context['session_var'] .'=' .$context['session_id'] .'"><div><img src="'. $context['pmx_imageurl'] .'adm_blocks.png" alt="blocks"></div>'. preg_replace('~\<.?b\>~', '', $txt['pmx_center_manblocks']) .'</a>' : '') .'
+			'. (allowPmx('pmx_admin, pmx_articles, pmx_create') ? '<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_articles;'. $context['session_var'] .'=' .$context['session_id'] .'"><div><img src="'. $context['pmx_imageurl'] .'adm_article.png" alt="articles"></div>'. preg_replace('~\<.?b\>~', '', $txt['pmx_center_manarticles']) .'</a>' : '') .'
+			'. (allowPmx('pmx_admin') ? '<a href="'. $scripturl .'?action='. $context['pmx']['admmode'] .';area=pmx_categories;'. $context['session_var'] .'=' .$context['session_id'] .'"><div><img src="'. $context['pmx_imageurl'] .'adm_category.png" alt="articles"></div>'. preg_replace('~\<.?b\>~', '', $txt['pmx_center_mancategories']) .'</a>' : '') .'
+		</fieldset>';
 }
 ?>

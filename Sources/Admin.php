@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -465,7 +465,12 @@ function AdminMain()
 		'url' => $scripturl . '?action=admin',
 		'name' => $txt['admin_center'],
 	);
-	if (isset($admin_include_data['current_area']) && $admin_include_data['current_area'] != 'index')
+	if(substr($admin_include_data['current_area'], 0, 4) == 'pmx_')
+		$context['linktree'][] = array(
+			'url' => $scripturl . '?action=admin;area=pmx_center;' . $context['session_var'] . '=' . $context['session_id'],
+			'name' => $admin_include_data['current_area'] == 'pmx_center' ? $txt['pmx_ext_center'] : $txt['pmx_extension'],
+	);
+	if (isset($admin_include_data['current_area']) && $admin_include_data['current_area'] != 'index'  && $admin_include_data['current_area'] != 'pmx_center')
 		$context['linktree'][] = array(
 			'url' => $scripturl . '?action=admin;area=' . $admin_include_data['current_area'] . ';' . $context['session_var'] . '=' . $context['session_id'],
 			'name' => $admin_include_data['label'],

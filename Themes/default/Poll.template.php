@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -144,7 +144,7 @@ function template_main()
 					</fieldset>';
 	echo '
 					<div class="padding flow_auto">
-						<input type="button" value="'. $txt['modify_cancel'] .'" name="'. $txt['modify_cancel'] .'" onclick="window.location.href=\'', $_SERVER['HTTP_REFERER'] .'#top' ,'\'" class="button_submit">
+						<input type="button" value="'. $txt['modify_cancel'] .'" name="'. $txt['modify_cancel'] .'" onclick="window.location.href=\''. $scripturl .'?topic='. $_GET['topic'] .';#ptop\'" class="button_submit">
 						<input type="submit" name="post" value="', $txt['save'], '" onclick="return submitThisOnce(this);" accesskey="s" class="button_submit">
 					</div>
 				</div>

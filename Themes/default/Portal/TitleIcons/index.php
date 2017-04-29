@@ -4,9 +4,7 @@
 * Supress direct acceess to the title icon directory.
 *
 * \author PortaMx - Portal Management Extension
-* \author Copyright 2008-2017 by PortaMx - http://portamx.com
-* \version Virgo 2.0 Beta 4
-* \date 05.04.2016
+* \author Copyright 2008-2017 by PortaMx - https://www.portamx.com
 */
 
 if(file_exists(realpath('../../../../Settings.php')))

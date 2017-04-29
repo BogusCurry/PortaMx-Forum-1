@@ -4,16 +4,16 @@
  *
  * PortaMx Forum
  * @package PortaMx
- * @author PortaMx http://portamx.com
+ * @author PortaMx https://www.portamx.com
  * @copyright 2017 Portamx
  * @license BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 function template_eclmain_above()
 {
-	global $context, $modSettings, $settings, $language, $cookiename, $txt;
+	global $context, $modSettings, $settings, $language, $cookiename, $boardurl, $txt;
 
 	$ecl_cookie_time = strtotime('+3 month') .'000';
 	$replaces = array('@host@' => $_SERVER['SERVER_NAME'], '@cookie@' => $cookiename, '@site@' => $context['forum_name']);
@@ -26,7 +26,7 @@ function template_eclmain_above()
 				'. $txt['ecl_needAccept'] . $txt['ecl_device'][$modSettings['isMobile']] .'
 			</div>
 			<div class="ecl_accept">
-				<input type="button" name="accept" value="'. $txt['ecl_button'] .'" onclick="pmxCookie(\'set\', \'eclauth\', \'\', \'ecl\');window.location.href=pmx_scripturl;" />&nbsp;
+				<input type="button" name="accept" value="'. $txt['ecl_button'] .'" onclick="pmxCookie(\'set\', \'eclauth\', \'\', \'ecl\');setTimeout(function(){window.location.reload(true);}, 500);" />&nbsp;
 				<input id="privbut" class="eclbutclose" type="button" name="accept" value="'. $txt['ecl_privacy'] .'" title="'. $txt['ecl_privacy_ttlopen'] .'" onclick="show_eclprivacy()" />';
 
 	if(empty($modSettings['ecl_nomodal']) || (!empty($modSettings['isMobile']) && empty($modSettings['ecl_nomodal_mobile'])))

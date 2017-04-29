@@ -8,7 +8,7 @@
  * file boardnews.php
  * Systemblock boardnews
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -209,7 +209,7 @@ class pmxc_boardnews extends PortaMxC_SystemBlock
 								'link' => !empty($row['id_member']) ? '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['poster_name'] . '</a>' : $row['poster_name']
 							),
 							'board' => array(
-								'link' => '<a href="'. $scripturl .'?board='. $boardid .'.0#top">'. $boardname .'</a>',  
+								'link' => '<a href="'. $scripturl .'?board='. $boardid .'.0#ptop">'. $boardname .'</a>',  
 							),
 						);
 					}
@@ -280,7 +280,7 @@ class pmxc_boardnews extends PortaMxC_SystemBlock
 			if(!empty($scrMode))
 			{
 				$scrMode = explode('-', $scrMode);
-				$doSplit = empty($modSettings['isMobile']) || (!empty($modSettings['isMobile']) && isset($scrMode[1]) && intval($scrMode[1]) > intval($context['pmx']['settings']['colminwidth']));
+				$doSplit = empty($modSettings['isMobile']) || (!empty($modSettings['isMobile']) && isset($scrMode[1]) && intval($scrMode[1]) >= intval($context['pmx']['settings']['colminwidth']));
 			}
 		}
 		$this->is_Split = ($doSplit && $this->cfg['config']['settings']['split']);
@@ -305,12 +305,15 @@ class pmxc_boardnews extends PortaMxC_SystemBlock
 
 		// show the pageindex line
 		if(!empty($this->pageindex))
+		{
 			echo '
 					<form id="'. $this->postKey .'_form" accept-charset="'. $context['character_set'] .'" method="post">
 					<input type="hidden" id="'. $this->postKey .'" name="'. $this->postKey .'" value="" />';
-		if(!empty($this->cfg['config']['settings']['pgidxtop']))
-			echo '
-					<div class="smalltext pmx_pgidx_top">'. $this->pageindex .'</div>';
+
+			if(!empty($this->cfg['config']['settings']['pgidxtop']))
+				echo '
+					<div class="pagelinks pmx_pageTop">', $this->pageindex, '</div>';
+		}
 
 		// the maintable
 		echo '
@@ -397,7 +400,7 @@ class pmxc_boardnews extends PortaMxC_SystemBlock
 		// show pageindex if exists
 		if(!empty($this->pageindex))
 			echo '
-					<div class="smalltext pmx_pgidx_bot">'. $this->pageindex .'</div>
+					<div class="pagelinks pmx_pageBot">', $this->pageindex, '</div>
 					</form>';
 	}
 
@@ -462,10 +465,10 @@ class pmxc_boardnews extends PortaMxC_SystemBlock
 			if(!empty($this->cfg['config']['settings']['postviews']))
 				echo '
 							<div class="smalltext" style="float:left;">'. $txt['pmx_text_postby'] . $post['poster']['link'] .', '. $post['time'] .'</div>
-							<div class="smalltext" style="float:right;">'. $txt['pmx_text_replies'] . $post['replies'] .'</div>
+							<div class="smalltext" style="float:right;">'. $txt['pmx_text_views'] . $post['views'] .'</div>
 							<br style="clear:both;" />
 							<div class="smalltext msg_bot_pad" style="float:left;">'. $txt['pmx_text_board'] . $post['board']['link'] .'</div>
-							<div class="smalltext msg_bot_pad" style="float:right;">'. $txt['pmx_text_views'] . $post['views'] .'</div>
+							<div class="smalltext msg_bot_pad" style="float:right;">'. $txt['pmx_text_replies'] . $post['replies'] .'</div>
 							<hr class="pmx_hrclear" />';
 			else
 			{

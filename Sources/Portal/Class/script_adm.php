@@ -8,7 +8,7 @@
  * file script_adm.php
  * Admin Systemblock script
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

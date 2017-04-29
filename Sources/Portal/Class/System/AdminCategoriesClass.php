@@ -8,7 +8,7 @@
  * file PortaMx_AdminCategoriesClass.php
  * Global Categories Admin class
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -170,7 +170,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 			{
 				echo '
 									<div style="padding-top:4px;">
-										<div style="float:left; width:145px;">'. $txt['pmx_categories_type'] .'</div>';
+										<div style="float:left; width:100px;">'. $txt['pmx_categories_type'] .'</div>';
 
 				$opt = 0;
 				foreach($txt['pmx_categories_places'] as $artType => $artDesc)
@@ -183,7 +183,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 				// all exist categories
 				echo '
 									</div>
-									<div style="float:left; width:150px;padding-top:11px;padding-bottom:8px;">'. $txt['pmx_categories_cats'] .'</div>
+									<div style="float:left; width:105px;padding-top:11px;padding-bottom:8px;">'. $txt['pmx_categories_cats'] .'</div>
 										<select style="width:53%;margin-top:10px;margin-bottom:8px;" size="1" name="catid">';
 
 				// output cats
@@ -205,8 +205,9 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 
 		// category name
 		echo '
-										<div class="adm_clear" style="float:left;width:150px; padding-top:3px;">'. $txt['pmx_categories_name'] .':
+										<div class="adm_clear" style="float:left;width:105px; padding-top:3px;">
 											<a href="', $scripturl, '?action=helpadmin;help=pmx_edit_pagenamehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+											<span>'. $txt['pmx_categories_name'] .':</span>
 										</div>
 										<span id="check.name.error" style="display:none;">'. sprintf($txt['namefielderror'], $txt['pmx_categories_name']) .'</span>
 										<input id="check.name" style="width:53%; margin-top:1px;" onkeyup="check_requestname(this)" onkeypress="check_requestname(this)" type="text" name="name" value="'. $this->cfg['name'] .'" />
@@ -440,8 +441,9 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 									<div class="cat_bar catbg_grid grid_padd">
 										<h4 class="catbg catbg_grid grid_botpad">
-											<div style="float:left; width:174px;"><span class="cat_msg_title">'. $txt['pmx_edit_usedclass_type'] .'</span></div>
-											<span class="cat_msg_title">'. $txt['pmx_edit_usedclass_style'] .'</span>
+											<div style="float:left; width:174px;">
+												<a href="', $scripturl, '?action=helpadmin;help=pmx_used_style2help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+												<span class="cat_msg_title">'. $txt['pmx_edit_usedclass_type'] .'</span>
 										</h4>
 									</div>
 									<div style="margin:2px 0px">';
@@ -465,7 +467,10 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 		echo '
 									</div>
 									<div class="cat_bar catbg_grid grid_padd" style="margin-top:-2px;">
-										<h4 class="catbg catbg_grid"><span class="cat_msg_title">'. $txt['pmx_edit_canhavecssfile'] .'</span></h4>
+										<h4 class="catbg catbg_grid"><span class="cat_msg_title">
+											<a href="', $scripturl, '?action=helpadmin;help=pmx_custom_css_filehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+											<span>'. $txt['pmx_edit_canhavecssfile'] .'</span>
+										</h4>
 									</div>
 									<div style="float:left; margin:0px 2px; width:176px;">'. $txt['pmx_edit_cssfilename'] .'</div>
 									<select id="sel.css.file" style="width:46%;margin-bottom:2px;" name="config[cssfile]" onchange="pmxChangeCSS(this)">
@@ -537,7 +542,7 @@ class PortaMxC_SystemAdminCategories extends PortaMxC_AdminCategories
 											<span class="cat_msg_title">'. $txt['pmx_categories_groups'] .'</span>
 										</h4>
 									</div>
-									<select name="acsgrp[]" id="pmxgroups" onchange="changed(\'pmxgroups\');" style="width:47%;margin-left:178px;" multiple="multiple" size="5">';
+									<select name="acsgrp[]" id="pmxgroups" onchange="changed(\'pmxgroups\');" style="float:left;width:47%;margin-left:178px;" multiple="multiple" size="5">';
 
 		if(!empty($this->cfg['acsgrp']))
 			list($grpacs, $denyacs) = Pmx_StrToArray($this->cfg['acsgrp'], ',', '=');

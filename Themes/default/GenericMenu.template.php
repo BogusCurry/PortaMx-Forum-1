@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -56,20 +56,21 @@ function template_generic_menu_dropdown_above()
 
 	if(!empty($isPortal))
 	{
+		$curAct = '';
+		if(!isset($context['pmx']['subaction']))
+			$context['pmx']['subaction'] = '';
+
 		if(isset($context['pmx']['function']) && ($context['pmx']['function'] == 'edit' || $context['pmx']['function'] == 'editnew'))
 			$curAct = $context['pmx']['function'];
 		elseif(isset($context['pmx']['subaction']) && ($context['pmx']['subaction'] == 'edit' || $context['pmx']['subaction'] == 'editnew')) 
 			$curAct = $context['pmx']['subaction'];
-		else
-			$curAct = '';
+		elseif($context['pmx']['subaction'])
+			$curAct = $context['pmx']['subaction'];
 
 		if(!in_array($curAct,  array('edit', 'editnew'))) 
 			echo '
 				<div class="cat_bar"><h3 class="catbg">'. $titleText .'</h3></div>
 				<p class="information">'. $infoText .'</p>';
-		else
-			echo '
-				<div style="height:5px;"></div>';
 	}
 
 	// This is the main table - we need it so we can keep the content to the right of it.
@@ -77,8 +78,11 @@ function template_generic_menu_dropdown_above()
 				<div id="admin_content">';
 
 	// It's possible that some pages have their own tabs they wanna force...
-	if(!empty($isPortal) && !in_array($curAct,  array('edit', 'editnew'))) 
+	if(empty($curAct) || (!empty($curAct) && !in_array($curAct,  array('edit', 'editnew'))))
+	{
 		template_generic_menu_tabs($menu_context);
+		template_generic_menu_tabs_mobile($menu_context, true);
+	}
 }
 
 /**
@@ -94,12 +98,23 @@ function template_generic_menu_mobile(&$menu_context)
 {
 	global $context, $txt;
 
+	$HeadText = $txt['mobile_user_menu'];
+	if(isset($_REQUEST['action']))
+	{
+		if($_REQUEST['action'] == 'admin')
+			$HeadText = $txt['mobile_admin_menu'];
+		else if($_REQUEST['action'] == 'pm')       
+			$HeadText = $txt['pm_head_text'];
+		else if($_REQUEST['action'] == 'profile')
+			$HeadText = $txt['profile_submenu_title'];
+	}
+
 	// Load mobile menu here
 	echo '
 		<a class="menu_icon mobile_generic_menu_', $context['cur_menu_id'], '"></a>
 		<div id="mobile_generic_menu_', $context['cur_menu_id'], '" class="popup_container">
 			<div class="popup_window description">
-				<div class="popup_heading">', (isset($_REQUEST['action']) && in_array($_REQUEST['action'], array('admin', 'portamx')) ? $txt['mobile_admin_menu'] : $txt['mobile_user_menu']) ,'
+				<div class="popup_heading">', $HeadText ,'
 				<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
 				', template_generic_menu($menu_context), '
 			</div>
@@ -190,16 +205,56 @@ function template_generic_menu (&$menu_context)
  *
  * @param array $menu_context An array of menu context data
  */
-function template_generic_menu_tabs(&$menu_context)
+function template_generic_menu_tabs_mobile(&$menu_context)
+{
+	global $context, $txt;
+
+	if(isset($context['menuTabsID']))
+		$context['menuTabsID']++;
+	else
+		$context['menuTabsID'] = 1;
+
+	// Load mobile menu here
+	if(!empty($menu_context['tab_data']['title']))
+		$headerText = $menu_context['tab_data']['title'];
+	else if(isset($menu_context['current_area']) && $menu_context['current_area'] == 'pmx_blocks')
+		$headerText = $txt['mobile_portal_blocks'];
+	else if(isset($menu_context['current_area']) && $menu_context['current_area'] == 'pmx_settings')
+		$headerText = $txt['mobile_portal_settings'];
+	else
+		$headerText = '';
+
+	if(!empty($menu_context['tab_data']['tabs']))
+		echo '
+		<a class="menu_icon mobile_generic_menu_tabs', $context['menuTabsID'] ,'"></a>
+		<div id="mobile_generic_menu_tabs', $context['menuTabsID'] ,'" class="popup_container">
+			<div class="popup_window description">
+				<div class="popup_heading"><div class="popup_head_title">'. sprintf($txt['mobile_head_submenu'], $headerText) .'</div>
+				<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
+				', template_generic_menu_tabs($menu_context, true), '
+			</div>
+		</div>
+		<script>
+			$( ".mobile_generic_menu_tabs', $context['menuTabsID'] ,'" ).click(function() {
+				$( "#mobile_generic_menu_tabs', $context['menuTabsID'] ,'" ).show();
+				});
+			$( ".hide_popup" ).click(function() {
+				$( "#mobile_generic_menu_tabs', $context['menuTabsID'] ,'" ).hide();
+			});
+		</script>';
+}
+
+function template_generic_menu_tabs(&$menu_context, $mode = false)
 {
 	global $context, $settings, $scripturl, $txt;
 
 	// Handy shortcut.
 	$tab_context = &$menu_context['tab_data'];
 
-	if (!empty($tab_context['title']))
+	if (empty($mode) && (!empty($tab_context['title']) || $menu_context['current_section'] == 'portal'))
 	{
-		echo '
+		if($menu_context['current_section'] != 'portal')
+			echo '
 					<div class="cat_bar">
 							<h3 class="catbg">';
 
@@ -214,7 +269,6 @@ function template_generic_menu_tabs(&$menu_context)
 					$tab_context['tabs'][$id]['disabled'] = true;
 					continue;
 				}
-
 				// Did this not even exist - or do we not have a label?
 				if (!isset($tab_context['tabs'][$id]))
 					$tab_context['tabs'][$id] = array('label' => $tab['label']);
@@ -262,34 +316,44 @@ function template_generic_menu_tabs(&$menu_context)
 				echo '<img src="', $settings['images_url'], '/icons/', !empty($selected_tab['icon']) ? $selected_tab['icon'] : $tab_context['icon'], '" alt="" class="icon">';
 
 			if (!empty($selected_tab['help']) || !empty($tab_context['help']))
-				echo '<a href="', $scripturl, '?action=helpadmin;help=', !empty($selected_tab['help']) ? $selected_tab['help'] : $tab_context['help'], '" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>';
+				echo '<a href="', $scripturl, '?action=helpadmin;help=', !empty($selected_tab['help']) ? $selected_tab['help'] : $tab_context['help'], '" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>&nbsp;';
 
-			echo $tab_context['title'];
+			if($menu_context['current_section'] != 'portal')
+				echo $tab_context['title'];
 		}
 		else
 		{
-			echo '
-							', $tab_context['title'];
+			if(!empty($mode) && $menu_context['current_area'] == 'pmx_blocks')
+				echo sprintf($txt['mobile_subMenu_var'], 'Portal Blocks');
+			else if(isset($tab_context['title']))
+				echo $tab_context['title']; 
 		}
 
-		echo '
-							</h3>
-					</div>';
+		if($menu_context['current_section'] != 'portal')
+			echo '
+						</h3>
+				</div>';
 	}
 
 	// Shall we use the tabs? Yes, it's the only known way!
-	if (!empty($selected_tab['description']) || !empty($tab_context['description']))
-		echo '
-					<p class="information">
-						', !empty($selected_tab['description']) ? $selected_tab['description'] : $tab_context['description'], '
-					</p>';
+	if(empty($mode))
+	{
+		if (!empty($selected_tab['description']) || !empty($tab_context['description']))
+			echo '
+						<p class="information">
+							', !empty($selected_tab['description']) ? $selected_tab['description'] : $tab_context['description'], '
+						</p>';
+	}
 
 	// Print out all the items in this tab (if any).
 	if (!empty($context['tabs']))
 	{
+		if(empty($mode))
+			echo '
+				<div class="generic_menu">';
+
 		// The admin tabs.
 		echo '
-					<div id="adm_submenus">
 						<ul class="dropmenu">';
 
 		foreach ($context['tabs'] as $sa => $tab)
@@ -297,13 +361,17 @@ function template_generic_menu_tabs(&$menu_context)
 			if (!empty($tab['disabled']))
 				continue;
 
+			if(isset($menu_context['current_subsection']) && $menu_context['current_subsection'] == $sa)
+				$tab['is_selected'] = true;
+
+			else if(isset($context['pmx']['subaction']) && $sa == $context['pmx']['subaction']) 
+				$tab['is_selected'] = true;
+
 			if (!empty($tab['is_selected']) && $menu_context['current_area'] != 'pmx_center')
-			{
 				echo '
 							<li>
 								<a class="active" href="', isset($tab['url']) ? $tab['url'] : $menu_context['base_url'] . ';area=' . $menu_context['current_area'] . ';sa=' . $sa, $menu_context['extra_parameters'], isset($tab['add_params']) ? $tab['add_params'] : '', '">', $tab['label'], '</a>
 							</li>';
-			}
 			else
 				echo '
 							<li>
@@ -313,9 +381,10 @@ function template_generic_menu_tabs(&$menu_context)
 
 		// the end of tabs
 		echo '
-						</ul>
-					</div>';
-
+						</ul>';
+		if(empty($mode))
+			echo '
+				</div>';
 	}
 }
 

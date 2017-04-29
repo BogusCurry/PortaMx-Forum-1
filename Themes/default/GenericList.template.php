@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -16,7 +16,7 @@
  */
 function template_show_list($list_id = null)
 {
-	global $context;
+	global $context, $txt;
 
 	// Get a shortcut to the current list.
 	$list_id = $list_id === null ? (!empty($context['default_list']) ? $context['default_list'] : '') : $list_id;
@@ -55,15 +55,18 @@ function template_show_list($list_id = null)
 
 	if ((!empty($cur_list['items_per_page']) && !empty($cur_list['page_index'])) || isset($cur_list['additional_rows']['above_column_headers']))
 	{
+		if (isset($cur_list['additional_rows']['above_column_headers']))
+			template_additional_rows('above_column_headers', $cur_list);
+
 		// Show the page index (if this list doesn't intend to show all items).
 		if (!empty($cur_list['items_per_page']) && !empty($cur_list['page_index']))
 			echo '
 				<div class="floatleft">
-					<div class="pagesection">', $cur_list['page_index'], '</div>
+					<div class="fixpagesbar" id="top">
+						<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+						<div class="pagelinks floatleft">', $cur_list['page_index'], '</div>
+					</div>
 				</div>';
-
-		if (isset($cur_list['additional_rows']['above_column_headers']))
-			template_additional_rows('above_column_headers', $cur_list);
 	}
 
 	echo '
@@ -126,15 +129,18 @@ function template_show_list($list_id = null)
 		echo '
 			<div class="flow_auto">';
 
+		if (isset($cur_list['additional_rows']['below_table_data']))
+			template_additional_rows('below_table_data', $cur_list);
+
 		// Show the page index (if this list doesn't intend to show all items).
 		if (!empty($cur_list['items_per_page']) && !empty($cur_list['page_index']))
 			echo '
 				<div class="floatleft">
-					<div class="pagesection">', $cur_list['page_index'], '</div>
+					<div class="fixpagesbar" id="pbot">
+						<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+						<div class="pagelinks floatleft">', $cur_list['page_index'], '</div>
+					</div>
 				</div>';
-
-		if (isset($cur_list['additional_rows']['below_table_data']))
-			template_additional_rows('below_table_data', $cur_list);
 
 		echo '
 			</div>';

@@ -15,10 +15,10 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
-$forum_version = 'PortaMx-Forum 1.0 RC2';
+$forum_version = 'PortaMx-Forum 1.0 RC3';
 $software_year = '2017';
 
 // Get everything started up...

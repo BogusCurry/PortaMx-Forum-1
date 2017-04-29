@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -161,7 +161,6 @@ function template_credits()
 
 	// Show the user version information from their server.
 	echo '
-
 					<div id="admincenter">
 						<div id="support_credits" class="roundframe">
 							<div class="sub_bar">

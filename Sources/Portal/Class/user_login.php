@@ -8,7 +8,7 @@
  * file user_login.php
  * Systemblock user_login
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

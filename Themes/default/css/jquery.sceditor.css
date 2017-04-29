@@ -5,9 +5,6 @@ div.sceditor-grip, .sceditor-button div {
 	width: 16px;
 	height: 16px;
 }
-.sceditor-button-youtube div {
-	background-position: 0 0;
-}
 .sceditor-button-link div {
 	background-position: 0 -16px;
 }
@@ -466,4 +463,13 @@ div.sceditor-group {
 .sceditor-insertemoticon img,
 div.sceditor-dropdown img {
 	cursor: pointer;
+}
+.sceditor-button-pre div {
+	background: url(../images/bbc/pre.png);
+}
+/* Fix required for non-SCEditor default icons */
+.sceditor-button-ftp div, .sceditor-button-glow div,
+.sceditor-button-shadow div, .sceditor-button-move div,
+.sceditor-button-tt div, .sceditor-button-pre div {
+	margin: 0 0 0 -3px;
 }

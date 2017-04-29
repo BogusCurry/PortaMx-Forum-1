@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -122,7 +122,7 @@ function template_find_members()
 		echo '
 				</ul>
 				<div class="pagesection">
-					', $context['page_index'], '
+					<div class="pagelinks floatleft">', $context['page_index'], '</div>
 				</div>';
 	}
 

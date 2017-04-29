@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; Install
+// Version: 1.0 RC3; Install
 
 // These should be the same as those in index.language.php.
 $txt['lang_character_set'] = 'ISO-8859-1';
@@ -17,7 +17,7 @@ $txt['pmx_installer'] = 'PortaMx Forum Installer';
 $txt['installer_language'] = 'Language';
 $txt['installer_language_set'] = 'Set';
 $txt['congratulations'] = 'Congratulations, the installation process is complete!';
-$txt['congratulations_help'] = 'If at any time you need support, or PortaMx Forum fails to work properly, please remember that <a href="http://portamx.com" target="_blank">help is available</a> if you need it.';
+$txt['congratulations_help'] = 'If at any time you need support, or PortaMx Forum fails to work properly, please remember that <a href="https://www.portamx.com" target="_blank">help is available</a> if you need it.';
 $txt['still_writable'] = 'Your installation directory is still writable. It\'s a good idea to chmod it so that it is not writable for security reasons.';
 $txt['delete_installer'] = 'Click here to delete this install.php file now.';
 $txt['delete_installer_maybe'] = '<em>(doesn\'t work on all servers.)</em>';
@@ -32,7 +32,7 @@ $txt['user_refresh_install'] = 'Forum Refreshed';
 $txt['user_refresh_install_desc'] = 'While installing, the installer found that (with the details you provided) one or more of the tables this installer might create already existed.<br>Any missing tables in your installation have been recreated with the default data, but no data was deleted from existing tables.';
 
 $txt['default_topic_subject'] = 'Welcome to PortaMx Forum!';
-$txt['default_topic_message'] = 'Welcome to PortaMx Forum!<br><br>We hope you enjoy using your forum.&nbsp; If you have any problems, please feel free to [url=http://portamx.com]ask us for assistance[/url].<br><br>Thanks!<br>PortaMx corp.';
+$txt['default_topic_message'] = 'Welcome to PortaMx Forum!<br><br>We hope you enjoy using your forum.&nbsp; If you have any problems, please feel free to [url=https://www.portamx.com]ask us for assistance[/url].<br><br>Thanks!<br>PortaMx corp.';
 $txt['default_board_name'] = 'General Discussion';
 $txt['default_board_description'] = 'Feel free to talk about anything and everything in this board.';
 $txt['default_category_name'] = 'General Category';
@@ -202,10 +202,10 @@ $txt['error_mod_security_no_write'] = 'The installer has detected the mod_securi
 $txt['error_utf8_version'] = 'The current version of your database doesn\'t support the use of the UTF-8 character set. You can still install PortaMx Forum without any problems, but only with UTF-8 support unchecked. If you would like to switch over to UTF-8 in the future (e.g. after the database server of your forum has been upgraded to version >= %1$s), you can convert your forum to UTF-8 through the admin panel.';
 $txt['error_valid_admin_email_needed'] = 'You have not entered a valid email address for your administrator account.';
 $txt['error_valid_server_email_needed'] = 'You have not entered a valid webmaster email address.';
-$txt['error_already_installed'] = 'The installer has detected that you already have PortaMx Forum installed. It is strongly advised that you do <strong>not</strong> try to overwrite an existing installation - continuing with installation <strong>may result in the loss or corruption of existing data</strong>.<br><br>If you wish to upgrade please visit the <a href="http://portamx.com">PortaMx Website</a> and download the latest <em>upgrade</em> package.<br><br>If you wish to overwrite your existing installation, including all data, it\'s recommended that you delete the existing database tables and replace Settings.php and try again.';
+$txt['error_already_installed'] = 'The installer has detected that you already have PortaMx Forum installed. It is strongly advised that you do <strong>not</strong> try to overwrite an existing installation - continuing with installation <strong>may result in the loss or corruption of existing data</strong>.<br><br>If you wish to upgrade please visit the <a href="https://www.portamx.com">PortaMx Website</a> and download the latest <em>upgrade</em> package.<br><br>If you wish to overwrite your existing installation, including all data, it\'s recommended that you delete the existing database tables and replace Settings.php and try again.';
 $txt['error_warning_notice'] = 'Warning!';
 $txt['error_script_outdated'] = 'This install script is out of date! The current version of PortaMx Forum is %1$s but this install script is for %2$s.<br><br>
-	It is recommended that you visit the <a href="http://portamx.com">PortaMx</a> website to ensure you are installing the latest version.';
+	It is recommended that you visit the <a href="https://www.portamx.com">PortaMx</a> website to ensure you are installing the latest version.';
 $txt['error_db_prefix_numeric'] = 'The selected database type does not support the use of numeric prefixes.';
 $txt['error_invalid_characters_username'] = 'Invalid character used in Username.';
 $txt['error_username_too_long'] = 'Username must be less than 25 characters long.';
@@ -234,7 +234,7 @@ $txt['upgrade_paused_overload'] = 'This upgrade has been paused to avoid overloa
 
 $txt['upgrade_ready_proceed'] = 'Thank you for choosing to upgrade to PortaMx Forum %1$s. All files appear to be in place, and we\'re ready to proceed.';
 
-$txt['upgrade_error_script_js'] = 'The upgrade script cannot find script.js or it is out of date. Make sure your theme paths are correct. You can download a setting checker tool from the <a href="http://portamx.com">PortaMx Website</a>';
+$txt['upgrade_error_script_js'] = 'The upgrade script cannot find script.js or it is out of date. Make sure your theme paths are correct. You can download a setting checker tool from the <a href="https://www.portamx.com">PortaMx Website</a>';
 
 $txt['upgrade_warning_lots_data'] = 'This upgrade script has detected that your forum contains a lot of data which needs upgrading. This process may take quite some time depending on your server and forum size, and for very large forums (~300,000 messages) may take several hours to complete.';
 $txt['upgrade_warning_out_of_date'] = 'This upgrade script is out of date! The current version of PortaMx Forum is <em id="pmxVersion" style="white-space: nowrap;">??</em> but this upgrade script is for <em id="yourVersion" style="white-space: nowrap;">%1$s</em>.<br><br>It is recommended that you visit the <a href="http://pwortamx.com">PortaMx</a> website to ensure you are upgrading to the latest version.';

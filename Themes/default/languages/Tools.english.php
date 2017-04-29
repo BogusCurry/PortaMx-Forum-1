@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; Tools
+// Version: 1.0 RC3; Tools
 
 // lightbox messages.
 $txt['lightbox_help'] = 'Click here or outside this window to close.';
@@ -11,7 +11,7 @@ $txt['lightbox_prev'] = 'Previouse Image';
 
 // Admin messages
 $txt['ecl_enabled'] = 'Enable the ECL mode';
-$txt['ecl_nomodal'] = 'Use ECL none modal mode:';
+$txt['ecl_nomodal'] = 'Use ECL none modal mode';
 $txt['ecl_nomodal_mobile'] = 'Use ECL none modal mode also for Mobile devices';
 $txt['ecl_topofs'] = 'ECL overlay top position';
 $txt['portal_enabled'] = 'Enable the Portal';

@@ -8,7 +8,7 @@
  * file AdminSettings.template.php
  * Template for the Settings Manager.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -18,7 +18,7 @@ function template_main()
 {
 	global $context, $modSettings, $txt, $scripturl, $PortaMx_cache;
 
-	$curarea = isset($_GET['area']) ? $_GET['area'] : 'pmx_settings';
+	$curSUB = $context['pmx']['subaction'] = isset($_REQUEST['sa']) ? $_REQUEST['sa'] : 'globals';
 	if(allowPmx('pmx_admin', true))
 	{
 		$context['pmx_cancel_link'] = $scripturl . '?action=portal;area=pmx_center;'. $context['session_var'] .'=' .$context['session_id'];
@@ -37,44 +37,59 @@ function template_main()
 			'access' => $txt['pmx_admSet_desc_access'],
 		);
 
-		$AdmTabs = array(
-			'pmx_settings' => $txt['pmx_settings'],
-			'pmx_blocks' => $txt['pmx_blocks'],
-			'pmx_categories' => $txt['pmx_categories'],
-			'pmx_articles' => $txt['pmx_articles'],
-		);
+		if(allowPmx('pmx_admin', true))
+			echo '
+					<div class="cat_bar"><h3 class="catbg">'. $txt['pmx_adm_settings'] .'</h3></div>
+					<p class="information portal_info">'. $Descriptions[$context['pmx']['subaction']] .'</p>';
+
+		if(allowPmx('pmx_admin', true))
+		{
+			echo '
+						<div style="min-height:25px;margin-top:-2px;">
+							<a class="menu_icon mobile_generic_menu_settings"></a>
+							<div class="generic_menu">
+								<ul class="dropmenu sf-js-enabled">';
+
+			foreach($MenuTabs as $name => $desc)
+				echo '
+									<li id="'. $name .'" class="subsections">
+										<a class="firstlevel'. ($name == $curSUB ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa='. $name .';'. $context['session_var'] .'='. $context['session_id'] .';#ptop">
+											<span class="firstlevel">'. $desc .'</span>
+										</a>
+									</li>';
+
+			echo '
+								</ul>
+							</div>
+						</div>';
+		}
 
 		echo '
-			<div style="height:2.6em;margin-top:6px;">
-				<ul id="pmxmenu_nav" class="dropmenu sf-js-enabled">';
-
-		foreach($AdmTabs as $name => $desc)
-			echo '
-					<li id="'. $name .'" class="subsections">
-						<a '. ($name == $curarea ? 'class="active"' : '') .'href="'. $scripturl .'?action=portal;area='. $name .';'. $context['session_var'] .'=' .$context['session_id'] .';" onmousedown="pmxWinGetTop(\'adm\',\'set\')">'. $desc .'</a>
-					</li>';
-
-		echo '
-				</ul>
-			</div>';
-
-			echo '
-		<div class="cat_bar"><h3 class="catbg">'. $txt['pmx_adm_settings'] .'</h3></div>
-		<p class="information">'. $Descriptions[$context['pmx']['subaction']] .'</p>
-		<div class="adm_submenus" style="margin-bottom:6px;overflow:hidden;">
-			<ul class="dropmenu">';
+					<div id="mobile_generic_menu_settings" class="popup_container">
+						<div class="popup_window description">
+							<div class="popup_heading">', $txt['pmx_allsettings'] ,'<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
+							<div class="generic_menu">
+								<ul class="dropmenu sf-js-enabled">';
 
 		foreach($MenuTabs as $name => $desc)
 			echo '
-				<li id="'. $name .'" class="subsections">
-					<a class="firstlevel'. ($name == $context['pmx']['subaction'] ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa='. $name .';'. $context['session_var'] .'='. $context['session_id'] .';" onclick="pmxWinGetTop(\'adm\',\'set\')">
-						<span class="firstlevel">'. $desc .'</span>
-					</a>
-				</li>';
+								<li id="'. $name .'" class="subsections">
+									<a class="firstlevel'. ($name == $curSUB ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa='. $name .';'. $context['session_var'] .'='. $context['session_id'] .';" onclick="pmxWinGetTop(\'adm\',\'set\')">
+										<span class="firstlevel">'. $desc .'</span>
+									</a>
+								</li>';
 
 		echo '
-			</ul>
-		</div>';
+								</ul>
+							</div>';
+
+		echo '
+						</div>
+					</div>
+					<script>
+						$(".mobile_generic_menu_settings" ).click(function(){$("#mobile_generic_menu_settings" ).show();});
+						$(".hide_popup" ).click(function(){$( "#mobile_generic_menu_settings" ).hide();});
+					</script>';
 	}
 	else
 		$context['pmx_cancel_link'] = $scripturl . '?action=admin;area=pmx_center;'. $context['session_var'] .'=' .$context['session_id'];
@@ -88,7 +103,7 @@ function template_main()
 
 	$admset = $context['pmx']['settings'];
 	echo '
-	<form id="pmx_form" accept-charset="', $context['character_set'], '" name="PMxAdminSettings" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area='. $curarea . (!empty($context['pmx']['subaction']) ? ';sa='. $context['pmx']['subaction'] : '') .';'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin: 0px;">
+	<form id="pmx_form" accept-charset="', $context['character_set'], '" name="PMxAdminSettings" action="' . $scripturl . '?action='. $context['pmx']['AdminMode'] .';area='. $_REQUEST['area'] . (!empty($context['pmx']['subaction']) ? ';sa='. $curSUB : '') .';'. $context['session_var'] .'=' .$context['session_id'] .'" method="post" style="margin:0px;display:block;">
 		<input type="hidden" name="sc" value="', $context['session_id'], '" />
 		<input id="common_field" type="hidden" value="" />';
 
@@ -112,10 +127,10 @@ function template_main()
 			</tr>
 			<tr>
 				<td>
-					<div class="information">
+					<div class="information portal_info">
 					<table class="pmx_table">
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
+							<td style="padding:5px;width:50%">
 								<div style="min-height:25px;">'. $txt['pmx_settings_frontpage_centered'] .'</div>
 								<div style="min-height:25px;">'. $txt['pmx_settings_frontpage_none'] .'</div>
 							</td>
@@ -131,9 +146,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div style="min-height:25px;">'. $txt['pmx_settings_index_front'] .'
+							<td style="padding:5px;width:50%">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_index_front_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_index_front'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -146,9 +162,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_settings_pages_hidefront'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_pages_hidefront'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -158,9 +175,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_download'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_downloadhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_download'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -171,9 +189,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr id="dlbutchk1" style="display:'. (!empty($admset['download']) ? '' : 'none;') .'">
-							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_download_action'] .'
+							<td style="padding:5px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_dl_actionhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_download_action'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
@@ -183,7 +202,7 @@ function template_main()
 							</td>
 						</tr>
 						<tr id="dlbutchk2" style="display:'. (!empty($admset['download']) ? '' : 'none;') .'">
-							<td style="padding:5px;width:50%;text-align:right;">
+							<td style="padding:5px;width:50%;">
 								<div>'. $txt['pmx_settings_download_acs'] .'</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -206,9 +225,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:10px 5px 0 5px;text-align:right;">
-								<div>'. $txt['pmx_settings_other_actions'] .'
+							<td style="padding:10px 5px 0 5px;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_other_actionshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_other_actions'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -218,9 +238,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:10px 5px 0 5px;text-align:right;">
-								<div style="min-height:25px;">'. $txt['pmx_settings_panelpadding'] .'
+							<td style="padding:10px 5px 0 5px;">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_panelpadding_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_panelpadding'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -230,9 +251,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_restoretop'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_restoretop_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_restoretop'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -242,23 +264,12 @@ function template_main()
 								</div>
 							</td>
 						</tr>
-						<tr id="setspeed" style="display:none;">
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_restorespeed'] .'
-									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_restorespeed_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
-								</div>
-							</td>
-							<td style="padding:10px 5px 0 5px;width:50%;">
-								<div>
-									<input type="text" name="restorespeed" size="2" class="input_text" value="'. (isset($admset['restorespeed']) ? $admset['restorespeed'] : '500') .'" />'. $txt['pmx_settings_restorespeed_time'] .'
-								</div>
-							</td>
-						</tr>
 
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_colminwidth'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_colminwidth_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_colminwidth'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -269,21 +280,22 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_loadinactive'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_loadinactive_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_loadinactive'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
 								<div style="margin-left:-4px;">
 									<input type="hidden" name="loadinactive" value="0" />
-									<input id="rstTop" class="input_check" type="checkbox" name="loadinactive" value="1"'. (!empty($admset['loadinactive']) ? ' checked="checked"' : '') .' />
+									<input class="input_check" type="checkbox" name="loadinactive" value="1"'. (!empty($admset['loadinactive']) ? ' checked="checked"' : '') .' />
 								</div>
 							</td>
 						</tr>
 
 						<tr>
-							<td style="padding:15px 5px 0 5px;width:50%;text-align:right;">
+							<td style="padding:15px 5px 0 5px;width:50%;">
 								<script type="text/javascript">
 									function chk_restore() {
 										if(document.getElementById("rstTop").checked == true)
@@ -293,8 +305,9 @@ function template_main()
 									}
 									chk_restore();
 								</script>
-								<div>'. $txt['pmx_settings_teasermode'][0] .'
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pmxteasecnthelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_teasermode'][0] .'</span>
 								</div>
 							</td>
 							<td style="padding:15px 5px 0 5px;width:50%;">
@@ -309,9 +322,10 @@ function template_main()
 		if(!empty($PortaMx_cache['vals']['mode']))
 			echo '
 						<tr>
-							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_blockcachestats'] .'
+							<td style="padding:5px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_blockcachestatshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_blockcachestats'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
@@ -325,9 +339,10 @@ function template_main()
 
 		echo '
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_postcountacs'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_postcountacshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_postcountacs'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -338,9 +353,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_enable_xbarkeys'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_xbarkeys_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_enable_xbarkeys'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -351,9 +367,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
-								<div>'. $txt['pmx_settings_enable_xbars'] .'
+							<td style="padding:5px 5px 0 5px;width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_xbars_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_enable_xbars'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
@@ -380,7 +397,7 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:15px 5px 0 5px;width:50%;text-align:right;">
+							<td style="padding:15px 5px 0 5px;width:50%;">
 								<div style="min-height:25px;">'. $txt['pmx_settings_xbar_topoffset'] .'</div>
 							</td>
 							<td style="padding:15px 5px 0 5px;width:50%;">
@@ -390,7 +407,7 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px 5px 0 5px;width:50%;text-align:right;">
+							<td style="padding:5px 5px 0 5px;width:50%;">
 								<div style="min-height:25px;">'. $txt['pmx_settings_xbar_botoffset'] .'</div>
 							</td>
 							<td style="padding:5px 5px 0 5px;width:50%;">
@@ -425,12 +442,13 @@ function template_main()
 			</tr>
 			<tr>
 				<td>
-					<div class="information">
+					<div class="information portal_info">
 					<table class="pmx_table">
 						<tr>
-							<td style="padding:10px 5px 0 5px;width:50%;text-align:right;">
-								<div style="min-height:25px;">'. $txt['pmx_settings_collapse_visibility'] .'
+							<td style="padding:10px 5px 0 5px;width:50%;">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_collapse_vishelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_collapse_visibility'] .'</span>
 								</div>
 							</td>
 							<td style="padding:10px 5px 0 5px;width:50%;">
@@ -441,10 +459,11 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:1px 5px;width:50%;text-align:right;">
+							<td style="padding:1px 5px;width:50%;">
 								<input type="hidden" name="manager[follow]" value="0" />
-								<div style="min-height:25px;">'. str_replace('[##]', '<img style="vertical-align:-3px;" src="'. $context['pmx_imageurl'] .'page_edit.gif" alt="*" title="" />', $txt['pmx_settings_quickedit']) .'
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_quickedithelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. str_replace('[##]', '<img style="vertical-align:-3px;" src="'. $context['pmx_imageurl'] .'page_edit.gif" alt="*" title="" />', $txt['pmx_settings_quickedit']) .'</span>
 								</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
@@ -456,9 +475,10 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:1px 5px;width:50%;text-align:right;">
-								<div style="min-height:25px;">'. $txt['pmx_settings_enable_promote'] .'
+							<td style="padding:1px 5px;width:50%;">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_enable_promote_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_enable_promote'] .'</span>
 								</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
@@ -469,9 +489,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:2px 5px; width:50%; text-align:right;">
-								<div>'. $txt['pmx_settings_promote_messages'] .'
+							<td style="padding:2px 5px; width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_promote_messages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_promote_messages'] .'</span>
 								</div>
 							</td>
 							<td style="padding:2px 5px; width:50%;">
@@ -482,9 +503,10 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:1px 5px;width:50%;text-align:right;">
-								<div style="min-height:25px;">', $txt['pmx_settings_article_on_page'] .'
+							<td style="padding:1px 5px;width:50%;">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_article_on_pagehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_article_on_page'] .'</span>
 								</div>
 							</td>
 							<td style="padding:1px 5px;width:50%;">
@@ -494,19 +516,20 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:1px 5px;width:50%;text-align:right;">
-								<div style="height:25px;">'. $txt['pmx_settings_adminpages'] .'
+							<td style="padding:1px 5px;width:50%;">
+								<div style="height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_adminpageshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_adminpages'] .'</span>
 								</div>
 							</td>
-							<td style="padding:1px 5px;width:50%;text-align:right;">
+							<td style="padding:1px 5px;width:50%;">
 								<div style="height:25px;">
 									<img id="pmxTMP" class="adm_hover" onclick="ToggleCheckbox(this, \'modsel\', 0)" width="13" height="13" style="float:left;margin-top:4px;" src="'. $context['pmx_syscssurl'] .'Images/bullet_plus.gif" alt="*" title="'.$txt['pmx_settings_all_toggle'].'" />
 								</div>
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:1px 5px;width:50%;text-align:right;">';
+							<td style="padding:1px 5px;width:50%;">';
 
 		foreach($txt['pmx_block_sides'] as $side => $sidename)
 			echo '
@@ -557,28 +580,62 @@ function template_main()
 			<tr>
 				<td>';
 
-		echo '
-					<div class="adm_submenus" style="margin-bottom:6px;overflow:hidden;">
-						<ul class="dropmenu">';
-
 		$ActPanel = isset($_REQUEST['pn']) ? $_REQUEST['pn'] : 'head';
+
+		echo '
+					<div style="margin-top:6px;">
+						<a class="menu_icon mobile_generic_menu_panels"></a>
+						<div class="generic_menu">
+							<ul class="dropmenu sf-js-enabled">';
+
+		foreach($txt['pmx_block_sides'] as $side => $sidename)
+		{
+			if($side != 'front' && $side != 'pages')
+				echo '
+								<li>
+									<a class="firstlevel'. ($side == $ActPanel ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa=panels;pn='. $side .';'. $context['session_var'] .'=' .$context['session_id'] .'">
+										<span class="firstlevel">'. $txt['pmx_settings_panel'. $side] .'</span>
+									</a>
+								</li>';
+		}
+
+		echo '
+							</ul>
+						</div>
+					</div>
+
+					<div id="mobile_generic_menu_panels" class="popup_container">
+						<div class="popup_window description">
+							<div class="popup_heading">', $txt['pmx_allpanels'] ,'<a href="javascript:void(0);" class="generic_icons hide_popup"></a></div>
+							<div class="generic_menu">
+								<ul class="dropmenu sf-js-enabled">';
 
 		foreach($txt['pmx_block_sides'] as $side => $sidename)
 		{
 			if($side != 'front' && $side != 'pages')
 			{
 				echo '
-							<li>
-								<a class="firstlevel'. ($side == $ActPanel ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa=panels;pn='. $side .';'. $context['session_var'] .'=' .$context['session_id'] .'">
-									<span class="firstlevel">'. $txt['pmx_settings_panel'. $side] .'</span>
-								</a>
-							</li>';
+									<li>
+										<a class="firstlevel'. ($side == $ActPanel ? ' active' : '') .'" href="'. $scripturl .'?action='. $context['pmx']['AdminMode'] .';area=pmx_settings;sa=panels;pn='. $side .';'. $context['session_var'] .'=' .$context['session_id'] .'">
+											<span class="firstlevel">'. $txt['pmx_settings_panel'. $side] .'</span>
+										</a>
+									</li>';
 			}
 		}
 
 		echo '
-						</ul>
+								</ul>
+							</div>';
+
+		echo '
+						</div>
 					</div>
+					<script>
+						$(".mobile_generic_menu_panels" ).click(function(){$("#mobile_generic_menu_panels" ).show();});
+						$(".hide_popup" ).click(function(){$( "#mobile_generic_menu_panels" ).hide();});
+					</script>';
+
+		echo '
 					<input type="hidden" name="curPanel" value="'. $ActPanel .'" />
 				</td>
 			</tr>
@@ -590,13 +647,11 @@ function template_main()
 						</h4>
 					</div>
 
-					<div class="information">
+					<div class="information portal_info">
 					<table class="pmx_table" style="padding:0 5px;">
 						<tr>
-							<td style="padding:5px; width:50%; text-align:right;">
-								<div style="float:left; padding-left:2px; padding-top:4px;">
-									<img src="'. $context['pmx_imageurl'] . $ActPanel .'_panel.gif" alt="*" title="'. $txt['pmx_settings_panel'. $ActPanel] .'" />
-								</div>
+							<td style="padding:5px; width:50%;">
+								<img class="panel_img" src="'. $context['pmx_imageurl'] . $ActPanel .'_panel.gif" alt="*" title="'. $txt['pmx_settings_panel'. $ActPanel] .'" />
 								<div style="min-height:25px;">'. $txt['pmx_settings_panel_collapse'] .'</div>
 								<div style="min-height:25px;padding-top:10px;">'. ($ActPanel == 'left' || $ActPanel == 'right' ? $txt['pmx_settings_panelwidth'] : $txt['pmx_settings_panelheight']) .'</div>';
 
@@ -606,8 +661,8 @@ function template_main()
 
 				echo '
 								<div style="padding-top:7px;">
-									'. $txt['pmx_settings_panelhidetitle'] .'&nbsp;
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_hidehelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_panelhidetitle'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px; width:50%;">
@@ -665,9 +720,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:2px 5px; width:50%; text-align:right;">
-								<div>'. $txt['pmx_settings_panel_customhide'] .'
+							<td style="padding:2px 5px; width:50%;">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_panel_custhelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_panel_customhide'] .'</span>
 								</div>
 							</td>
 							<td style="padding:2px 5px; width:50%;">
@@ -678,9 +734,10 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:2px 5px; width:50%; text-align:right;">
-								<div style="min-height:25px;padding-top:4px;">'. $txt['pmx_settings_devices'] .'
+							<td style="padding:2px 5px; width:50%;">
+								<div style="min-height:25px;padding-top:4px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_deviceshelp" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_devices'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px; width:50%;">
@@ -723,10 +780,10 @@ function template_main()
 			</tr>
 			<tr>
 				<td>
-					<div class="information">
+					<div class="information portal_info">
 					<table class="pmx_table">
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
+							<td style="padding:5px;width:50%">
 								<div style="min-height:25px;">'. $txt['pmx_settings_frontpage_centered'] .'</div>
 								<div style="min-height:25px;">'. $txt['pmx_settings_frontpage_none'] .'</div>
 							</td>
@@ -742,9 +799,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div style="min-height:25px;">'. $txt['pmx_settings_index_front'] .'
+							<td style="padding:5px;width:50%">
+								<div style="min-height:25px;">
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_index_front_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_index_front'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -757,9 +815,10 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_settings_pages_hidefront'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_settings_pages_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_settings_pages_hidefront'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
@@ -795,16 +854,17 @@ function template_main()
 			</tr>
 			<tr>
 				<td>
-					<div class="information">
+					<div class="information portal_info">
 					<table class="pmx_table">
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_access_promote'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_promote_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_access_promote'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
-								<select style="width:61%;" name="setaccess[pmx_promote][]" size="5" multiple="multiple">';
+								<select style="width:95%;" name="setaccess[pmx_promote][]" size="5" multiple="multiple">';
 
 		// 'pmx_articles' - Moderate articles
 		foreach($context['pmx']['limitgroups'] as $group)
@@ -820,13 +880,14 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_access_articlecreate'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_articlecreate_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_access_articlecreate'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
-								<select style="width:61%;" name="setaccess[pmx_create][]" size="5" multiple="multiple">';
+								<select style="width:95%;" name="setaccess[pmx_create][]" size="5" multiple="multiple">';
 
 		// 'pmx_create' - Create and Write articles
 		foreach($context['pmx']['limitgroups'] as $group)
@@ -842,13 +903,14 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_access_articlemoderator'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_articlemoderator_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_access_articlemoderator'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
-								<select style="width:61%;" name="setaccess[pmx_articles][]" size="5" multiple="multiple">';
+								<select style="width:95%;" name="setaccess[pmx_articles][]" size="5" multiple="multiple">';
 
 		// 'pmx_articles' - Moderate articles
 		foreach($context['pmx']['limitgroups'] as $group)
@@ -864,13 +926,14 @@ function template_main()
 						</tr>
 
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_access_blocksmoderator'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_blocksmoderator_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_access_blocksmoderator'] .'</span>
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">
-								<select style="width:61%;" name="setaccess[pmx_blocks][]" size="5" multiple="multiple">';
+								<select style="width:95%;" name="setaccess[pmx_blocks][]" size="5" multiple="multiple">';
 
 		// 'pmx_blocks' - Moderate blocks
 		foreach($context['pmx']['limitgroups'] as $group)
@@ -889,9 +952,11 @@ function template_main()
 							</td>
 						</tr>
 						<tr>
-							<td style="padding:5px;width:50%;text-align:right">
-								<div>'. $txt['pmx_access_pmxadmin'] .'
+							<td style="padding:5px;width:50%">
+								<div>
 									<a href="', $scripturl, '?action=helpadmin;help=pmx_access_pmxadmin_help" onclick="return reqOverlayDiv(this.href);" class="help"><span class="generic_icons help" title="', $txt['help'],'"></span></a>
+									<span>'. $txt['pmx_access_pmxadmin'] .'</span>
+									
 								</div>
 							</td>
 							<td style="padding:5px;width:50%;">

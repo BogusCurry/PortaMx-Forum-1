@@ -8,7 +8,7 @@
  * file bbc_script.php
  * Systemblock BBC_SCRIPT
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))

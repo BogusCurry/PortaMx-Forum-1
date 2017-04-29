@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; PortalHelp
+// Version: 1.0 RC3; PortalHelp
 
 /**
  * PortaMx Forum
@@ -52,14 +52,13 @@ $txt['pmx_settings_hidehelp'] = 'To hide the panel, select or unselect one or mo
 	If a item set to <b>Hide</b> the symbol <b>^</b> is shown at the front.<br />
 	<b>Select example</b>: On "Admin" the panel is hidden only on <i>Admin</i>, on "^Admin" the panel is always hidden, but not on <i>Admin</i>';
 $txt['pmx_settings_index_front_help'] = 'If checked, the Frontpage content can be indexed by spiders like google.';
-$txt['pmx_settings_restoretop_help'] = 'The browser vertically page position is set or restored on many request like change the page, category, article and on all Admin actions.';
-$txt['pmx_settings_restorespeed_help'] = 'Here you can set the animate time (milliseconds) to restore the top position. Note that this not works on all Browser, so it\'s better to leave this empty!';
+$txt['pmx_settings_restoretop_help'] = 'The browser vertically page position is restored on change the page on Frontpage blocks like category, article and other they have more then one page.';
 $txt['pmx_settings_loadinactive_help'] = 'If enabled, not active blocks on the <b>top, head, left, right, bottom and foot</b> panel are loaded but not shown on the blocks manager overview.
 	So you can see the result immediate if you enable not active blocks.<br />
 	If <b>not checked</b>, you must reload the page to see the result after enable not active blocks.';
-$txt['pmx_settings_colminwidth_help'] = 'Enter the minimum width of the <b>frontpage area</b> to show two-column frontpage blocks (like boardnews, promoted posts) also on <b>mobile devices</b> as two-column blocks.
-	If the width of the frontpage area less than the specified value, two-column blocks are displayed as one-column blocks.
-	A value of <b>620</b> is a good choice to display these on smaller devices as single-column blocks. Enter <b>0</b> or leave this empty to disable this feature.<br>
+$txt['pmx_settings_colminwidth_help'] = 'Enter the minimum width of the <b>Screen width</b> to show two-column frontpage blocks (like boardnews, promoted posts) also on <b>mobile devices</b> as two-column blocks.
+	If the width of the screen less than the specified value, two-column blocks are displayed as one-column blocks.
+	A value of <b>640</b> or greater is a good choice to display these on smaller devices as single-column blocks. Enter <b>0</b> or leave this empty to disable this feature.<br>
 	Note that <b>Caching</b> must be activated, if you have the <b>ECL</b> function enabled else <b>this function don\'t work!</b>';
 $txt['pmx_access_promote_help'] = 'Members in the selected groups can promote posts in the forum.<br />
 	<b>Granted rights:</b> <i>Add and remove promote to posts</i>';
@@ -110,8 +109,8 @@ $txt['pmx_settings_pmxteasecnthelp'] = 'In different blocks a <i>Post teaser</i>
 	Here you can set, as the teaser is supposed to work.
 	For languages that do not use spaces between words, the setting, <b>Count characters</b> is suggest.';
 $txt['pmx_settings_promote_messages_help'] = 'You see all promoted message id\'s and you can add or remove message id\'s. Note that each id is separated by a comma.';
-$txt['pmx_settings_enable_promote_help'] = 'If checked the Promote function is enabled and you see a <b>Promote message</b> link belove each message. If the message already promoted, the link is show as <b>Clear Promote</b>.';
-$txt['pmx_edit_cachehelp'] = 'If enabled, the content is saved and refreshed after given time.<br />
+$txt['pmx_settings_enable_promote_help'] = 'If checked the Promote function is enabled and you see a <b>Set Promote</b> link belove each message. If the message already promoted, the link is show as <b>Clear Promote</b>.';
+$txt['pmx_edit_cachehelp'] = 'If enabled, the content is saved and refreshed after the given time.<br />
 	You can use the multiplicator "*" like "24*60" for one day.';
 $txt['pmx_edit_pmxcachehelp'] = 'Caching will save many Database requests, so the page is loaded faster.<br />
 	Please do not change the cache time, until you known what you do. A bad value can slow down your server!<br >

@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; PersonalMessage
+// Version: 1.0 RC3; PersonalMessage
 
 global $context;
 
@@ -13,6 +13,7 @@ $txt['pm_no_unread'] = 'No unread messages.';
 $txt['pm_was_sent_to_you'] = 'You received a message.';
 $txt['pm_you_were_replied_to'] = 'A message of yours was replied to.';
 
+$txt['pm_head_text'] = '<b>Mobile Submenu "My Messages"</b>';
 $txt['pm_inbox'] = 'Personal Messages Index';
 $txt['send_message'] = 'Send message';
 $txt['pm_add'] = 'Add';
@@ -87,7 +88,7 @@ $txt['pm_sel_label_title'] = 'Label selected';
 
 // Menu headings.
 $txt['pm_labels'] = 'Labels';
-$txt['pm_messages'] = 'Messages';
+$txt['pm_messages'] = 'My Messages';
 $txt['pm_actions'] = 'Actions';
 $txt['pm_preferences'] = 'Preferences';
 

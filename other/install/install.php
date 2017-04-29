@@ -7,10 +7,10 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
-$GLOBALS['current_pmx_version'] = 'PortaMx-Forum 1.0 RC2';
+$GLOBALS['current_pmx_version'] = 'PortaMx-Forum 1.0 RC3';
 $GLOBALS['db_script_version'] = '1-0';
 
 $GLOBALS['required_php_version'] = '5.3.8';
@@ -95,7 +95,7 @@ load_lang_file();
 // This is what we are.
 $installurl = $_SERVER['PHP_SELF'];
 // This is where PortaMx is.
-$pmxsite = 'http://portamx.com';
+$pmxsite = 'https://www.portamx.com';
 
 // All the steps in detail.
 // Number,Name,Function,Progress Weight.
@@ -298,7 +298,7 @@ function load_lang_file()
 		<p>In some cases, FTP clients do not properly upload files with this many folders.  Please double check to make sure you <span style="font-weight: 600;">have uploaded all the files in the distribution</span>.</p>
 		<p>If that doesn\'t help, please make sure this install.php file is in the same place as the Themes folder.</p>
 
-		<p>If you continue to get this error message, feel free to <a href="http://portamx.com/">look to us for support</a>.</p>
+		<p>If you continue to get this error message, feel free to <a href="https://www.portamx.com/">look to us for support</a>.</p>
 	</div></body>
 </html>';
 		die;
@@ -2222,7 +2222,7 @@ function template_install_below()
 			</div>
 			<div id="footer">
 				<ul>
-					<li class="copyright"><a href="http://portamx.com/" title="PortaMx Forum" target="_blank" class="new_win">PortaMx Forum &copy; 2017, PortaMx</a></li>
+					<li class="copyright"><a href="https://www.portamx.com/" title="PortaMx Forum" target="_blank" class="new_win">PortaMx Forum &copy; 2017, PortaMx</a></li>
 				</ul>
 			</div>
 		</div>

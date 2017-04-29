@@ -10,7 +10,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -1668,7 +1668,7 @@ function create_control_richedit($editorOptions)
 				$fromWhere = $isQuickReply ? $_SERVER['REQUEST_URL'] : $_SERVER['HTTP_REFERER'];
 				if(strpos($fromWhere, 'showposts') == false)
 					preg_match('/(msg[0-9]+)/', $fromWhere, $fragment);
-				$context['controls']['richedit'][$editorOptions['id']]['cancel_link'] = $_SESSION['cancel_link'] = $fromWhere . (isset($fragment[0]) ? '#'. $fragment[0] : '#top');
+				$context['controls']['richedit'][$editorOptions['id']]['cancel_link'] = $_SESSION['cancel_link'] = $fromWhere . (isset($fragment[0]) ? '#'. $fragment[0] : '#ptop');
 			}
 			else
 				$context['controls']['richedit'][$editorOptions['id']]['cancel_link'] = $_SESSION['cancel_link'];
@@ -2486,7 +2486,7 @@ function AutoSuggest_Search_PMXVersions()
 
 	// Just in case we don't have ANYthing.
 	if (empty($versions))
-		$versions = array('PortaMx-Forum 1.0 RC2');
+		$versions = array('PortaMx-Forum 1.0 RC3');
 
 	foreach ($versions as $id => $version)
 		if (strpos($version, strtoupper($_REQUEST['search'])) !== false)

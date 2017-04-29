@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -304,7 +304,8 @@ function template_results()
 		if (!empty($context['topics']))
 		echo'
 		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+			<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 		else
 			echo '
@@ -377,8 +378,9 @@ function template_results()
 		}
 		if (!empty($context['topics']))
 		echo '
-		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+		<div class="pagesection" id="pbot">
+			<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 
 		if (!empty($options['display_quick_mod']) && $options['display_quick_mod'] == 1 && !empty($context['topics']))
@@ -423,8 +425,9 @@ function template_results()
 				<span class="generic_icons filter"></span>&nbsp;', $txt['mlist_search_results'],':&nbsp;',$context['search_params']['search'],'
 			</h3>
 		</div>
-		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+		<div class="pagesection" id="top">
+			<a href="#pbot" class="topbottom floatleft">', $txt['go_down'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 
 		if (empty($context['topics']))
@@ -468,8 +471,9 @@ function template_results()
 		}
 
 		echo '
-		<div class="pagesection">
-			<span>', $context['page_index'], '</span>
+		<div class="pagesection" id="pbot">
+			<a href="#ptop" class="topbottom floatleft">', $txt['go_up'], '</a>
+			<div class="pagelinks floatleft">', $context['page_index'], '</div>
 		</div>';
 	}
 

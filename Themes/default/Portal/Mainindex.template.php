@@ -8,7 +8,7 @@
  * file Mainindex.template.php
  * Template for the Maininxdex (Forumpage).
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -58,6 +58,9 @@ function template_portal_above()
 	// Left panel
 	if(!empty($context['pmx']['show_leftpanel']))
 	{
+		if(!empty($context['Is_Admin']))
+			$options['collapse_left'] = get_cookie('pmx_upshrleftPanel');
+
 		echo '
 					<div class="pmx_tbl_td">';
 
@@ -65,7 +68,7 @@ function template_portal_above()
 			echo '
 						<div id="xbarleft" title="'. (empty($options['collapse_left']) ? $txt['pmx_hidepanel'] : $txt['pmx_showpanel']) . $txt['pmx_block_panels']['left'] .'" onclick="leftPanel.toggle()"'. (!empty($context['pmx']['settings']['left_panel']['collapse']) ? ' style="display:none"' : '') .'></div>';
 
-		Show_Block('Left');
+			Show_Block('Left');
 
 		echo '
 					</div>';
@@ -151,6 +154,9 @@ function template_portal_below()
 	// Right panel
 	if(!empty($context['pmx']['show_rightpanel']))
 	{
+		if(!empty($context['Is_Admin']))
+			$options['collapse_left'] = get_cookie('pmx_upshrrightPanel');
+
 		echo '
 					<div class="pmx_tbl_td">';
 

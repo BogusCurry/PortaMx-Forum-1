@@ -7,7 +7,7 @@
  * file PortalCBTNav.js
  * Javascript functions for CBT Navigator
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 // Toggle for on board
@@ -33,7 +33,7 @@ function NavCatToggle(cbtID, boardID, mode)
 			else
 				cook += (document.getElementById("pmxcbt"+ cbtID +".brd."+ pmxCBTallBoards[cbtID][i]).style.display == "none" ? "." : pmxCBTallBoards[cbtID][i] +".");
 		}
-		pmxCookie("set", "pmx_cbtstat"+ cbtID, cook);
+		pmxCookie("set", "cbtstat"+ cbtID, cook);
 	}
 }
 
@@ -46,6 +46,6 @@ function NavCatToggleALL(cbtID, mode)
 		NavCatToggle(cbtID, pmxCBTallBoards[cbtID][i], mode);
 		cook = cook + (mode == "0" ? "." : pmxCBTallBoards[cbtID][i] +".");
 	}
-	pmxCookie("set", "pmx_cbtstat"+ cbtID, cook);
+	pmxCookie("set", "cbtstat"+ cbtID, cook);
 }
 /* EOF */

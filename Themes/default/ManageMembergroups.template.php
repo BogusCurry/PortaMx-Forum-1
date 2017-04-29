@@ -6,7 +6,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 /**
@@ -583,7 +583,9 @@ function template_group_members()
 				<h3 class="catbg">', $txt['membergroups_members_group_members'], '</h3>
 			</div>
 			<br>
-			<div class="pagesection">', $context['page_index'], '</div>
+			<div class="pagesection">
+				<div class="pagelinks floatleft">', $context['page_index'], '</div>
+			</div>
 			<table class="table_grid">
 				<thead>
 					<tr class="title_bar">

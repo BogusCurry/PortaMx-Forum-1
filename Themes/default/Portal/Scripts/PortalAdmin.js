@@ -7,7 +7,7 @@
  * file PortalAdmin.js
  * Common Javascript functions
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 // data objects
@@ -419,19 +419,8 @@ function FormFunc(Func, Val, Msg)
 			return false;
 	}
 
-	if(Func == 'save_settings')
-		pmxWinGetTop('adm', 'formFunc');
-
 	else
 	{
-		var panelOrd = {'front':1, 'head':2, 'top':3, 'left':4, 'right':5, 'bottom':6, 'foot':7, 'pages':8, 'bib':9};
-		var edStart = (Func.indexOf('edit') == 0 || Func.indexOf('create') != -1);
-		var caClone = (Func == 'clone_category' || Func == 'clone_article' || Func == 'clone');
-		var edCont = (Func.indexOf('_cont') > 0 || Func == 'chg_blocktype');
-		var edDone = (Func.indexOf('save') == 0 && !edCont);
-		var edCancel = (Func.indexOf('cancel') == 0);
-		var edDelete = (Func.indexOf('delete') >= 0)
-
 		if(Func == 'save_pos')
 			Val = document.getElementById('set_savepos').value;
 
@@ -439,105 +428,13 @@ function FormFunc(Func, Val, Msg)
 		{
 			moveTo = Val.split(',');
 			Val = moveTo[0];
-
-			if(Val != 'articles')
-			{
-				// move or clone inside the BlocksMgr
-				if(Func == 'clone')
-				{
-					// set the edit pos
-					pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-					var orgPos = pmxWinGetTop();
-					if(!document.getElementById('paneltop-'+ Val))
-					{
-						elemRect = $('#paneltop-'+ moveTo[1]).offset();
-						pmxCookie('set', 'pmx_YOfs2', (elemRect.top -2).toString() +','+ orgPos.toString());
-					}
-					else
-					{
-						elemRect = $('#paneltop-'+ Val).offset();
-						pmxCookie('set', 'pmx_YOfs2', (elemRect.top - 2).toString() +','+ orgPos.toString()); // clone up
-					}
-				}
-
-				if(Func == 'move')
-				{
-					if(!document.getElementById('paneltop-'+ Val))
-					{
-						elemRect = $('#paneltop-'+ moveTo[1]).offset();
-						pmxCookie('set', 'pmx_YOfs', elemRect.top -2);
-					}
-					else
-					{
-						elemRect = $('#paneltop-'+ Val).offset();
-						if(panelOrd[moveTo[0]] > panelOrd[moveTo[1]])
-							pmxCookie('set', 'pmx_YOfs', elemRect.top - 27); // move down
-						else
-							pmxCookie('set', 'pmx_YOfs', elemRect.top - 2); // move up
-					}
-				}
-			}
-
-			// move or clone to articles
-			else
-			{
-				// first we go to edit
-				pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-
-				// save article top and from panel-top
-				pRect = $('#paneltop-'+ moveTo[1]).offset();
-				pmxCookie('set', 'pmx_YOfs2', '#pmx_form,'+ (pRect.top -2).toString());
-			}
 		}
 
-		// add new block
 		if(Func == 'create')
-		{
-			pRect = $('#paneltop-'+ Val).offset();
-			orgPos = pmxWinGetTop();
-			pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-			pmxCookie('set', 'pmx_YOfs2', (pRect.top -2).toString() +','+ orgPos.toString());
 			Val = '';
-		}
 
-		// add new categorie or new article
-		if(Func == 'add_new_category' || Func == 'add_new_article')
-		{
-			pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-			pmxCookie('set', 'pmx_YOfs2', pmxWinGetTop());
-		}
-
-		// start edit
-		if(edStart)
-		{
-			pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-			pmxCookie('set', 'pmx_YOfs2', pmxWinGetTop());
-		}
-
-		// continue edit
-		if(edCont)
-			pmxCookie('set', 'pmx_YOfs', '#pmx_form');
-
-		// edit done
-		if(edDone)
-		{
-			var oldPos = pmxCookie('get', 'pmx_YOfs2', 0, 'clear');
-			Pos = oldPos.split(',');
-			pmxCookie('set', 'pmx_YOfs', Pos[0]);
-		}
-
-		// edit canceled
-		if(edCancel)
-		{
-			var oldPos = pmxCookie('get', 'pmx_YOfs2', 0, 'clear');
-			Pos = oldPos.split(',');
-			oldPos = (!Pos[1] ? Pos[0] : Pos[1]);
-			pmxCookie('set', 'pmx_YOfs', oldPos);
-		}
-
-		// delete bock, article, categorie
-		if(edDelete)
-			pmxCookie('set', 'pmx_YOfs', pmxWinGetTop());
+		if(Func.indexOf('cancel') == 0)
+			Func = 'cancel_edit';
 	}
 
 	// submit the form

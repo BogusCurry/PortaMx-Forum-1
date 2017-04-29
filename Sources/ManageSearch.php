@@ -9,7 +9,7 @@
  * @copyright 2017 PortaMx,  Simple Machines and individual contributors
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if (!defined('PMX'))
@@ -827,7 +827,7 @@ function detectFulltextIndex()
 			array(
 			)
 		);
-		$context['fulltext_index'] = '';
+		$context['fulltext_index'] = array();
 		if ($request !== false || $pmxcFunc['db_num_rows']($request) != 0)
 		{
 			while ($row = $pmxcFunc['db_fetch_assoc']($request))

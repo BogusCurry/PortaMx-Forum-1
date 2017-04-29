@@ -9,7 +9,7 @@
  * AdminBlocks reached all Posts from Blocks Manager.
  * Checks the values and saved the parameter to the database.
  *
- * @version 1.0 RC2
+ * @version 1.0 RC3
  */
 
 if(!defined('PMX'))
@@ -27,28 +27,6 @@ function Portal_AdminBlocks()
 	$admMode = $_GET['action'];
 	$pmx_area = $_GET['area'];
 	$newBlockSide = '';
-
-	// fix the linktree
-	if(($admMode == 'admin' || $admMode == 'portal'))
-	{
-		foreach($context['linktree'] as $key => $data)
-		{
-			if(strpos($data['url'], 'pmx_blocks') !== false)
-			{
-				$context['linktree'] = array_merge(
-					array_slice($context['linktree'], 0, $key),
-					array(
-						array(
-							'url' => $scripturl .'?action=admin;area=pmx_center;'. $context['session_var'] .'='. $context['session_id'],
-							'name' => $txt['pmx_extension']
-						),
-					),
-					array_slice($context['linktree'], $key, count($context['linktree']) - $key)
-				);
-				break;
-			}
-		}
-	}
 
 	if(($admMode == 'admin' || $admMode == 'portal') && $pmx_area == 'pmx_blocks')
 	{
@@ -140,7 +118,7 @@ function Portal_AdminBlocks()
 								else
 								{
 									if(!empty($_POST['xml']) && !isset($xmlResult))
-											$xmlResult = '';
+										$xmlResult = '';
 
 									// update (replace)
 									$mode = substr($rowname, 0, 3);
@@ -350,8 +328,7 @@ function Portal_AdminBlocks()
 							clearBlocksCache($id);
 
 							$context['pmx']['function'] = 'overview';
-							if($context['pmx']['subaction'] != 'all')
-								$context['pmx']['subaction'] = $block['side'];
+							$context['pmx']['subaction'] = $block['side'];
 						}
 
 						// clone block
@@ -372,9 +349,6 @@ function Portal_AdminBlocks()
 							$block['side'] = $side;
 							$block['active'] = 0;
 							$context['pmx']['function'] = 'editnew';
-
-							if($context['pmx']['subaction'] != 'all')
-								$context['pmx']['subaction'] = $block['side'];
 						}
 					}
 
@@ -426,7 +400,10 @@ function Portal_AdminBlocks()
 
 				// edit block canceled ?
 				if(!empty($_POST['cancel_edit']))
+				{
 					$context['pmx']['function'] = 'overview';
+					redirectexit('action='. $admMode .';area='. $pmx_area .';sa='. $context['pmx']['subaction'] .';'. $context['session_var'] .'=' .$context['session_id']);
+				}
 
 				// actions for/from edit block
 				elseif(empty($_POST['edit_block']) && empty($_POST['add_new_block']) && ($context['pmx']['function'] == 'editnew' || $context['pmx']['function'] == 'edit'))
@@ -443,147 +420,155 @@ function Portal_AdminBlocks()
 						}
 					}
 
-					// add a change date to config array
-					$_POST['config']['created'] = time();
-					$_POST['content'] = PortaMx_makeSafeContent((isset($_POST['content']) ? $_POST['content'] : ''), $_POST['blocktype']); 
-
-					// blocktype change?
-					if(!empty($_POST['chg_blocktype']))
+					if(!isset($_POST['clone_block']))
 					{
-						if(!empty($_POST['content']))
+						// add a change date to config array
+						$_POST['config']['created'] = time();
+						$_POST['content'] = PortaMx_makeSafeContent((isset($_POST['content']) ? $_POST['content'] : ''), $_POST['blocktype']); 
+
+						// blocktype change?
+						if(!empty($_POST['chg_blocktype']))
 						{
-							// convert html/script to bbc
-							if($_POST['blocktype'] == 'bbc_script' && in_array($_POST['contenttype'], array('html', 'script')))
+							if(!empty($_POST['content']))
 							{
-								// replace with/height styles
-								if(preg_match_all('/<img.*style=\"[^\"]*\"[^>]*>/U', $_POST['content'], $match, PREG_SET_ORDER) > 0)
+								// convert html/script to bbc
+								if($_POST['blocktype'] == 'bbc_script' && in_array($_POST['contenttype'], array('html', 'script')))
 								{
-									foreach($match as $data)
-										$_POST['content'] = str_replace($data[0], str_replace(array('style="', ': ', 'px; ', 'px;"'), array('', '="', '" ', '"'), $data[0]), $_POST['content']);     
-								}
-
-								require_once($sourcedir . '/Subs-Editor.php');
-								$modSettings['smiley_enable'] = true;
-								$_POST['content'] = html_to_bbc(PortaMx_SmileyToBBC($_POST['content']));
-							}
-
-							// convert bbc to html/script
-							elseif($_POST['contenttype'] == 'bbc_script' && in_array($_POST['blocktype'], array('html', 'script')))
-							{
-								unset($context['lbimage_data']);
-								$_POST['content'] = parse_bbc($_POST['content'], true);
-								$_POST['content'] = str_replace(array('<hr>', '<br>'), array('<hr />', '<br />'), $_POST['content']);
-								$_POST['content'] = preg_replace_callback('/<\/[^>]*>|<[^\/]*\/>|<ul[^>]*>|<ol[^>]*>/', create_function('$matches', 'return $matches[0] ."\n";'), $_POST['content']);
-							}
-
-							// handling special php blocks
-							elseif($_POST['blocktype'] == 'php')
-							{
-								if($_POST['contenttype'] == 'php')
-									pmxPHP_convert();
-							}
-						}
-
-						$id = $_POST['id'];
-					}
-
-					// Converting content data
-					if(empty($_POST['move_block']) && (!empty($_POST['save_edit']) || !empty($_POST['save_edit_continue']) || !empty($_POST['chg_blocktype'])))
-					{
-						if($_POST['blocktype'] == 'php' && $_POST['contenttype'] == 'php')
-							pmxPHP_convert();
-
-						// modify html/script blocks for Lightbox and correct smiley path
-						elseif($_POST['blocktype'] == 'html' || $_POST['blocktype'] == 'script')
-						{
-							if(isset($_POST['content']))
-							{
-								if(preg_match_all('~<img[^>]*>~', $_POST['content'], $match) > 0)
-								{
-									foreach($match[0] as $key => $val)
+									// replace with/height styles
+									if(preg_match_all('/<img.*style=\"[^\"]*\"[^>]*>/U', $_POST['content'], $match, PREG_SET_ORDER) > 0)
 									{
-										if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/<img[^c]*class?=?[^r]*resized[^\"]*\"[^>]*>/U', $val) == 0)
-											$_POST['content'] = str_replace($val, str_replace('<img', '<img class="bbc_img resized"', $val), $_POST['content']);
+										foreach($match as $data)
+											$_POST['content'] = str_replace($data[0], str_replace(array('style="', ': ', 'px; ', 'px;"'), array('', '="', '" ', '"'), $data[0]), $_POST['content']);     
 									}
+
+									require_once($sourcedir . '/Subs-Editor.php');
+									$modSettings['smiley_enable'] = true;
+									$_POST['content'] = html_to_bbc(PortaMx_SmileyToBBC($_POST['content']));
 								}
-								$_POST['content'] = preg_replace('/'. preg_quote(' oncontextmenu="return false"') .'/', '', $_POST['content']);
+
+								// convert bbc to html/script
+								elseif($_POST['contenttype'] == 'bbc_script' && in_array($_POST['blocktype'], array('html', 'script')))
+								{
+									unset($context['lbimage_data']);
+									$_POST['content'] = parse_bbc($_POST['content'], true);
+									$_POST['content'] = str_replace(array('<hr>', '<br>'), array('<hr />', '<br />'), $_POST['content']);
+									$_POST['content'] = preg_replace_callback('/<\/[^>]*>|<[^\/]*\/>|<ul[^>]*>|<ol[^>]*>/', create_function('$matches', 'return $matches[0] ."\n";'), $_POST['content']);
+								}
+
+								// handling special php blocks
+								elseif($_POST['blocktype'] == 'php')
+								{
+									if($_POST['contenttype'] == 'php')
+										pmxPHP_convert();
+								}
 							}
-							else
-								$_POST['content'] = '';
+
+							$id = $_POST['id'];
 						}
 
-						$block = array(
-							'id' => $_POST['id'],
-							'side' => $_POST['side'],
-							'pos' => $_POST['pos'],
-							'active' => $_POST['active'],
-							'cache' => $_POST['cache'],
-							'blocktype' => $_POST['blocktype'],
-							'acsgrp' => (!empty($_POST['acsgrp']) ? implode(',', $_POST['acsgrp']) : ''),
-							'config' => json_encode($_POST['config'], true),
-							'content' => (isset($_POST['content']) ? $_POST['content'] : ''),
-						);
-
-						$id = $_POST['id'];
-					}
-
-					// save block..
-					if(!empty($_POST['save_edit']) || !empty($_POST['save_edit_continue']))
-					{
-						// if new block get the last id
-						if($context['pmx']['function'] == 'editnew')
+						// Converting content data
+						if(empty($_POST['move_block']) && (!empty($_POST['save_edit']) || !empty($_POST['save_edit_continue']) || !empty($_POST['chg_blocktype'])))
 						{
-							$request = $pmxcFunc['db_query']('', '
-								SELECT MAX(a.id), MAX(b.pos)
-								FROM {db_prefix}portal_blocks as a
-								LEFT JOIN {db_prefix}portal_blocks as b ON(b.side = {string:side})
-								GROUP BY b.side',
-								array('side' => $block['side'])
+							if($_POST['blocktype'] == 'php' && $_POST['contenttype'] == 'php')
+								pmxPHP_convert();
+
+							// modify html/script blocks for Lightbox and correct smiley path
+							elseif($_POST['blocktype'] == 'html' || $_POST['blocktype'] == 'script')
+							{
+								if(isset($_POST['content']))
+								{
+									if(preg_match_all('~<img[^>]*>~', $_POST['content'], $match) > 0)
+									{
+										foreach($match[0] as $key => $val)
+										{
+											if(strpos($val, $modSettings['smileys_url']) === false && preg_match('/<img[^c]*class?=?[^r]*resized[^\"]*\"[^>]*>/U', $val) == 0)
+												$_POST['content'] = str_replace($val, str_replace('<img', '<img class="bbc_img resized"', $val), $_POST['content']);
+										}
+									}
+									$_POST['content'] = preg_replace('/'. preg_quote(' oncontextmenu="return false"') .'/', '', $_POST['content']);
+								}
+								else
+									$_POST['content'] = '';
+							}
+
+							$block = array(
+								'id' => $_POST['id'],
+								'side' => $_POST['side'],
+								'pos' => $_POST['pos'],
+								'active' => $_POST['active'],
+								'cache' => $_POST['cache'],
+								'blocktype' => $_POST['blocktype'],
+								'acsgrp' => (!empty($_POST['acsgrp']) ? implode(',', $_POST['acsgrp']) : ''),
+								'config' => json_encode($_POST['config'], true),
+								'content' => (isset($_POST['content']) ? $_POST['content'] : ''),
 							);
-							list($dbid, $dbpos) = $pmxcFunc['db_fetch_row']($request);
-							$pmxcFunc['db_free_result']($request);
-							$block['id'] = strval(1 + ($dbid === null ? 0 : $dbid));
-							$block['pos'] = strval(1 + ($dbpos === null ? 0 : $dbpos));
+
+							$id = $_POST['id'];
 						}
 
-						// now save all data
-						$pmxcFunc['db_insert']('replace', '
-							{db_prefix}portal_blocks',
-							array(
-								'id' => 'int',
-								'side' => 'string',
-								'pos' => 'int',
-								'active' => 'int',
-								'cache' => 'int',
-								'blocktype' => 'string',
-								'acsgrp' => 'string',
-								'config' => 'string',
-								'content' => 'string',
-							),
-							array(
-								$block['id'],
-								$block['side'],
-								$block['pos'],
-								$block['active'],
-								$block['cache'],
-								$block['blocktype'],
-								$block['acsgrp'],
-								$block['config'],
-								$block['content'],
-							),
-							array('id')
-						);
+						// save block..
+						if(!empty($_POST['save_edit']) || !empty($_POST['save_edit_continue']))
+						{
+							// if new block get the last id
+							if($context['pmx']['function'] == 'editnew')
+							{
+								$request = $pmxcFunc['db_query']('', '
+									SELECT MAX(a.id), MAX(b.pos)
+									FROM {db_prefix}portal_blocks as a
+									LEFT JOIN {db_prefix}portal_blocks as b ON(b.side = {string:side})
+									GROUP BY b.side',
+									array('side' => $block['side'])
+								);
+								list($dbid, $dbpos) = $pmxcFunc['db_fetch_row']($request);
+								$pmxcFunc['db_free_result']($request);
+								$block['id'] = strval(1 + ($dbid === null ? 0 : $dbid));
+								$block['pos'] = strval(1 + ($dbpos === null ? 0 : $dbpos));
+							}
 
-						// clear cache
-						clearBlocksCache($block['id']);
+							// now save all data
+							$pmxcFunc['db_insert']('replace', '
+								{db_prefix}portal_blocks',
+								array(
+									'id' => 'int',
+									'side' => 'string',
+									'pos' => 'int',
+									'active' => 'int',
+									'cache' => 'int',
+									'blocktype' => 'string',
+									'acsgrp' => 'string',
+									'config' => 'string',
+									'content' => 'string',
+								),
+								array(
+									$block['id'],
+									$block['side'],
+									$block['pos'],
+									$block['active'],
+									$block['cache'],
+									$block['blocktype'],
+									$block['acsgrp'],
+									$block['config'],
+									$block['content'],
+								),
+								array('id')
+							);
 
-						$postKey = 'pmxpost_'. $block['blocktype'] . $block['id'];
-						if(isset($_SESSION['PortaMx'][$postKey]))
-							unset($_SESSION['PortaMx'][$postKey]);
-						if(isset($_SESSION['PortaMx'][$postKey .'_0']))
-							unset($_SESSION['PortaMx'][$postKey .'_0']);
+							// clear cache
+							clearBlocksCache($block['id']);
 
-						$context['pmx']['function'] = 'edit';
+							// clear poll block cookie
+							if($block['blocktype'] == 'polls')
+								set_cookie('pmx_poll'. $block['id'], '');
+
+							$postKey = 'pmxpost_'. $block['blocktype'] . $block['id'];
+							if(isset($_SESSION['PortaMx'][$postKey]))
+								unset($_SESSION['PortaMx'][$postKey]);
+							if(isset($_SESSION['PortaMx'][$postKey .'_0']))
+								unset($_SESSION['PortaMx'][$postKey .'_0']);
+
+							$context['pmx']['function'] = 'edit';
+							$context['pmx']['subaction'] = $block['side'];                           
+						}
 					}
 
 					// end edit ?

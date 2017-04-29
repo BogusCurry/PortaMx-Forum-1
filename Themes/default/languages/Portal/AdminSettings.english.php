@@ -1,5 +1,5 @@
 <?php
-// Version: 1.0 RC2; AdminSettings
+// Version: 1.0 RC3; AdminSettings
 
 /**
  * PortaMx Forum
@@ -28,16 +28,15 @@ $txt['pmx_settings_frontpage_none'] = 'No Frontpage, go directly to Forum:';
 $txt['pmx_settings_frontpage_centered'] = 'Show the Frontpage:';
 $txt['pmx_settings_pages_hidefront'] = 'Hide the Frontpage blocks on Pages, Categories or Articles:';
 $txt['pmx_settings_index_front'] = 'Enable the Frontpage indexing for spider:';
-$txt['pmx_settings_restoretop'] = 'Set or Restore the browser vertical page position:';
-$txt['pmx_settings_restorespeed'] = 'Restore animate time:';
+$txt['pmx_settings_restoretop'] = 'Restore the browser vertical page position:';
 $txt['pmx_settings_loadinactive'] = 'Load not active blocks on Blocks Manager overview:';
-$txt['pmx_settings_colminwidth'] = 'Minimal Frontpage area width to show two column blocks as defined:';
+$txt['pmx_settings_colminwidth'] = 'Minimal Screen width to show two column blocks as defined:';
 $txt['pmx_settings_collapse_visibility'] = 'Collapse the <b>Dynamic visibility</b> panel:';
 $txt['pmx_settings_enable_xbars'] = 'Panels to collapse/expand with <b>xBars</b>:';
 $txt['pmx_settings_postcountacs'] = 'Use Post count based groups for access settings:';
 
-// panels
-$txt['pmx_panel_settings'] = 'Panel settings';
+// Mobile Popup Header
+$txt['pmx_panel_settings'] = 'Panel Settings';
 $txt['pmx_settings_panelset'] = 'Settings';
 $txt['pmx_settings_panelhead'] = 'Head panel';
 $txt['pmx_settings_panelleft'] = 'Left panel';
